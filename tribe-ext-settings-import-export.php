@@ -25,7 +25,6 @@
 
 namespace Tribe\Extensions\Settings_Import_Export;
 
-use Tribe__Dependency;
 use Tribe__Extension;
 
 /**
@@ -47,26 +46,10 @@ if (
 	class Main extends Tribe__Extension {
 
 		/**
-		 * Is Events Calendar PRO active. If yes, we will add some extra functionality.
-		 *
-		 * @return bool
-		 *
-		 * @todo Delete. Probably not needed as there are no plugin requirements.
-		 */
-		public $ecp_active = false;
-
-		/**
-		 * Setup the Extension's properties.
-		 */
-		public function construct() {
-		}
-
-		/**
 		 * Extension initialization and hooks.
 		 */
 		public function init() {
 			// Load plugin textdomain
-			// Don't forget to generate the 'languages/tribe-ext-settings-import-export.pot' file
 			load_plugin_textdomain( 'tribe-ext-settings-import-export', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 
 			if ( ! $this->php_version_check() ) {
