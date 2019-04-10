@@ -141,7 +141,7 @@ if (
 					&& current_user_can( 'activate_plugins' )
 				) {
 					$message = '<p>';
-					$message .= sprintf( __( '%s requires PHP version %s or newer to work. Please contact your website host and inquire about updating PHP.', 'PLUGIN_TEXT_DOMAIN' ), $this->get_name(), $php_required_version );
+					$message .= sprintf( esc_html__( '%s requires PHP version %s or newer to work. Please contact your website host and inquire about updating PHP.', 'PLUGIN_TEXT_DOMAIN' ), $this->get_name(), $php_required_version );
 					$message .= sprintf( ' <a href="%1$s">%1$s</a>', 'https://wordpress.org/about/requirements/' );
 					$message .= '</p>';
 					tribe_notice( 'PLUGIN_TEXT_DOMAIN' . '-php-version', $message, [ 'type' => 'error' ] );
@@ -176,26 +176,26 @@ if (
 		function tribe_sie_settings_page() {
 			?>
             <div class="wrap">
-                <h2><?php _e( 'Settings Import / Export', 'PLUGIN_TEXT_DOMAIN' ); ?></h2>
+                <h2><?php esc_html_e( 'Settings Import / Export', 'PLUGIN_TEXT_DOMAIN' ); ?></h2>
 
 				<?php
 				// Success and error messages
 				if ( ! empty( $_GET['action'] ) ) {
 
 					if ( $_GET['action'] == 'import_success' ) {
-						$msg          = __( 'Settings imported.', 'PLUGIN_TEXT_DOMAIN' );
+						$msg = esc_html__( 'Settings imported.', 'PLUGIN_TEXT_DOMAIN' );
 						$notice_class = 'notice-success ';
 					} elseif ( $_GET['action'] == 'import_failed' ) {
-						$msg          = __( 'Settings imported.', 'PLUGIN_TEXT_DOMAIN' );
+						$msg = esc_html__( 'Settings imported.', 'PLUGIN_TEXT_DOMAIN' );
 						$notice_class = 'notice-error ';
 					} elseif ( $_GET['action'] == 'reset_success' ) {
-						$msg          = __( 'Reset successful.', 'PLUGIN_TEXT_DOMAIN' );
+						$msg = esc_html__( 'Reset successful.', 'PLUGIN_TEXT_DOMAIN' );
 						$notice_class = 'notice-success ';
 					} elseif ( $_GET['action'] == 'reset_failed' ) {
-						$msg          = __( 'Settings reset failed.', 'PLUGIN_TEXT_DOMAIN' );
+						$msg = esc_html__( 'Settings reset failed.', 'PLUGIN_TEXT_DOMAIN' );
 						$notice_class = 'notice-error ';
 					} elseif ( $_GET['action'] == 'reset_no' ) {
-						$msg          = __( 'Reset failed. Please enter "reset" in the text field to reset the settings.', 'PLUGIN_TEXT_DOMAIN' );
+						$msg = esc_html__( 'Reset failed. Please enter "reset" in the text field to reset the settings.', 'PLUGIN_TEXT_DOMAIN' );
 						$notice_class = 'notice-error ';
 					}
 					?>
@@ -204,23 +204,23 @@ if (
 
                 <div class="metabox-holder">
                     <div class="postbox">
-                        <h3><span><?php _e( 'Export Settings', 'PLUGIN_TEXT_DOMAIN' ); ?></span></h3>
+                        <h3><span><?php esc_html_e( 'Export Settings', 'PLUGIN_TEXT_DOMAIN' ); ?></span></h3>
                         <div class="inside">
-                            <p><?php _e( 'Export the setting of The Events Calendar, Event Tickets and add-ons for this site as a .json file. This allows you to easily import the configuration into another site.', 'PLUGIN_TEXT_DOMAIN' ); ?></p>
+                            <p><?php esc_html_e( 'Export the setting of The Events Calendar, Event Tickets and add-ons for this site as a .json file. This allows you to easily import the configuration into another site.', 'PLUGIN_TEXT_DOMAIN' ); ?></p>
                             <form method="post">
                                 <p><input type="hidden" name="tribe_sie_action" value="export_settings"/></p>
                                 <p>
 									<?php wp_nonce_field( 'tribe_sie_export_nonce', 'tribe_sie_export_nonce' ); ?>
-									<?php submit_button( __( 'Export', 'PLUGIN_TEXT_DOMAIN' ), 'secondary', 'submit', false ); ?>
+									<?php submit_button( esc_html__( 'Export', 'PLUGIN_TEXT_DOMAIN' ), 'secondary', 'submit', false ); ?>
                                 </p>
                             </form>
                         </div><!-- .inside -->
                     </div><!-- .postbox -->
 
                     <div class="postbox">
-                        <h3><span><?php _e( 'Import Settings', 'PLUGIN_TEXT_DOMAIN' ); ?></span></h3>
+                        <h3><span><?php esc_html_e( 'Import Settings', 'PLUGIN_TEXT_DOMAIN' ); ?></span></h3>
                         <div class="inside">
-                            <p><?php _e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'PLUGIN_TEXT_DOMAIN' ); ?></p>
+                            <p><?php esc_html_e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'PLUGIN_TEXT_DOMAIN' ); ?></p>
                             <form method="post" enctype="multipart/form-data">
                                 <p>
                                     <input type="file" name="import_file"/>
@@ -228,31 +228,31 @@ if (
                                 <p>
                                     <input type="hidden" name="tribe_sie_action" value="import_settings"/>
 									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
-									<?php submit_button( __( 'Import', 'PLUGIN_TEXT_DOMAIN' ), 'secondary', 'submit', false ); ?>
+									<?php submit_button( esc_html__( 'Import', 'PLUGIN_TEXT_DOMAIN' ), 'secondary', 'submit', false ); ?>
                                 </p>
                             </form>
                         </div><!-- .inside -->
                     </div><!-- .postbox -->
 
                     <div class="postbox">
-                        <h3><span><?php _e( 'Delete / Reset Settings', 'PLUGIN_TEXT_DOMAIN' ); ?></span></h3>
+                        <h3><span><?php esc_html_e( 'Delete / Reset Settings', 'PLUGIN_TEXT_DOMAIN' ); ?></span></h3>
                         <div class="inside">
-                            <p><?php _e( 'Reset the plugin settings.', 'PLUGIN_TEXT_DOMAIN' ); ?></p>
-                            <p style="font-weight: bold" ;><?php _e( 'Please note the following:', '' ) ?></p>
+                            <p><?php esc_html_e( 'Reset the plugin settings.', 'PLUGIN_TEXT_DOMAIN' ); ?></p>
+                            <p style="font-weight: bold" ;><?php esc_html_e( 'Please note the following:', '' ) ?></p>
                             <ul style="list-style: disc inside">
-                                <li><?php _e( 'This operation <span style="text-decoration: underline;">cannot be reversed</span>. It is recommended that you create a backup of your database first.', 'PLUGIN_TEXT_DOMAIN' ); ?></li>
-                                <li><?php _e( 'This operation will <span style="text-decoration: underline;">not</span> delete any event, venue, organizer, or ticket related data.', 'PLUGIN_TEXT_DOMAIN' ); ?></li>
-                                <li style="font-weight: bold;"><?php _e( 'Modern Tribe takes no responsibility for lost data.', 'PLUGIN_TEXT_DOMAIN' ); ?></li>
+                                <li><?php esc_html_e( 'This operation <span style="text-decoration: underline;">cannot be reversed</span>. It is recommended that you create a backup of your database first.', 'PLUGIN_TEXT_DOMAIN' ); ?></li>
+                                <li><?php esc_html_e( 'This operation will <span style="text-decoration: underline;">not</span> delete any event, venue, organizer, or ticket related data.', 'PLUGIN_TEXT_DOMAIN' ); ?></li>
+                                <li style="font-weight: bold;"><?php esc_html_e( 'Modern Tribe takes no responsibility for lost data.', 'PLUGIN_TEXT_DOMAIN' ); ?></li>
                             </ul>
                             <form method="post" enctype="multipart/form-data">
                                 <p>
                                     <input type="text" name="import_reset_confirmation"/><br/>
-									<?php _e( 'Enter "reset" into the above field if you would like to reset the settings.', 'PLUGIN_TEXT_DOMAIN' ); ?>
+									<?php esc_html_e( 'Enter "reset" into the above field if you would like to reset the settings.', 'PLUGIN_TEXT_DOMAIN' ); ?>
                                 </p>
                                 <p>
                                     <input type="hidden" name="tribe_sie_action" value="reset_settings"/>
 									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
-									<?php submit_button( __( 'Reset', 'PLUGIN_TEXT_DOMAIN' ), 'secondary', 'submit', false ); ?>
+									<?php submit_button( esc_html__( 'Reset', 'PLUGIN_TEXT_DOMAIN' ), 'secondary', 'submit', false ); ?>
                                 </p>
                             </form>
                         </div><!-- .inside -->
