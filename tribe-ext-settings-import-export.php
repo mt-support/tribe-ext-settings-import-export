@@ -163,6 +163,7 @@ if (
 			add_action( 'admin_menu', array( $this, 'tribe_settings_menu' ), 99 );
             add_action( 'admin_init', array( $this, 'tribe_sie_process_settings_export' ) );
 			add_action( 'admin_init', array( $this, 'tribe_sie_process_settings_import' ) );
+			add_action( 'admin_init', array( $this, 'tribe_sie_process_settings_reset' ) );
 		}
 
 		/**
@@ -248,9 +249,14 @@ if (
 				<h2><?php _e('Settings Import / Export'); ?></h2>
 
                 <?php
-                if ( ! empty( $_GET['import_success'] ) && $_GET['import_success'] == 1 ) {
+                if ( ! empty( $_GET['action'] ) ) {
                     echo '<div class="notice notice-success is-dismissible">';
-                    echo '<p>' . __( 'Settings imported', 'PLUGIN_TEXT_DOMAIN' ) . '</p>';
+                    if ( $_GET['action'] == 'import_success' ) {
+	                    echo '<p>' . __( 'Settings imported', 'PLUGIN_TEXT_DOMAIN' ) . '</p>';
+                    }
+                    elseif ( $_GET['action'] == 'reset_success' ) {
+	                    echo '<p>' . __( 'Reset successful', 'PLUGIN_TEXT_DOMAIN' ) . '</p>';
+                    }
                     echo '</div>';
                 } ?>
 
@@ -285,6 +291,20 @@ if (
 							</form>
 						</div><!-- .inside -->
 					</div><!-- .postbox -->
+
+                    <div class="postbox">
+                        <h3><span><?php _e( 'Delete / Reset Settings' ); ?></span></h3>
+                        <div class="inside">
+                            <p><?php _e( 'Reset the plugin settings. Note: this operation cannot be reversed. It is recommended that you create a backup of your database first. Modern Tribe takes no responsibility for lost data.' ); ?></p>
+                            <form method="post" enctype="multipart/form-data">
+                                <p>
+                                    <input type="hidden" name="tribe_sie_action" value="reset_settings" />
+									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
+									<?php submit_button( __( 'Reset' ), 'secondary', 'submit', false ); ?>
+                                </p>
+                            </form>
+                        </div><!-- .inside -->
+                    </div><!-- .postbox -->
 				</div><!-- .metabox-holder -->
 
 			</div><!--end .wrap-->
@@ -344,12 +364,36 @@ if (
 			// Retrieve the settings from the file and convert the json object to an array.
 			$settings = json_decode( file_get_contents( $import_file ), true );
 
-			$import_success = 0;
+			$action = '';
             if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
-                $import_success = 1;
+                $action = 'import_success';
             };
 
-			wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&import_success=' . $import_success ) ); exit;
+			wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) ); exit;
+		}
+
+		/**
+		 * Reset Modern Tribe calendar and ticketing plugins
+		 */
+		function tribe_sie_process_settings_reset() {
+
+			if( empty( $_POST['tribe_sie_action'] ) || 'reset_settings' != $_POST['tribe_sie_action'] ) {
+				return;
+			}
+
+			if( ! wp_verify_nonce( $_POST['tribe_sie_import_nonce'], 'tribe_sie_import_nonce' ) ) {
+				return;
+			}
+
+			if( ! current_user_can( 'manage_options' ) ) {
+				return;
+			}
+
+			if ( delete_option( 'tribe_events_calendar_options' ) ) {
+				$action = 'reset_success';
+			};
+
+			wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) ); exit;
 		}
 	} // end class
 } // end if class_exists check
