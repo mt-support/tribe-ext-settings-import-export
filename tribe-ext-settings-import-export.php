@@ -257,7 +257,7 @@ if (
 	                    $notice_class = 'notice-success ';
                     }
                     elseif ( $_GET['action'] == 'reset_success' ) {
-	                    $msg          = __( 'Reset successful', 'PLUGIN_TEXT_DOMAIN' );
+	                    $msg = __( 'Reset successful', 'PLUGIN_TEXT_DOMAIN' );
 	                    $notice_class = 'notice-success ';
                     }
                     elseif ( $_GET['action'] == 'reset_failed' ) {
@@ -307,7 +307,13 @@ if (
                     <div class="postbox">
                         <h3><span><?php _e( 'Delete / Reset Settings', 'PLUGIN_TEXT_DOMAIN' ); ?></span></h3>
                         <div class="inside">
-                            <p><?php _e( 'Reset the plugin settings. Note: this operation cannot be reversed. It is recommended that you create a backup of your database first. Modern Tribe takes no responsibility for lost data.', 'PLUGIN_TEXT_DOMAIN' ); ?></p>
+                            <p><?php _e( 'Reset the plugin settings.', 'PLUGIN_TEXT_DOMAIN'); ?></p>
+                            <p style="font-weight: bold";><?php _e( 'Please note the following:', '' )?></p>
+                            <ul style="list-style: disc inside">
+                                <li><?php _e( 'This operation <span style="text-decoration: underline;">cannot be reversed</span>. It is recommended that you create a backup of your database first.', 'PLUGIN_TEXT_DOMAIN' ); ?></li>
+                                <li><?php _e( 'This operation will <span style="text-decoration: underline;">not</span> delete any event, venue, organizer, or ticket related data.', 'PLUGIN_TEXT_DOMAIN' ); ?></li>
+                                <li style="font-weight: bold;"><?php _e( ' Modern Tribe takes no responsibility for lost data.', 'PLUGIN_TEXT_DOMAIN' ); ?></li>
+                            </ul>
                             <form method="post" enctype="multipart/form-data">
                                 <p>
                                     <input type="text" name="import_reset_confirmation"/><br/>
