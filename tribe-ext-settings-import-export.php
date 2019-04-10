@@ -53,27 +53,6 @@ if (
 	class Main extends Tribe__Extension {
 
 		/**
-		 * @var Tribe__Autoloader
-		 */
-		private $class_loader;
-
-		/**
-		 * @var Settings
-         *
-         * @todo Delete. Probably not needed as there are no settings.
-		 */
-		private $settings;
-
-		/**
-		 * Custom options prefix (without trailing underscore).
-		 *
-		 * Should leave blank unless you want to set it to something custom, such as if migrated from old extension.
-         *
-         * @todo Delete. Probably not needed as there are no options.
-		 */
-		private $opts_prefix = '';
-
-		/**
 		 * Is Events Calendar PRO active. If yes, we will add some extra functionality.
 		 *
 		 * @return bool
@@ -127,21 +106,6 @@ if (
 		}
 
 		/**
-		 * Get Settings instance.
-		 *
-		 * @return Settings
-         *
-         * @todo Delete. Probably not needed as there are no settings.
-		 */
-		private function get_settings() {
-			if ( empty( $this->settings ) ) {
-				$this->settings = new Settings( $this->opts_prefix );
-			}
-
-			return $this->settings;
-		}
-
-		/**
 		 * Extension initialization and hooks.
 		 */
 		public function init() {
@@ -152,11 +116,6 @@ if (
 			if ( ! $this->php_version_check() ) {
 				return;
 			}
-
-			$this->class_loader();
-
-			// @todo Delete. Probably not needed as there are no settings.
-			$this->get_settings();
 
 			// Insert filters and hooks here
 			//add_filter( 'thing_we_are_filtering', [ $this, 'my_custom_function' ] );
@@ -170,24 +129,6 @@ if (
 		 * Check if we have a sufficient version of PHP. Admin notice if we don't and user should see it.
 		 *
 		 * @link https://theeventscalendar.com/knowledgebase/php-version-requirement-changes/ All extensions require PHP 5.6+.
-		 *
-		 * Delete this paragraph and the non-applicable comments below.
-		 * Make sure to match the readme.txt header.
-		 *
-		 * Note that older version syntax errors may still throw fatals even
-		 * if you implement this PHP version checking so QA it at least once.
-		 *
-		 * @link https://secure.php.net/manual/en/migration56.new-features.php
-		 * 5.6: Variadic Functions, Argument Unpacking, and Constant Expressions
-		 *
-		 * @link https://secure.php.net/manual/en/migration70.new-features.php
-		 * 7.0: Return Types, Scalar Type Hints, Spaceship Operator, Constant Arrays Using define(), Anonymous Classes, intdiv(), and preg_replace_callback_array()
-		 *
-		 * @link https://secure.php.net/manual/en/migration71.new-features.php
-		 * 7.1: Class Constant Visibility, Nullable Types, Multiple Exceptions per Catch Block, `iterable` Pseudo-Type, and Negative String Offsets
-		 *
-		 * @link https://secure.php.net/manual/en/migration72.new-features.php
-		 * 7.2: `object` Parameter and Covariant Return Typing, Abstract Function Override, and Allow Trailing Comma for Grouped Namespaces
 		 *
 		 * @return bool
 		 */
@@ -208,28 +149,6 @@ if (
 				return false;
 			}
 			return true;
-		}
-
-		/**
-		 * Use Tribe Autoloader for all class files within this namespace in the 'src' directory.
-		 *
-		 * TODO: Delete this method and its usage throughout this file if there is no `src` directory, such as if there are no settings being added to the admin UI.
-		 *
-		 * @return Tribe__Autoloader
-		 */
-		public function class_loader() {
-			if ( empty( $this->class_loader ) ) {
-				$this->class_loader = new Tribe__Autoloader;
-				$this->class_loader->set_dir_separator( '\\' );
-				$this->class_loader->register_prefix(
-					NS,
-					__DIR__ . DIRECTORY_SEPARATOR . 'src'
-				);
-			}
-
-			$this->class_loader->register_autoloader();
-
-			return $this->class_loader;
 		}
 
 		/**
@@ -256,6 +175,10 @@ if (
 	                    $msg = __( 'Settings imported.', 'PLUGIN_TEXT_DOMAIN' );
 	                    $notice_class = 'notice-success ';
                     }
+	                elseif ( $_GET['action'] == 'import_failed' ) {
+		                $msg = __( 'Settings imported.', 'PLUGIN_TEXT_DOMAIN' );
+		                $notice_class = 'notice-error ';
+	                }
                     elseif ( $_GET['action'] == 'reset_success' ) {
 	                    $msg = __( 'Reset successful.', 'PLUGIN_TEXT_DOMAIN' );
 	                    $notice_class = 'notice-success ';
@@ -338,12 +261,19 @@ if (
 		 * Process a settings export that generates a .json file of the shop settings
 		 */
 		function tribe_sie_process_settings_export() {
-			if( empty( $_POST['tribe_sie_action'] ) || 'export_settings' != $_POST['tribe_sie_action'] )
+		    // Bail if no action
+			if( empty( $_POST['tribe_sie_action'] ) || 'export_settings' != $_POST['tribe_sie_action'] ) {
 				return;
-			if( ! wp_verify_nonce( $_POST['tribe_sie_export_nonce'], 'tribe_sie_export_nonce' ) )
+			}
+			// Bail if no nonce
+			if( ! wp_verify_nonce( $_POST['tribe_sie_export_nonce'], 'tribe_sie_export_nonce' ) ) {
 				return;
-			if( ! current_user_can( 'manage_options' ) )
+			}
+			// Bail if no capability
+			if( ! current_user_can( 'manage_options' ) ) {
 				return;
+			}
+
 			$settings = get_option( 'tribe_events_calendar_options' );
 			ignore_user_abort( true );
 			nocache_headers();
@@ -359,14 +289,17 @@ if (
 		 */
 		function tribe_sie_process_settings_import() {
 
+		    // Bail if no action
 			if( empty( $_POST['tribe_sie_action'] ) || 'import_settings' != $_POST['tribe_sie_action'] ) {
 				return;
 			}
 
+			// Bail if no nonce
 			if( ! wp_verify_nonce( $_POST['tribe_sie_import_nonce'], 'tribe_sie_import_nonce' ) ) {
 				return;
 			}
 
+			// Bail if no capability
 			if( ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
@@ -386,11 +319,13 @@ if (
 
 			// Retrieve the settings from the file and convert the json object to an array.
 			$settings = json_decode( file_get_contents( $import_file ), true );
-
-			$action = '';
+			
             if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
                 $action = 'import_success';
-            };
+            }
+            else {
+                $action = 'import_failed';
+            }
 
 			wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) ); exit;
 		}
@@ -415,7 +350,7 @@ if (
 				return;
 			}
 
-			// Return is not reset
+			// Return if not reset
             if ( $_POST['import_reset_confirmation'] != 'reset' ) {
                 $action = 'reset_no';
             }
