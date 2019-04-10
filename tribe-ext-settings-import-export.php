@@ -4,7 +4,7 @@
  * Plugin URI:        https://theeventscalendar.com/extensions/settings-import-export/
  * GitHub Plugin URI: https://github.com/mt-support/tribe-ext-settings-import-export
  * Description:       You can import and export the settings of The Events Calendar
- * Version:           0.9.0
+ * Version:           1.0.0
  * Extension Class:   Tribe\Extensions\Settings_Import_Export\Main
  * Author:            Modern Tribe, Inc.
  * Author URI:        http://m.tri.be/1971
@@ -319,7 +319,7 @@ if (
 
 			// Retrieve the settings from the file and convert the json object to an array.
 			$settings = json_decode( file_get_contents( $import_file ), true );
-			
+
             if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
                 $action = 'import_success';
             }
