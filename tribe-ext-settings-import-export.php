@@ -119,10 +119,10 @@ if (
 
 			// Insert filters and hooks here
 			//add_filter( 'thing_we_are_filtering', [ $this, 'my_custom_function' ] );
-			add_action( 'admin_menu', array( $this, 'tribe_settings_menu' ), 99 );
-			add_action( 'admin_init', array( $this, 'tribe_sie_process_settings_export' ) );
-			add_action( 'admin_init', array( $this, 'tribe_sie_process_settings_import' ) );
-			add_action( 'admin_init', array( $this, 'tribe_sie_process_settings_reset' ) );
+			add_action( 'admin_menu', [ $this, 'tribe_settings_menu' ], 99 );
+			add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_export' ] );
+			add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_import' ] );
+			add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_reset' ] );
 		}
 
 		/**
@@ -158,10 +158,16 @@ if (
 		 */
 		function tribe_settings_menu() {
 			//add_options_page( __( 'Sample Settings Import and Export' ), __( 'Sample Settings Import and Export' ), 'manage_options', 'tribe-settings', 'tribe_settings_page' );
-			add_submenu_page( 'edit.php?post_type=tribe_events', __( 'Settings Import / Export', 'PLUGIN_TEXT_DOMAIN' ), __( 'Settings Import / Export', 'PLUGIN_TEXT_DOMAIN' ), 'manage_options', 'tribe_import_export', array(
-				$this,
-				'tribe_sie_settings_page'
-			) );
+			add_submenu_page(
+				'edit.php?post_type=tribe_events',
+				__( 'Settings Import / Export', 'PLUGIN_TEXT_DOMAIN' ),
+				__( 'Settings Import / Export', 'PLUGIN_TEXT_DOMAIN' ),
+				'manage_options',
+				'tribe_import_export', [
+					$this,
+					'tribe_sie_settings_page'
+				]
+			);
 		}
 
 		/**
