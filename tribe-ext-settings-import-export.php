@@ -59,21 +59,6 @@ if (
 		 * Setup the Extension's properties.
 		 */
 		public function construct() {
-			// Conditionally-require Events Calendar PRO. If it is active, run an extra bit of code.
-			//add_action( 'tribe_plugins_loaded', [ $this, 'detect_tec_pro' ], 0 );
-		}
-
-		/**
-		 * Check required plugins after all Tribe plugins have loaded.
-		 *
-		 * Useful for conditionally-requiring a Tribe plugin, whether to add extra functionality
-		 * or require a certain version but only if it is active.
-		 */
-		public function detect_tec_pro() {
-			if ( Tribe__Dependency::instance()->is_plugin_active( 'Tribe__Events__Pro__Main' ) ) {
-				$this->add_required_plugin( 'Tribe__Events__Pro__Main', '4.3.3' );
-				$this->ecp_active = true;
-			}
 		}
 
 		/**
