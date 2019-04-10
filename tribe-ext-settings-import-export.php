@@ -56,8 +56,8 @@ if (
 		 * Is Events Calendar PRO active. If yes, we will add some extra functionality.
 		 *
 		 * @return bool
-         *
-         * @todo Delete. Probably not needed as there are no plugin requirements.
+		 *
+		 * @todo Delete. Probably not needed as there are no plugin requirements.
 		 */
 		public $ecp_active = false;
 
@@ -68,7 +68,7 @@ if (
 		 */
 		public function construct() {
 
-		    // @todo Delete. Probably not needed.
+			// @todo Delete. Probably not needed.
 			// Requirements and other properties such as the extension homepage can be defined here.
 
 			/**
@@ -120,7 +120,7 @@ if (
 			// Insert filters and hooks here
 			//add_filter( 'thing_we_are_filtering', [ $this, 'my_custom_function' ] );
 			add_action( 'admin_menu', array( $this, 'tribe_settings_menu' ), 99 );
-            add_action( 'admin_init', array( $this, 'tribe_sie_process_settings_export' ) );
+			add_action( 'admin_init', array( $this, 'tribe_sie_process_settings_export' ) );
 			add_action( 'admin_init', array( $this, 'tribe_sie_process_settings_import' ) );
 			add_action( 'admin_init', array( $this, 'tribe_sie_process_settings_reset' ) );
 		}
@@ -146,8 +146,10 @@ if (
 					$message .= '</p>';
 					tribe_notice( 'PLUGIN_TEXT_DOMAIN' . '-php-version', $message, [ 'type' => 'error' ] );
 				}
+
 				return false;
 			}
+
 			return true;
 		}
 
@@ -156,82 +158,81 @@ if (
 		 */
 		function tribe_settings_menu() {
 			//add_options_page( __( 'Sample Settings Import and Export' ), __( 'Sample Settings Import and Export' ), 'manage_options', 'tribe-settings', 'tribe_settings_page' );
-			add_submenu_page( 'edit.php?post_type=tribe_events', __( 'Settings Import / Export', 'PLUGIN_TEXT_DOMAIN' ), __( 'Settings Import / Export', 'PLUGIN_TEXT_DOMAIN' ), 'manage_options', 'tribe_import_export', array( $this, 'tribe_sie_settings_page' ) );
+			add_submenu_page( 'edit.php?post_type=tribe_events', __( 'Settings Import / Export', 'PLUGIN_TEXT_DOMAIN' ), __( 'Settings Import / Export', 'PLUGIN_TEXT_DOMAIN' ), 'manage_options', 'tribe_import_export', array(
+				$this,
+				'tribe_sie_settings_page'
+			) );
 		}
 
 		/**
 		 * Render the settings page
 		 */
 		function tribe_sie_settings_page() {
-		    ?>
-			<div class="wrap">
-				<h2><?php _e( 'Settings Import / Export', 'PLUGIN_TEXT_DOMAIN' ); ?></h2>
+			?>
+            <div class="wrap">
+                <h2><?php _e( 'Settings Import / Export', 'PLUGIN_TEXT_DOMAIN' ); ?></h2>
 
-                <?php
-                // Success and error messages
-                if ( ! empty( $_GET['action'] ) ) {
+				<?php
+				// Success and error messages
+				if ( ! empty( $_GET['action'] ) ) {
 
-                    if ( $_GET['action'] == 'import_success' ) {
-	                    $msg = __( 'Settings imported.', 'PLUGIN_TEXT_DOMAIN' );
-	                    $notice_class = 'notice-success ';
-                    }
-	                elseif ( $_GET['action'] == 'import_failed' ) {
-		                $msg = __( 'Settings imported.', 'PLUGIN_TEXT_DOMAIN' );
-		                $notice_class = 'notice-error ';
-	                }
-                    elseif ( $_GET['action'] == 'reset_success' ) {
-	                    $msg = __( 'Reset successful.', 'PLUGIN_TEXT_DOMAIN' );
-	                    $notice_class = 'notice-success ';
-                    }
-                    elseif ( $_GET['action'] == 'reset_failed' ) {
-                        $msg = __( 'Settings reset failed.', 'PLUGIN_TEXT_DOMAIN' );
-                        $notice_class = 'notice-error ';
-                        }
-                    elseif ( $_GET['action'] == 'reset_no' ) {
-	                    $msg = __( 'Reset failed. Please enter "reset" in the text field to reset the settings.', 'PLUGIN_TEXT_DOMAIN' );
-	                    $notice_class = 'notice-error ';
-                    }
+					if ( $_GET['action'] == 'import_success' ) {
+						$msg          = __( 'Settings imported.', 'PLUGIN_TEXT_DOMAIN' );
+						$notice_class = 'notice-success ';
+					} elseif ( $_GET['action'] == 'import_failed' ) {
+						$msg          = __( 'Settings imported.', 'PLUGIN_TEXT_DOMAIN' );
+						$notice_class = 'notice-error ';
+					} elseif ( $_GET['action'] == 'reset_success' ) {
+						$msg          = __( 'Reset successful.', 'PLUGIN_TEXT_DOMAIN' );
+						$notice_class = 'notice-success ';
+					} elseif ( $_GET['action'] == 'reset_failed' ) {
+						$msg          = __( 'Settings reset failed.', 'PLUGIN_TEXT_DOMAIN' );
+						$notice_class = 'notice-error ';
+					} elseif ( $_GET['action'] == 'reset_no' ) {
+						$msg          = __( 'Reset failed. Please enter "reset" in the text field to reset the settings.', 'PLUGIN_TEXT_DOMAIN' );
+						$notice_class = 'notice-error ';
+					}
+					?>
+                    <div class="notice <?php echo $notice_class; ?> is-dismissible"><p><?php echo $msg; ?></p></div>
+				<?php } ?>
 
-	                echo '<div class="notice ' . $notice_class . ' is-dismissible"><p>' . $msg . '</p></div>';
-                } ?>
-
-				<div class="metabox-holder">
-					<div class="postbox">
-						<h3><span><?php _e( 'Export Settings', 'PLUGIN_TEXT_DOMAIN' ); ?></span></h3>
-						<div class="inside">
-							<p><?php _e( 'Export the setting of The Events Calendar, Event Tickets and add-ons for this site as a .json file. This allows you to easily import the configuration into another site.', 'PLUGIN_TEXT_DOMAIN' ); ?></p>
-							<form method="post">
-								<p><input type="hidden" name="tribe_sie_action" value="export_settings" /></p>
-								<p>
+                <div class="metabox-holder">
+                    <div class="postbox">
+                        <h3><span><?php _e( 'Export Settings', 'PLUGIN_TEXT_DOMAIN' ); ?></span></h3>
+                        <div class="inside">
+                            <p><?php _e( 'Export the setting of The Events Calendar, Event Tickets and add-ons for this site as a .json file. This allows you to easily import the configuration into another site.', 'PLUGIN_TEXT_DOMAIN' ); ?></p>
+                            <form method="post">
+                                <p><input type="hidden" name="tribe_sie_action" value="export_settings"/></p>
+                                <p>
 									<?php wp_nonce_field( 'tribe_sie_export_nonce', 'tribe_sie_export_nonce' ); ?>
 									<?php submit_button( __( 'Export', 'PLUGIN_TEXT_DOMAIN' ), 'secondary', 'submit', false ); ?>
-								</p>
-							</form>
-						</div><!-- .inside -->
-					</div><!-- .postbox -->
+                                </p>
+                            </form>
+                        </div><!-- .inside -->
+                    </div><!-- .postbox -->
 
-					<div class="postbox">
-						<h3><span><?php _e( 'Import Settings', 'PLUGIN_TEXT_DOMAIN' ); ?></span></h3>
-						<div class="inside">
-							<p><?php _e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'PLUGIN_TEXT_DOMAIN' ); ?></p>
-							<form method="post" enctype="multipart/form-data">
-								<p>
-									<input type="file" name="import_file"/>
-								</p>
-								<p>
-									<input type="hidden" name="tribe_sie_action" value="import_settings" />
+                    <div class="postbox">
+                        <h3><span><?php _e( 'Import Settings', 'PLUGIN_TEXT_DOMAIN' ); ?></span></h3>
+                        <div class="inside">
+                            <p><?php _e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'PLUGIN_TEXT_DOMAIN' ); ?></p>
+                            <form method="post" enctype="multipart/form-data">
+                                <p>
+                                    <input type="file" name="import_file"/>
+                                </p>
+                                <p>
+                                    <input type="hidden" name="tribe_sie_action" value="import_settings"/>
 									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
 									<?php submit_button( __( 'Import', 'PLUGIN_TEXT_DOMAIN' ), 'secondary', 'submit', false ); ?>
-								</p>
-							</form>
-						</div><!-- .inside -->
-					</div><!-- .postbox -->
+                                </p>
+                            </form>
+                        </div><!-- .inside -->
+                    </div><!-- .postbox -->
 
                     <div class="postbox">
                         <h3><span><?php _e( 'Delete / Reset Settings', 'PLUGIN_TEXT_DOMAIN' ); ?></span></h3>
                         <div class="inside">
-                            <p><?php _e( 'Reset the plugin settings.', 'PLUGIN_TEXT_DOMAIN'); ?></p>
-                            <p style="font-weight: bold";><?php _e( 'Please note the following:', '' )?></p>
+                            <p><?php _e( 'Reset the plugin settings.', 'PLUGIN_TEXT_DOMAIN' ); ?></p>
+                            <p style="font-weight: bold" ;><?php _e( 'Please note the following:', '' ) ?></p>
                             <ul style="list-style: disc inside">
                                 <li><?php _e( 'This operation <span style="text-decoration: underline;">cannot be reversed</span>. It is recommended that you create a backup of your database first.', 'PLUGIN_TEXT_DOMAIN' ); ?></li>
                                 <li><?php _e( 'This operation will <span style="text-decoration: underline;">not</span> delete any event, venue, organizer, or ticket related data.', 'PLUGIN_TEXT_DOMAIN' ); ?></li>
@@ -240,19 +241,19 @@ if (
                             <form method="post" enctype="multipart/form-data">
                                 <p>
                                     <input type="text" name="import_reset_confirmation"/><br/>
-                                    <?php _e( 'Enter "reset" into the above field if you would like to reset the settings.', 'PLUGIN_TEXT_DOMAIN' ); ?>
+									<?php _e( 'Enter "reset" into the above field if you would like to reset the settings.', 'PLUGIN_TEXT_DOMAIN' ); ?>
                                 </p>
                                 <p>
-                                    <input type="hidden" name="tribe_sie_action" value="reset_settings" />
+                                    <input type="hidden" name="tribe_sie_action" value="reset_settings"/>
 									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
 									<?php submit_button( __( 'Reset', 'PLUGIN_TEXT_DOMAIN' ), 'secondary', 'submit', false ); ?>
                                 </p>
                             </form>
                         </div><!-- .inside -->
                     </div><!-- .postbox -->
-				</div><!-- .metabox-holder -->
+                </div><!-- .metabox-holder -->
 
-			</div><!--end .wrap-->
+            </div><!--end .wrap-->
 
 			<?php
 		}
@@ -261,16 +262,16 @@ if (
 		 * Process a settings export that generates a .json file of the shop settings
 		 */
 		function tribe_sie_process_settings_export() {
-		    // Bail if no action
-			if( empty( $_POST['tribe_sie_action'] ) || 'export_settings' != $_POST['tribe_sie_action'] ) {
+			// Bail if no action
+			if ( empty( $_POST['tribe_sie_action'] ) || 'export_settings' != $_POST['tribe_sie_action'] ) {
 				return;
 			}
 			// Bail if no nonce
-			if( ! wp_verify_nonce( $_POST['tribe_sie_export_nonce'], 'tribe_sie_export_nonce' ) ) {
+			if ( ! wp_verify_nonce( $_POST['tribe_sie_export_nonce'], 'tribe_sie_export_nonce' ) ) {
 				return;
 			}
 			// Bail if no capability
-			if( ! current_user_can( 'manage_options' ) ) {
+			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
 
@@ -289,23 +290,23 @@ if (
 		 */
 		function tribe_sie_process_settings_import() {
 
-		    // Bail if no action
-			if( empty( $_POST['tribe_sie_action'] ) || 'import_settings' != $_POST['tribe_sie_action'] ) {
+			// Bail if no action
+			if ( empty( $_POST['tribe_sie_action'] ) || 'import_settings' != $_POST['tribe_sie_action'] ) {
 				return;
 			}
 
 			// Bail if no nonce
-			if( ! wp_verify_nonce( $_POST['tribe_sie_import_nonce'], 'tribe_sie_import_nonce' ) ) {
+			if ( ! wp_verify_nonce( $_POST['tribe_sie_import_nonce'], 'tribe_sie_import_nonce' ) ) {
 				return;
 			}
 
 			// Bail if no capability
-			if( ! current_user_can( 'manage_options' ) ) {
+			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
 
 			$import_file = $_FILES['import_file']['tmp_name'];
-			if( empty( $import_file ) ) {
+			if ( empty( $import_file ) ) {
 				wp_die( __( 'Please upload a file to import.', 'PLUGIN_TEXT_DOMAIN' ) );
 			}
 
@@ -313,21 +314,21 @@ if (
 				$extension = end( explode( '.', $_FILES['import_file']['name'] ) );
 			}
 
-			if( ! isset ( $extension ) || $extension != 'json' ) {
+			if ( ! isset ( $extension ) || $extension != 'json' ) {
 				wp_die( __( 'Please upload a valid .json file.', 'PLUGIN_TEXT_DOMAIN' ) );
 			}
 
 			// Retrieve the settings from the file and convert the json object to an array.
 			$settings = json_decode( file_get_contents( $import_file ), true );
 
-            if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
-                $action = 'import_success';
-            }
-            else {
-                $action = 'import_failed';
-            }
+			if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
+				$action = 'import_success';
+			} else {
+				$action = 'import_failed';
+			}
 
-			wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) ); exit;
+			wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
+			exit;
 		}
 
 		/**
@@ -335,36 +336,35 @@ if (
 		 */
 		function tribe_sie_process_settings_reset() {
 
-		    // Bail if no action
-			if( empty( $_POST['tribe_sie_action'] ) || 'reset_settings' != $_POST['tribe_sie_action'] ) {
+			// Bail if no action
+			if ( empty( $_POST['tribe_sie_action'] ) || 'reset_settings' != $_POST['tribe_sie_action'] ) {
 				return;
 			}
 
 			// Bail if no nonce
-			if( ! wp_verify_nonce( $_POST['tribe_sie_import_nonce'], 'tribe_sie_import_nonce' ) ) {
+			if ( ! wp_verify_nonce( $_POST['tribe_sie_import_nonce'], 'tribe_sie_import_nonce' ) ) {
 				return;
 			}
 
 			// Bail if no capability
-			if( ! current_user_can( 'manage_options' ) ) {
+			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
 
 			// Return if not reset
-            if ( $_POST['import_reset_confirmation'] != 'reset' ) {
-                $action = 'reset_no';
-            }
-            // Reset
+			if ( $_POST['import_reset_confirmation'] != 'reset' ) {
+				$action = 'reset_no';
+			} // Reset
             elseif ( $_POST['import_reset_confirmation'] == 'reset' ) {
-			    if ( delete_option( 'tribe_events_calendar_options' ) ) {
-				    $action = 'reset_success';
-			    }
-			    else {
-			        $action = 'reset_failed';
-                }
-            };
+				if ( delete_option( 'tribe_events_calendar_options' ) ) {
+					$action = 'reset_success';
+				} else {
+					$action = 'reset_failed';
+				}
+			};
 
-			wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) ); exit;
+			wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
+			exit;
 		}
 	} // end class
 } // end if class_exists check
