@@ -25,7 +25,6 @@
 
 namespace Tribe\Extensions\Settings_Import_Export;
 
-use Tribe__Autoloader;
 use Tribe__Dependency;
 use Tribe__Extension;
 
@@ -117,8 +116,7 @@ if (
 				return;
 			}
 
-			// Insert filters and hooks here
-			//add_filter( 'thing_we_are_filtering', [ $this, 'my_custom_function' ] );
+			// Filters and Hooks here
 			add_action( 'admin_menu', [ $this, 'tribe_settings_menu' ], 99 );
 			add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_export' ] );
 			add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_import' ] );
@@ -157,7 +155,6 @@ if (
 		 * Register the settings page
 		 */
 		function tribe_settings_menu() {
-			//add_options_page( __( 'Sample Settings Import and Export' ), __( 'Sample Settings Import and Export' ), 'manage_options', 'tribe-settings', 'tribe_settings_page' );
 			add_submenu_page(
 				'edit.php?post_type=tribe_events',
 				__( 'Settings Import / Export', 'PLUGIN_TEXT_DOMAIN' ),
@@ -238,11 +235,11 @@ if (
                         <h3><span><?php esc_html_e( 'Delete / Reset Settings', 'PLUGIN_TEXT_DOMAIN' ); ?></span></h3>
                         <div class="inside">
                             <p><?php esc_html_e( 'Reset the plugin settings.', 'PLUGIN_TEXT_DOMAIN' ); ?></p>
-                            <p style="font-weight: bold" ;><?php esc_html_e( 'Please note the following:', '' ) ?></p>
+                            <p><strong><?php esc_html_e( 'Please note the following:', 'PLUGIN_TEXT_DOMAIN' ) ?></strong></p>
                             <ul style="list-style: disc inside">
                                 <li><?php esc_html_e( 'This operation <span style="text-decoration: underline;">cannot be reversed</span>. It is recommended that you create a backup of your database first.', 'PLUGIN_TEXT_DOMAIN' ); ?></li>
                                 <li><?php esc_html_e( 'This operation will <span style="text-decoration: underline;">not</span> delete any event, venue, organizer, or ticket related data.', 'PLUGIN_TEXT_DOMAIN' ); ?></li>
-                                <li style="font-weight: bold;"><?php esc_html_e( 'Modern Tribe takes no responsibility for lost data.', 'PLUGIN_TEXT_DOMAIN' ); ?></li>
+                                <li><strong><?php esc_html_e( 'Modern Tribe takes no responsibility for lost data.', 'PLUGIN_TEXT_DOMAIN' ); ?></strong></li>
                             </ul>
                             <form method="post" enctype="multipart/form-data">
                                 <p>
