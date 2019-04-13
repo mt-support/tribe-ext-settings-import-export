@@ -255,7 +255,7 @@ if (
 
 			$import_file = $_FILES['import_file']['tmp_name'];
 			$import_filename = $_FILES['import_file']['name'];
-			
+
 			if ( empty( $import_file ) ) {
 				wp_die( __( 'Please upload a file to import.', 'tribe-ext-settings-import-export' ) );
 			}
