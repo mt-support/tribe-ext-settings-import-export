@@ -123,7 +123,7 @@ if (
 						$msg = esc_html__( 'Settings imported.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-success ';
 					} elseif ( $_GET['action'] == 'import_failed' ) {
-						$msg = esc_html__( 'Settings imported.', 'tribe-ext-settings-import-export' );
+						$msg = esc_html__( 'Import failed Please try again.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-error ';
 					} elseif ( $_GET['action'] == 'reset_success' ) {
 						$msg = esc_html__( 'Reset successful.', 'tribe-ext-settings-import-export' );
@@ -223,6 +223,7 @@ if (
 			}
 
 			$settings = get_option( 'tribe_events_calendar_options' );
+
 			ignore_user_abort( true );
 			nocache_headers();
 			header( 'Content-Type: application/json; charset=utf-8' );
@@ -267,6 +268,13 @@ if (
 
 			// Retrieve the settings from the file and convert the json object to an array.
 			$settings = json_decode( file_get_contents( $import_file ), true );
+
+			if ( false === $settings ) {
+				wp_die( __( 'Sorry, we could  not decode the file.', 'tribe-ext-settings-import-export' ) );
+			}
+			elseif { ! is_array( $settings ) } {
+				wp_die( __( 'Sorry, the decoded data is not an array', 'tribe-ext-settings-import-export' ) );
+			}
 
 			if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
 				$action = 'import_success';
