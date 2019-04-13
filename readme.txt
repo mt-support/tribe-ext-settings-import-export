@@ -38,6 +38,6 @@ We're always interested in your feedback and our [premium forums](https://theeve
 
 == Changelog ==
 
-= [1.0.0] 2019-04-10 =
+= [1.0.0] 2019-04-15 =
 
 * Initial release
