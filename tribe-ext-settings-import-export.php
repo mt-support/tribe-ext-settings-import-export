@@ -254,12 +254,15 @@ if (
 			}
 
 			$import_file = $_FILES['import_file']['tmp_name'];
+			$import_filename = $_FILES['import_file']['name'];
+			
 			if ( empty( $import_file ) ) {
 				wp_die( __( 'Please upload a file to import.', 'tribe-ext-settings-import-export' ) );
 			}
 
-			if ( ! empty( $_FILES['import_file']['name'] ) ) {
-				$extension = end( explode( '.', $_FILES['import_file']['name'] ) );
+			if ( ! empty( $import_filename ) ) {
+				$tmp = explode( '.', $import_filename );
+				$extension = end( $tmp );
 			}
 
 			if ( ! isset ( $extension ) || $extension != 'json' ) {
@@ -272,7 +275,7 @@ if (
 			if ( false === $settings ) {
 				wp_die( __( 'Sorry, we could  not decode the file.', 'tribe-ext-settings-import-export' ) );
 			}
-			elseif { ! is_array( $settings ) } {
+			elseif ( ! is_array( $settings ) ) {
 				wp_die( __( 'Sorry, the decoded data is not an array', 'tribe-ext-settings-import-export' ) );
 			}
 
