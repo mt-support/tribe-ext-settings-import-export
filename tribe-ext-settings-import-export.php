@@ -273,7 +273,7 @@ if (
 			$settings = json_decode( file_get_contents( $import_file ), true );
 
 			if ( false === $settings ) {
-				wp_die( __( 'Sorry, we could  not decode the file.', 'tribe-ext-settings-import-export' ) );
+				wp_die( __( 'Sorry, we could not decode the file.', 'tribe-ext-settings-import-export' ) );
 			}
 			elseif ( ! is_array( $settings ) ) {
 				wp_die( __( 'Sorry, the decoded data is not an array', 'tribe-ext-settings-import-export' ) );
