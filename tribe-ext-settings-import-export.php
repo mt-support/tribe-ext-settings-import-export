@@ -110,7 +110,7 @@ if (
 		/**
 		 * Render the settings page
 		 */
-		function tribe_sie_settings_page() {
+		public function tribe_sie_settings_page() {
 			?>
 			<div class="wrap">
 				<h2><?php esc_html_e( 'Settings Import / Export', 'tribe-ext-settings-import-export' ); ?></h2>
