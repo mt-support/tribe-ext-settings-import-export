@@ -50,7 +50,7 @@ if (
 		 */
 		public function init() {
 			// Load plugin textdomain
-			load_plugin_textdomain( 'tribe-ext-settings-import-export', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+			load_plugin_textdomain( 'tribe-ext-settings-import-export', false, basename( __DIR__ ) . '/languages/' );
 
 			if ( ! $this->php_version_check() ) {
 				return;
