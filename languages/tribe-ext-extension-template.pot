@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: The Events Calendar Extension: Settings Import / Export\n"
-"POT-Creation-Date: 2019-04-13 22:37+0200\n"
+"POT-Creation-Date: 2019-04-17 00:14+0200\n"
 "PO-Revision-Date: 2019-04-10 14:03+0200\n"
 "Last-Translator: András Guseo <aguseo@gmail.com>\n"
 "Language-Team: András Guseo <aguseo@gmail.com>\n"
@@ -97,16 +97,17 @@ msgid "Please note the following:"
 msgstr ""
 
 #: tribe-ext-settings-import-export.php:182
+#, php-format
 msgid ""
-"This operation <span style=\"text-decoration: underline;\">cannot be "
-"reversed</span>. It is recommended that you create a backup of your database "
-"first."
+"This operation %scannot be reversed%s. It is recommended that you create a "
+"backup of your database first."
 msgstr ""
 
 #: tribe-ext-settings-import-export.php:183
+#, php-format
 msgid ""
-"This operation will <span style=\"text-decoration: underline;\">not</span> "
-"delete any event, venue, organizer, or ticket related data."
+"This operation will %snot%s delete any event, venue, organizer, or ticket "
+"related data."
 msgstr ""
 
 #: tribe-ext-settings-import-export.php:185
@@ -122,19 +123,19 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: tribe-ext-settings-import-export.php:258
+#: tribe-ext-settings-import-export.php:260
 msgid "Please upload a file to import."
 msgstr ""
 
-#: tribe-ext-settings-import-export.php:266
+#: tribe-ext-settings-import-export.php:269
 msgid "Please upload a valid .json file."
 msgstr ""
 
-#: tribe-ext-settings-import-export.php:273
-msgid "Sorry, we could  not decode the file."
+#: tribe-ext-settings-import-export.php:276
+msgid "Sorry, we could not decode the file."
 msgstr ""
 
-#: tribe-ext-settings-import-export.php:276
+#: tribe-ext-settings-import-export.php:279
 msgid "Sorry, the decoded data is not an array"
 msgstr ""
 
