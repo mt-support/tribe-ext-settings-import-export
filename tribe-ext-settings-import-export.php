@@ -4,7 +4,7 @@
  * Plugin URI:        https://theeventscalendar.com/extensions/settings-import-export/
  * GitHub Plugin URI: https://github.com/mt-support/tribe-ext-settings-import-export
  * Description:       You can import and export the settings of The Events Calendar
- * Version:           1.0.0
+ * Version:           1.0.1
  * Extension Class:   Tribe\Extensions\Settings_Import_Export\Main
  * Author:            Modern Tribe, Inc.
  * Author URI:        http://m.tri.be/1971
@@ -179,8 +179,8 @@ if (
 								<strong><?php esc_html_e( 'Please note the following:', 'tribe-ext-settings-import-export' ) ?></strong>
 							</p>
 							<ul style="list-style: disc inside">
-								<li><?php esc_html_e( 'This operation <span style="text-decoration: underline;">cannot be reversed</span>. It is recommended that you create a backup of your database first.', 'tribe-ext-settings-import-export' ); ?></li>
-								<li><?php esc_html_e( 'This operation will <span style="text-decoration: underline;">not</span> delete any event, venue, organizer, or ticket related data.', 'tribe-ext-settings-import-export' ); ?></li>
+								<li><?php printf( esc_html__( 'This operation %scannot be reversed%s. It is recommended that you create a backup of your database first.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
+								<li><?php printf( esc_html__( 'This operation will %snot%s delete any event, venue, organizer, or ticket related data.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
 								<li>
 									<strong><?php esc_html_e( 'Modern Tribe takes no responsibility for lost data.', 'tribe-ext-settings-import-export' ); ?></strong>
 								</li>
