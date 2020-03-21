@@ -224,6 +224,15 @@ if (
 
 			$settings = get_option( 'tribe_events_calendar_options' );
 
+			// TEC - widget_tribe-events-list-widget
+			// PRO - widget_tribe-events-adv-list-widget
+			// PRO - widget_tribe-events-countdown-widget
+			// PRO - widget_tribe-mini-calendar
+			// PRO - widget_tribe-events-venue-widget
+			// PRO - widget_tribe-events-venue-widget
+			// CE  - tribe_community_events_options
+			// CE  - Tribe__Events__Community__Schemaschema_version
+
 			ignore_user_abort( true );
 			nocache_headers();
 			header( 'Content-Type: application/json; charset=utf-8' );
