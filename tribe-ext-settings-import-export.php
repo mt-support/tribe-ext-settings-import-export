@@ -297,6 +297,22 @@ if (
 			}
 
 			// Reset actions.
+			if ( ! empty ( $_POST['reset'] ) ) {
+				// Return if not reset
+				if ( $_POST['import_reset_confirmation'] != 'reset' ) {
+					$action = 'reset_no';
+				} // Reset
+				elseif ( $_POST['import_reset_confirmation'] == 'reset' ) {
+					if ( delete_option( 'tribe_events_calendar_options' ) ) {
+						$action = 'reset_success';
+					} else {
+						$action = 'reset_failed';
+					}
+				};
+
+				wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
+				exit;
+			}
 
 		}
 
