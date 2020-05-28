@@ -140,6 +140,7 @@ if (
 				<?php } ?>
 
 				<form method="post" enctype="multipart/form-data">
+					<?php wp_nonce_field( 'tribe_sie_nonce', 'tribe_sie_nonce' ); ?>
 				<div class="metabox-holder">
 					<div class="postbox">
 						<h3><span><?php esc_html_e( 'Export Settings', 'tribe-ext-settings-import-export' ); ?></span></h3>
@@ -203,6 +204,58 @@ if (
 			</div><!--end .wrap-->
 
 			<?php
+		}
+
+		/**
+		 * Process a settings export that generates a .json file of the shop settings
+		 */
+		function tribe_sie_process_settings_action() {
+
+			// Bail if no action.
+			if (
+				empty ( $_POST['export'] )
+				&& empty ( $_POST['import'] )
+				&& empty ( $_POST['reset'] )
+			) {
+				return;
+			}
+
+			// Export actions.
+
+			// Import actions.
+
+			// Reset actions.
+
+			//$varr = $_POST['export'];
+
+			// Bail if no nonce
+			if ( ! wp_verify_nonce( $_POST['tribe_sie_nonce'], 'tribe_sie_nonce' ) ) {
+				return;
+			}
+			
+			// Bail if no capability
+			if ( ! current_user_can( 'manage_options' ) ) {
+				return;
+			}
+
+			$settings = get_option( 'tribe_events_calendar_options' );
+
+			// TEC - widget_tribe-events-list-widget
+			// PRO - widget_tribe-events-adv-list-widget
+			// PRO - widget_tribe-events-countdown-widget
+			// PRO - widget_tribe-mini-calendar
+			// PRO - widget_tribe-events-venue-widget
+			// PRO - widget_tribe-events-venue-widget
+			// CE  - tribe_community_events_options
+			// CE  - Tribe__Events__Community__Schemaschema_version
+
+			ignore_user_abort( true );
+			nocache_headers();
+			header( 'Content-Type: application/json; charset=utf-8' );
+			header( 'Content-Disposition: attachment; filename=tribe-settings-export-' . date( 'm-d-Y' ) . '.json' );
+			header( "Expires: 0" );
+			echo json_encode( $settings );
+			exit;
 		}
 
 		/**
