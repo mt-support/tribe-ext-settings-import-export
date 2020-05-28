@@ -279,8 +279,7 @@ if (
 				    foreach ( $blogs as $blog_id )
 				    {
 					    switch_to_blog( $blog_id->blog_id );
-					    // do something in the blog, like:
-					    // update_option()
+					    // Add the events settings of the blog to the array.
                         $settings[ $blog_id->blog_id ] = get_option( 'tribe_events_calendar_options' );
 				    }
 				    switch_to_blog( $original_blog_id );
@@ -301,7 +300,12 @@ if (
 				ignore_user_abort( true );
 				nocache_headers();
 				header( 'Content-Type: application/json; charset=utf-8' );
-				header( 'Content-Disposition: attachment; filename=tribe-settings-export-' . date( 'm-d-Y' ) . '.json' );
+				if ( is_multisite() ) {
+					header( 'Content-Disposition: attachment; filename=tribe-multisite-settings-export-' . date( 'm-d-Y' ) . '.json' );
+				}
+				else {
+					header( 'Content-Disposition: attachment; filename=tribe-settings-export-' . date( 'm-d-Y' ) . '.json' );
+				}
 				header( "Expires: 0" );
 				echo json_encode( $settings );
 			}
@@ -338,13 +342,55 @@ if (
 					wp_die( __( 'Sorry, the decoded data is not an array.', 'tribe-ext-settings-import-export' ), __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
 				}
 
-				if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
-					$action = 'import_success';
-				} else {
-					$action = 'import_failed';
+				if ( is_multisite() ) {
+					// Getting all blog IDs.
+					global $wpdb;
+					$blogs = $wpdb->get_results("
+                        SELECT blog_id
+                        FROM {$wpdb->blogs}
+                        WHERE site_id = '{$wpdb->siteid}'
+                        AND spam = '0'
+                        AND deleted = '0'
+                        AND archived = '0'
+                    ");
+
+					$original_blog_id = get_current_blog_id();
+					$success_message = '';
+					$counter = 0;
+
+					// Iterating through all blogs.
+					foreach ( $blogs as $blog_id )
+					{
+						switch_to_blog( $blog_id->blog_id );
+						// Add the events settings of the blog to the array.
+						$success_message .= 'Import for blog ' . $blog_id->blog_id . ' ';
+						if ( update_option( 'tribe_events_calendar_options', $settings[$blog_id->blog_id] ) ) {
+						    $success_message .= 'successful.<br>';
+							//$action = 'import_success';
+						} else {
+							$success_message .= 'failed.<br>';
+							$counter++;
+							//$action = 'import_failed';
+						}
+					}
+					switch_to_blog( $original_blog_id );
+					if ( 0 == $counter ) {
+						$action = 'import_success';
+                    }
+					else  {
+					    $action = 'import_failed';
+                    }
+					wp_safe_redirect( admin_url( 'settings.php?page=tribe_import_export&action=' . $action . '&message=' . $success_message ) );
+				}
+				else {
+					if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
+						$action = 'import_success';
+					} else {
+						$action = 'import_failed';
+					}
+					wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
 				}
 
-				wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
 			}
 
 			/**
