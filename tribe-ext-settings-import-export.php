@@ -168,12 +168,28 @@ if (
 						<h3><span><?php esc_html_e( 'Export Settings', 'tribe-ext-settings-import-export' ); ?></span></h3>
 						<div class="inside">
 							<p><?php esc_html_e( 'Export the setting of The Events Calendar, Event Tickets and add-ons for this site as a .json file. This allows you to easily import the configuration into another site.', 'tribe-ext-settings-import-export' ); ?></p>
+                            <?php
+                                if ( is_network_admin() ) {
+	                                echo '<p><strong>';
+	                                esc_html_e( 'Note: You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export' );
+	                                echo ' ';
+	                                esc_html_e( 'The export will contain the relevant settings of all sub-sites.', 'tribe-ext-settings-import-export' );
+	                                echo '</strong></p>';
+                                }
+                                elseif ( is_multisite() ) {
+	                                echo '<p><strong>';
+	                                esc_html_e( 'Note: You are on a sub-site in a multi-site network.', 'tribe-ext-settings-import-export');
+	                                echo ' ';
+	                                esc_html_e( 'The export will contain the relevant settings of this sub-site only.', 'tribe-ext-settings-import-export' );
+	                                echo '</strong></p>';
+                                }
+                            ?>
 
-								<p><input type="hidden" name="tribe_sie_action" value="export_settings"/></p>
-								<p>
-									<?php wp_nonce_field( 'tribe_sie_export_nonce', 'tribe_sie_export_nonce' ); ?>
-									<?php submit_button( esc_html__( 'Export', 'tribe-ext-settings-import-export' ), 'secondary', 'export', false ); ?>
-								</p>
+							<p><input type="hidden" name="tribe_sie_action" value="export_settings"/></p>
+							<p>
+								<?php wp_nonce_field( 'tribe_sie_export_nonce', 'tribe_sie_export_nonce' ); ?>
+								<?php submit_button( esc_html__( 'Export', 'tribe-ext-settings-import-export' ), 'secondary', 'export', false ); ?>
+							</p>
 						</div><!-- .inside -->
 					</div><!-- .postbox -->
 
