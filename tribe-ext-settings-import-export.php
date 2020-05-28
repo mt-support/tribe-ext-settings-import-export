@@ -3,7 +3,7 @@
  * Plugin Name:       The Events Calendar Extension: Settings Import / Export
  * Plugin URI:        https://theeventscalendar.com/extensions/settings-import-export/
  * GitHub Plugin URI: https://github.com/mt-support/tribe-ext-settings-import-export
- * Description:       You can import and export the settings of The Events Calendar
+ * Description:       You can import and export the settings of The Events Calendar.
  * Version:           1.1.0-beta
  * Extension Class:   Tribe\Extensions\Settings_Import_Export\Main
  * Author:            Modern Tribe, Inc.
@@ -121,7 +121,7 @@ if (
 						$msg = esc_html__( 'Settings imported.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-success ';
 					} elseif ( $_GET['action'] == 'import_failed' ) {
-						$msg = esc_html__( 'Import failed Please try again.', 'tribe-ext-settings-import-export' );
+						$msg = esc_html__( 'Import failed. Please try again.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-error ';
 					} elseif ( $_GET['action'] == 'reset_success' ) {
 						$msg = esc_html__( 'Reset successful.', 'tribe-ext-settings-import-export' );
@@ -286,7 +286,7 @@ if (
 					wp_die( __( 'Sorry, we could not decode the file.', 'tribe-ext-settings-import-export' ), __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
 				}
 				elseif ( ! is_array( $settings ) ) {
-					wp_die( __( 'Sorry, the decoded data is not an array', 'tribe-ext-settings-import-export' ), __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
+					wp_die( __( 'Sorry, the decoded data is not an array.', 'tribe-ext-settings-import-export' ), __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
 				}
 
 				if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
