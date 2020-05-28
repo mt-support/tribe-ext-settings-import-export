@@ -139,18 +139,18 @@ if (
 					<div class="notice <?php echo $notice_class; ?> is-dismissible"><p><?php echo $msg; ?></p></div>
 				<?php } ?>
 
+				<form method="post" enctype="multipart/form-data">
 				<div class="metabox-holder">
 					<div class="postbox">
 						<h3><span><?php esc_html_e( 'Export Settings', 'tribe-ext-settings-import-export' ); ?></span></h3>
 						<div class="inside">
 							<p><?php esc_html_e( 'Export the setting of The Events Calendar, Event Tickets and add-ons for this site as a .json file. This allows you to easily import the configuration into another site.', 'tribe-ext-settings-import-export' ); ?></p>
-							<form method="post">
+
 								<p><input type="hidden" name="tribe_sie_action" value="export_settings"/></p>
 								<p>
 									<?php wp_nonce_field( 'tribe_sie_export_nonce', 'tribe_sie_export_nonce' ); ?>
 									<?php submit_button( esc_html__( 'Export', 'tribe-ext-settings-import-export' ), 'secondary', 'export', false ); ?>
 								</p>
-							</form>
 						</div><!-- .inside -->
 					</div><!-- .postbox -->
 
@@ -158,7 +158,7 @@ if (
 						<h3><span><?php esc_html_e( 'Import Settings', 'tribe-ext-settings-import-export' ); ?></span></h3>
 						<div class="inside">
 							<p><?php esc_html_e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'tribe-ext-settings-import-export' ); ?></p>
-							<form method="post" enctype="multipart/form-data">
+
 								<p>
 									<input type="file" name="import_file"/>
 								</p>
@@ -167,7 +167,7 @@ if (
 									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
 									<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
 								</p>
-							</form>
+
 						</div><!-- .inside -->
 					</div><!-- .postbox -->
 
@@ -185,7 +185,7 @@ if (
 									<strong><?php esc_html_e( 'Modern Tribe takes no responsibility for lost data.', 'tribe-ext-settings-import-export' ); ?></strong>
 								</li>
 							</ul>
-							<form method="post" enctype="multipart/form-data">
+
 								<p>
 									<input type="text" name="import_reset_confirmation"/><br/>
 									<?php esc_html_e( 'Enter "reset" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ); ?>
@@ -195,11 +195,11 @@ if (
 									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
 									<?php submit_button( esc_html__( 'Reset', 'tribe-ext-settings-import-export' ), 'secondary', 'reset', false ); ?>
 								</p>
-							</form>
+
 						</div><!-- .inside -->
 					</div><!-- .postbox -->
 				</div><!-- .metabox-holder -->
-
+				</form>
 			</div><!--end .wrap-->
 
 			<?php
