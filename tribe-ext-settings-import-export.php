@@ -154,6 +154,9 @@ if (
 						$msg = esc_html__( 'Reset failed. Please enter "reset" in the text field to reset the settings.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-error ';
 					}
+					if ( ! empty ( $_GET['msg'] ) ) {
+					    $msg .= '<p>' . base64_decode( $_GET['msg'] ) . '</p>';
+                    }
 					?>
 					<div class="notice <?php echo $notice_class; ?> is-dismissible"><p><?php echo $msg; ?></p></div>
 				<?php } ?>
@@ -362,13 +365,17 @@ if (
 					foreach ( $blogs as $blog_id )
 					{
 						switch_to_blog( $blog_id->blog_id );
-						// Add the events settings of the blog to the array.
+						//var_dump($settings[$blog_id->blog_id]);
 						$success_message .= 'Import for blog ' . $blog_id->blog_id . ' ';
-						if ( update_option( 'tribe_events_calendar_options', $settings[$blog_id->blog_id] ) ) {
-						    $success_message .= 'successful.<br>';
-							//$action = 'import_success';
+
+						if ( ! empty( $settings[$blog_id->blog_id] ) ) {
+						// Add the events settings of the blog to the array.
+						    if ( update_option( 'tribe_events_calendar_options', $settings[$blog_id->blog_id] ) ) {
+							    $success_message .= 'successful.<br>';
+							    //$action = 'import_success';
+						    }
 						} else {
-							$success_message .= 'failed.<br>';
+							$success_message .= '<strong>failed</strong>.<br>';
 							$counter++;
 							//$action = 'import_failed';
 						}
@@ -380,7 +387,7 @@ if (
 					else  {
 					    $action = 'import_failed';
                     }
-					wp_safe_redirect( admin_url( 'settings.php?page=tribe_import_export&action=' . $action . '&message=' . $success_message ) );
+					wp_safe_redirect( network_admin_url( 'settings.php?page=tribe_import_export&action=' . $action . '&msg=' . base64_encode( $success_message ) ) );
 				}
 				else {
 					if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
