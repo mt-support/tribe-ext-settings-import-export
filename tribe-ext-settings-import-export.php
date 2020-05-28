@@ -371,7 +371,7 @@ if (
 						switch_to_blog( $the_blog_id );
 
 						/* translators: the ID of the blog in the network. */
-						$success_message .= sprintf( esc_html__( 'Import for blog %s', 'tribe-ext-settings-import-export' ), $the_blog_id );
+						$success_message .= sprintf( esc_html__( 'Import for blog %s', 'tribe-ext-settings-import-export' ), $the_blog_id ) . ' ';
 
 						// Check if settings for given blog_id exist
 						if ( ! empty( $settings[ $the_blog_id ] ) ) {
@@ -393,7 +393,7 @@ if (
 						else {
 							$success_message .= sprintf(
 													esc_html__(
-														'%not found%s.',
+														'%snot found%s.',
 														'tribe-ext-settings-import-export'
 													),
 													'<strong>',
