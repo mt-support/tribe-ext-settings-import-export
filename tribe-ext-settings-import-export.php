@@ -58,9 +58,10 @@ if (
 
 			// Filters and Hooks here
 			add_action( 'admin_menu', [ $this, 'tribe_settings_menu' ], 99 );
-			add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_export' ] );
-			add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_import' ] );
-			add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_reset' ] );
+			add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_action' ] );
+			//add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_export' ] );
+			//add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_import' ] );
+			//add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_reset' ] );
 		}
 
 		/**
@@ -211,6 +212,10 @@ if (
 		 */
 		function tribe_sie_process_settings_action() {
 
+			$va = empty( $_POST['export'] );
+			$vb = empty( $_POST['import'] );
+			$vc = empty ( $_POST['reset'] );
+
 			// Bail if no action.
 			if (
 				empty ( $_POST['export'] )
@@ -219,8 +224,6 @@ if (
 			) {
 				return;
 			}
-
-			//$varr = $_POST['export'];
 
 			// Bail if no nonce
 			if ( ! wp_verify_nonce( $_POST['tribe_sie_nonce'], 'tribe_sie_nonce' ) ) {
@@ -233,26 +236,65 @@ if (
 			}
 
 			// Export actions.
-			$settings = get_option( 'tribe_events_calendar_options' );
+			if ( ! empty ( $_POST['export'] ) ) {
+				$settings = get_option( 'tribe_events_calendar_options' );
 
-			// TEC - widget_tribe-events-list-widget
-			// PRO - widget_tribe-events-adv-list-widget
-			// PRO - widget_tribe-events-countdown-widget
-			// PRO - widget_tribe-mini-calendar
-			// PRO - widget_tribe-events-venue-widget
-			// PRO - widget_tribe-events-venue-widget
-			// CE  - tribe_community_events_options
-			// CE  - Tribe__Events__Community__Schemaschema_version
+				// TEC - widget_tribe-events-list-widget
+				// PRO - widget_tribe-events-adv-list-widget
+				// PRO - widget_tribe-events-countdown-widget
+				// PRO - widget_tribe-mini-calendar
+				// PRO - widget_tribe-events-venue-widget
+				// PRO - widget_tribe-events-venue-widget
+				// CE  - tribe_community_events_options
+				// CE  - Tribe__Events__Community__Schemaschema_version
 
-			ignore_user_abort( true );
-			nocache_headers();
-			header( 'Content-Type: application/json; charset=utf-8' );
-			header( 'Content-Disposition: attachment; filename=tribe-settings-export-' . date( 'm-d-Y' ) . '.json' );
-			header( "Expires: 0" );
-			echo json_encode( $settings );
-			exit;
+				ignore_user_abort( true );
+				nocache_headers();
+				header( 'Content-Type: application/json; charset=utf-8' );
+				header( 'Content-Disposition: attachment; filename=tribe-settings-export-' . date( 'm-d-Y' ) . '.json' );
+				header( "Expires: 0" );
+				echo json_encode( $settings );
+				exit;
+			}
 
 			// Import actions.
+			if ( ! empty ( $_POST['import'] ) ) {
+
+				$import_file = $_FILES['import_file']['tmp_name'];
+				$import_filename = $_FILES['import_file']['name'];
+
+				if ( empty( $import_file ) ) {
+					wp_die( __( 'Please upload a file to import.', 'tribe-ext-settings-import-export' ) );
+				}
+
+				if ( ! empty( $import_filename ) ) {
+					$tmp = explode( '.', $import_filename );
+					$extension = end( $tmp );
+				}
+
+				if ( ! isset ( $extension ) || $extension != 'json' ) {
+					wp_die( __( 'Please upload a valid .json file.', 'tribe-ext-settings-import-export' ) );
+				}
+
+				// Retrieve the settings from the file and convert the json object to an array.
+				$settings = json_decode( file_get_contents( $import_file ), true );
+
+				if ( false === $settings ) {
+					wp_die( __( 'Sorry, we could not decode the file.', 'tribe-ext-settings-import-export' ) );
+				}
+				elseif ( ! is_array( $settings ) ) {
+					wp_die( __( 'Sorry, the decoded data is not an array', 'tribe-ext-settings-import-export' ) );
+				}
+
+				if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
+					$action = 'import_success';
+				} else {
+					$action = 'import_failed';
+				}
+
+				wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
+				exit;
+			}
 
 			// Reset actions.
 
