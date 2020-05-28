@@ -197,6 +197,22 @@ if (
 						<h3><span><?php esc_html_e( 'Import Settings', 'tribe-ext-settings-import-export' ); ?></span></h3>
 						<div class="inside">
 							<p><?php esc_html_e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'tribe-ext-settings-import-export' ); ?></p>
+							<?php
+							if ( is_network_admin() ) {
+								echo '<p><strong>';
+								esc_html_e( 'Note: You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export' );
+								echo ' ';
+								esc_html_e( 'Here you can import the settings of all sub-sites at once with the appropriate file.', 'tribe-ext-settings-import-export' );
+								echo '</strong></p>';
+							}
+							elseif ( is_multisite() ) {
+								echo '<p><strong>';
+								esc_html_e( 'Note: You are on a sub-site in a multi-site network.', 'tribe-ext-settings-import-export');
+								echo ' ';
+								esc_html_e( 'Here you can import the settings for this sub-site only.', 'tribe-ext-settings-import-export' );
+								echo '</strong></p>';
+							}
+							?>
 
 								<p>
 									<input type="file" name="import_file"/>
