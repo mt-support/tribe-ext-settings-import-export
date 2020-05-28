@@ -306,10 +306,10 @@ if (
 
 				// If on network admin page, use a different filename.
 				if ( is_network_admin() ) {
-					header( 'Content-Disposition: attachment; filename=tribe-multisite-settings-export-' . date( 'm-d-Y' ) . '.json' );
+					header( 'Content-Disposition: attachment; filename=tribe-multisite-settings-export-' . date( 'Y-m-d' ) . '.json' );
 				}
 				else {
-					header( 'Content-Disposition: attachment; filename=tribe-settings-export-' . date( 'm-d-Y' ) . '.json' );
+					header( 'Content-Disposition: attachment; filename=tribe-settings-export-' . date( 'Y-m-d' ) . '.json' );
 				}
 				header( "Expires: 0" );
 				echo json_encode( $settings );
