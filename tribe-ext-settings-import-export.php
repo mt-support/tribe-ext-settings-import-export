@@ -259,7 +259,34 @@ if (
 			 * Process a settings export that generates a .json file of the shop settings.
 			 */
 			if ( ! empty ( $_POST['export'] ) ) {
-				$settings = get_option( 'tribe_events_calendar_options' );
+
+			    if ( is_multisite() ) {
+
+			        // Getting all blog IDs.
+				    global $wpdb;
+				    $blogs = $wpdb->get_results("
+                        SELECT blog_id
+                        FROM {$wpdb->blogs}
+                        WHERE site_id = '{$wpdb->siteid}'
+                        AND spam = '0'
+                        AND deleted = '0'
+                        AND archived = '0'
+                    ");
+
+				    $original_blog_id = get_current_blog_id();
+
+				    // Iterating through all blogs.
+				    foreach ( $blogs as $blog_id )
+				    {
+					    switch_to_blog( $blog_id->blog_id );
+					    // do something in the blog, like:
+					    // update_option()
+				    }
+				    switch_to_blog( $original_blog_id );
+                }
+			    else {
+				    $settings = get_option( 'tribe_events_calendar_options' );
+			    }
 
 				// TEC - widget_tribe-events-list-widget
 				// PRO - widget_tribe-events-adv-list-widget
