@@ -38,9 +38,13 @@ We're always interested in your feedback and our [premium forums](https://theeve
 
 == Changelog ==
 
+= [1.1.0] TBD =
+
+* Tweak - Restructured the code to make it slimmer.
+
 = [1.0.1] 2019-04-17 =
 
-* Fixed the escaping of a string that contains HTML
+* Fixed the escaping of a string that contains HTML.
 
 = [1.0.0] 2019-04-15 =
 
