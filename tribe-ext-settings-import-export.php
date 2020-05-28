@@ -59,9 +59,6 @@ if (
 			// Filters and Hooks here
 			add_action( 'admin_menu', [ $this, 'tribe_settings_menu' ], 99 );
 			add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_action' ] );
-			//add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_export' ] );
-			//add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_import' ] );
-			//add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_reset' ] );
 		}
 
 		/**
