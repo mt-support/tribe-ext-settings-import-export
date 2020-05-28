@@ -303,6 +303,8 @@ if (
 				ignore_user_abort( true );
 				nocache_headers();
 				header( 'Content-Type: application/json; charset=utf-8' );
+
+				// If on network admin page, use a different filename.
 				if ( is_network_admin() ) {
 					header( 'Content-Disposition: attachment; filename=tribe-multisite-settings-export-' . date( 'm-d-Y' ) . '.json' );
 				}
@@ -367,22 +369,38 @@ if (
 					    $the_blog_id = $blog_id->blog_id;
 						switch_to_blog( $the_blog_id );
 
-						$success_message .= 'Import for blog ' . $the_blog_id . ' ';
+						/* translators: the ID of the blog in the network. */
+						$success_message .= sprintf( esc_html__( 'Import for blog %s', 'tribe-ext-settings-import-export' ), $the_blog_id );
 
 						// Check if settings for given blog_id exist
 						if ( ! empty( $settings[ $the_blog_id ] ) ) {
 						    // Add the events settings of the blog to the array.
 							if ( update_option( 'tribe_events_calendar_options', $settings[ $the_blog_id ] ) ) {
-							    $success_message .= 'successful.<br>';
-						    } else {
-							    $success_message .= '<strong>failed</strong> (or settings were the same).<br>';
-							    $counter++;
+							    $success_message .= esc_html__( 'successful.', 'tribe-ext-settings-import-export' );
+							} else {
+								$success_message .= sprintf(
+														esc_html__(
+															'%sfailed%s (or settings were the same).',
+															'tribe-ext-settings-import-export'
+														),
+														'<strong>',
+														'</strong>'
+													);
+								$counter++;
 						    }
 						}
 						else {
-							$success_message .= '<strong>not found</strong>.<br>';
+							$success_message .= sprintf(
+													esc_html__(
+														'%not found%s.',
+														'tribe-ext-settings-import-export'
+													),
+													'<strong>',
+													'</strong>'
+												);
 							$counter++;
                         }
+						$success_message .= '<br>';
 					}
 
 					switch_to_blog( $original_blog_id );
@@ -403,9 +421,16 @@ if (
 						$action = 'import_success';
 					} else {
 						$action = 'import_failed';
-						$success_message .= 'Import <strong>failed</strong> (or settings were the same).<br>'
+						$success_message .= sprintf(
+												esc_html__(
+													'Import %sfailed%s (or settings were the same).',
+													'tribe-ext-settings-import-export'
+												),
+												'<strong>',
+												'</strong>'
+											);
 					}
-					wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
+					wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action . '&msg=' . urlencode( $success_message ) ) );
 				}
 
 			}
