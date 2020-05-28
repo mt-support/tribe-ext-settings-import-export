@@ -267,7 +267,7 @@ if (
 				$import_filename = $_FILES['import_file']['name'];
 
 				if ( empty( $import_file ) ) {
-					wp_die( __( 'Please upload a file to import.', 'tribe-ext-settings-import-export' ) );
+					wp_die( __( 'Please upload a file to import.', 'tribe-ext-settings-import-export' ), __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
 				}
 
 				if ( ! empty( $import_filename ) ) {
@@ -276,17 +276,17 @@ if (
 				}
 
 				if ( ! isset ( $extension ) || $extension != 'json' ) {
-					wp_die( __( 'Please upload a valid .json file.', 'tribe-ext-settings-import-export' ) );
+					wp_die( __( 'Please upload a valid .json file.', 'tribe-ext-settings-import-export' ), __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
 				}
 
 				// Retrieve the settings from the file and convert the json object to an array.
 				$settings = json_decode( file_get_contents( $import_file ), true );
 
 				if ( false === $settings ) {
-					wp_die( __( 'Sorry, we could not decode the file.', 'tribe-ext-settings-import-export' ) );
+					wp_die( __( 'Sorry, we could not decode the file.', 'tribe-ext-settings-import-export' ), __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
 				}
 				elseif ( ! is_array( $settings ) ) {
-					wp_die( __( 'Sorry, the decoded data is not an array', 'tribe-ext-settings-import-export' ) );
+					wp_die( __( 'Sorry, the decoded data is not an array', 'tribe-ext-settings-import-export' ), __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
 				}
 
 				if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
