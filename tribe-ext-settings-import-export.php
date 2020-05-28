@@ -148,7 +148,7 @@ if (
 								<p><input type="hidden" name="tribe_sie_action" value="export_settings"/></p>
 								<p>
 									<?php wp_nonce_field( 'tribe_sie_export_nonce', 'tribe_sie_export_nonce' ); ?>
-									<?php submit_button( esc_html__( 'Export', 'tribe-ext-settings-import-export' ), 'secondary', 'submit', false ); ?>
+									<?php submit_button( esc_html__( 'Export', 'tribe-ext-settings-import-export' ), 'secondary', 'export', false ); ?>
 								</p>
 							</form>
 						</div><!-- .inside -->
@@ -165,7 +165,7 @@ if (
 								<p>
 									<input type="hidden" name="tribe_sie_action" value="import_settings"/>
 									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
-									<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'submit', false ); ?>
+									<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
 								</p>
 							</form>
 						</div><!-- .inside -->
@@ -193,7 +193,7 @@ if (
 								<p>
 									<input type="hidden" name="tribe_sie_action" value="reset_settings"/>
 									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
-									<?php submit_button( esc_html__( 'Reset', 'tribe-ext-settings-import-export' ), 'secondary', 'submit', false ); ?>
+									<?php submit_button( esc_html__( 'Reset', 'tribe-ext-settings-import-export' ), 'secondary', 'reset', false ); ?>
 								</p>
 							</form>
 						</div><!-- .inside -->
@@ -213,6 +213,7 @@ if (
 			if ( empty( $_POST['tribe_sie_action'] ) || 'export_settings' != $_POST['tribe_sie_action'] ) {
 				return;
 			}
+			$varr = $_POST['export'];
 			// Bail if no nonce
 			if ( ! wp_verify_nonce( $_POST['tribe_sie_export_nonce'], 'tribe_sie_export_nonce' ) ) {
 				return;
