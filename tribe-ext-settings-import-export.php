@@ -220,24 +220,19 @@ if (
 				return;
 			}
 
-			// Export actions.
-
-			// Import actions.
-
-			// Reset actions.
-
 			//$varr = $_POST['export'];
 
 			// Bail if no nonce
 			if ( ! wp_verify_nonce( $_POST['tribe_sie_nonce'], 'tribe_sie_nonce' ) ) {
 				return;
 			}
-			
+
 			// Bail if no capability
 			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
 
+			// Export actions.
 			$settings = get_option( 'tribe_events_calendar_options' );
 
 			// TEC - widget_tribe-events-list-widget
@@ -256,6 +251,11 @@ if (
 			header( "Expires: 0" );
 			echo json_encode( $settings );
 			exit;
+
+			// Import actions.
+
+			// Reset actions.
+
 		}
 
 		/**
