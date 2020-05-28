@@ -4,7 +4,7 @@
  * Plugin URI:        https://theeventscalendar.com/extensions/settings-import-export/
  * GitHub Plugin URI: https://github.com/mt-support/tribe-ext-settings-import-export
  * Description:       You can import and export the settings of The Events Calendar.
- * Version:           1.1.0
+ * Version:           1.2.0
  * Extension Class:   Tribe\Extensions\Settings_Import_Export\Main
  * Author:            Modern Tribe, Inc.
  * Author URI:        http://m.tri.be/1971
@@ -58,6 +58,11 @@ if (
 
 			// Filters and Hooks here
 			add_action( 'admin_menu', [ $this, 'tribe_settings_menu' ], 99 );
+
+			if ( is_multisite() ) {
+				add_action( 'network_admin_menu', [ $this, 'tribe_multisite_settings_menu' ], 99 );
+			}
+
 			add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_action' ] );
 		}
 
@@ -87,6 +92,22 @@ if (
 			}
 
 			return true;
+		}
+
+		/**
+		 * Register the settings page on multi-site
+		 */
+		function tribe_multisite_settings_menu() {
+			add_submenu_page(
+				'settings.php',
+				__( 'Events Settings Import / Export', 'tribe-ext-settings-import-export' ),
+				__( 'Events Settings Import / Export', 'tribe-ext-settings-import-export' ),
+				'manage_options',
+				'tribe_import_export', [
+					$this,
+					'tribe_sie_settings_page'
+				]
+			);
 		}
 
 		/**
