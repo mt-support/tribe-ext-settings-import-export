@@ -418,6 +418,18 @@ if (
 				}
 				// If not multi-site.
 				else {
+				    /**
+                     * Check if we're uploading a export of a multi-site.
+					 * The first key on a multi-site export is a blog ID, thus integer
+                     * The first key of a single site export is usually 'schema-version', thus string
+                     */
+					if ( is_int( array_key_first( $settings ) ) ) {
+					    $message  = '<p>' . esc_html__( 'The settings you wanted to import seem to be of a multi-site network.', 'tribe-ext-settings-import-export' ) . '</p>';
+					    $message .= '<p>' . esc_html__( 'If you would like to import settings for one site only, then please upload the appropriate file.', 'tribe-ext-settings-import-export' ) . '</p>';
+					    $message .= '<p>' . esc_html__( 'If you would like to import settings for the whole multi-site network, you can do that on the Network Admin dashboard.', 'tribe-ext-settings-import-export' ) . '</p>';
+						wp_die( $message, __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
+                    }
+
 					if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
 						$action = 'import_success';
 					} else {
