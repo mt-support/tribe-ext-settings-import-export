@@ -212,6 +212,7 @@ if (
 		 */
 		function tribe_sie_process_settings_action() {
 
+			$settings = '';
 			$va = empty( $_POST['export'] );
 			$vb = empty( $_POST['import'] );
 			$vc = empty ( $_POST['reset'] );
@@ -235,7 +236,10 @@ if (
 				return;
 			}
 
-			// Export actions.
+			/**
+			 * Export actions.
+			 * Process a settings export that generates a .json file of the shop settings.
+			 */
 			if ( ! empty ( $_POST['export'] ) ) {
 				$settings = get_option( 'tribe_events_calendar_options' );
 
@@ -256,7 +260,10 @@ if (
 				echo json_encode( $settings );
 			}
 
-			// Import actions.
+			/**
+			 * Import actions.
+			 * Process a settings import from a json file.
+			 */
 			if ( ! empty ( $_POST['import'] ) ) {
 
 				$import_file = $_FILES['import_file']['tmp_name'];
@@ -294,7 +301,10 @@ if (
 				wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
 			}
 
-			// Reset actions.
+			/**
+			 * Reset actions.
+			 * Reset Modern Tribe calendar and ticketing plugins.
+			 */
 			if ( ! empty ( $_POST['reset'] ) ) {
 				// Return if not reset
 				if ( $_POST['import_reset_confirmation'] != 'reset' ) {
@@ -315,134 +325,5 @@ if (
 
 		}
 
-		/**
-		 * Process a settings export that generates a .json file of the shop settings
-		 */
-		function tribe_sie_process_settings_export() {
-			// Bail if no action
-			if ( empty( $_POST['tribe_sie_action'] ) || 'export_settings' != $_POST['tribe_sie_action'] ) {
-				return;
-			}
-			$varr = $_POST['export'];
-			// Bail if no nonce
-			if ( ! wp_verify_nonce( $_POST['tribe_sie_export_nonce'], 'tribe_sie_export_nonce' ) ) {
-				return;
-			}
-			// Bail if no capability
-			if ( ! current_user_can( 'manage_options' ) ) {
-				return;
-			}
-
-			$settings = get_option( 'tribe_events_calendar_options' );
-
-			// TEC - widget_tribe-events-list-widget
-			// PRO - widget_tribe-events-adv-list-widget
-			// PRO - widget_tribe-events-countdown-widget
-			// PRO - widget_tribe-mini-calendar
-			// PRO - widget_tribe-events-venue-widget
-			// PRO - widget_tribe-events-venue-widget
-			// CE  - tribe_community_events_options
-			// CE  - Tribe__Events__Community__Schemaschema_version
-
-			ignore_user_abort( true );
-			nocache_headers();
-			header( 'Content-Type: application/json; charset=utf-8' );
-			header( 'Content-Disposition: attachment; filename=tribe-settings-export-' . date( 'm-d-Y' ) . '.json' );
-			header( "Expires: 0" );
-			echo json_encode( $settings );
-			exit;
-		}
-
-		/**
-		 * Process a settings import from a json file
-		 */
-		function tribe_sie_process_settings_import() {
-
-			// Bail if no action
-			if ( empty( $_POST['tribe_sie_action'] ) || 'import_settings' != $_POST['tribe_sie_action'] ) {
-				return;
-			}
-
-			// Bail if no nonce
-			if ( ! wp_verify_nonce( $_POST['tribe_sie_import_nonce'], 'tribe_sie_import_nonce' ) ) {
-				return;
-			}
-
-			// Bail if no capability
-			if ( ! current_user_can( 'manage_options' ) ) {
-				return;
-			}
-
-			$import_file = $_FILES['import_file']['tmp_name'];
-			$import_filename = $_FILES['import_file']['name'];
-
-			if ( empty( $import_file ) ) {
-				wp_die( __( 'Please upload a file to import.', 'tribe-ext-settings-import-export' ) );
-			}
-
-			if ( ! empty( $import_filename ) ) {
-				$tmp = explode( '.', $import_filename );
-				$extension = end( $tmp );
-			}
-
-			if ( ! isset ( $extension ) || $extension != 'json' ) {
-				wp_die( __( 'Please upload a valid .json file.', 'tribe-ext-settings-import-export' ) );
-			}
-
-			// Retrieve the settings from the file and convert the json object to an array.
-			$settings = json_decode( file_get_contents( $import_file ), true );
-
-			if ( false === $settings ) {
-				wp_die( __( 'Sorry, we could not decode the file.', 'tribe-ext-settings-import-export' ) );
-			}
-			elseif ( ! is_array( $settings ) ) {
-				wp_die( __( 'Sorry, the decoded data is not an array', 'tribe-ext-settings-import-export' ) );
-			}
-
-			if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
-				$action = 'import_success';
-			} else {
-				$action = 'import_failed';
-			}
-
-			wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
-			exit;
-		}
-
-		/**
-		 * Reset Modern Tribe calendar and ticketing plugins
-		 */
-		function tribe_sie_process_settings_reset() {
-
-			// Bail if no action
-			if ( empty( $_POST['tribe_sie_action'] ) || 'reset_settings' != $_POST['tribe_sie_action'] ) {
-				return;
-			}
-
-			// Bail if no nonce
-			if ( ! wp_verify_nonce( $_POST['tribe_sie_import_nonce'], 'tribe_sie_import_nonce' ) ) {
-				return;
-			}
-
-			// Bail if no capability
-			if ( ! current_user_can( 'manage_options' ) ) {
-				return;
-			}
-
-			// Return if not reset
-			if ( $_POST['import_reset_confirmation'] != 'reset' ) {
-				$action = 'reset_no';
-			} // Reset
-			elseif ( $_POST['import_reset_confirmation'] == 'reset' ) {
-				if ( delete_option( 'tribe_events_calendar_options' ) ) {
-					$action = 'reset_success';
-				} else {
-					$action = 'reset_failed';
-				}
-			};
-
-			wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
-			exit;
-		}
 	} // end class
 } // end if class_exists check
