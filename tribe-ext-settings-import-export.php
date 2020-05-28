@@ -361,7 +361,8 @@ if (
 
 					$original_blog_id = get_current_blog_id();
 
-					$counter = 0;
+					// Variable to count fails.
+					$failed_imports = 0;
 
 					// Iterating through all blogs.
 					foreach ( $blogs as $blog_id )
@@ -386,7 +387,7 @@ if (
 														'<strong>',
 														'</strong>'
 													);
-								$counter++;
+								$failed_imports++;
 						    }
 						}
 						else {
@@ -398,7 +399,7 @@ if (
 													'<strong>',
 													'</strong>'
 												);
-							$counter++;
+							$failed_imports++;
                         }
 						$success_message .= '<br>';
 					}
@@ -406,7 +407,7 @@ if (
 					switch_to_blog( $original_blog_id );
 
                     // If there are no fails then the import is a full success.
-					if ( 0 === $counter ) {
+					if ( 0 === $failed_imports ) {
 						$action = 'import_success';
                     }
 					else  {
