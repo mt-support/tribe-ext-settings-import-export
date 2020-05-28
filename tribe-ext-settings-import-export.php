@@ -230,7 +230,7 @@ if (
 		 */
 		function tribe_sie_process_settings_action() {
 
-			$settings = '';
+			$settings = [];
 			$va = empty( $_POST['export'] );
 			$vb = empty( $_POST['import'] );
 			$vc = empty ( $_POST['reset'] );
@@ -281,6 +281,7 @@ if (
 					    switch_to_blog( $blog_id->blog_id );
 					    // do something in the blog, like:
 					    // update_option()
+                        $settings[ $blog_id->blog_id ] = get_option( 'tribe_events_calendar_options' );
 				    }
 				    switch_to_blog( $original_blog_id );
                 }
