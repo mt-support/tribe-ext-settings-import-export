@@ -254,7 +254,6 @@ if (
 				header( 'Content-Disposition: attachment; filename=tribe-settings-export-' . date( 'm-d-Y' ) . '.json' );
 				header( "Expires: 0" );
 				echo json_encode( $settings );
-				exit;
 			}
 
 			// Import actions.
@@ -293,7 +292,6 @@ if (
 				}
 
 				wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
-				exit;
 			}
 
 			// Reset actions.
@@ -311,8 +309,9 @@ if (
 				};
 
 				wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
-				exit;
 			}
+
+			exit;
 
 		}
 
