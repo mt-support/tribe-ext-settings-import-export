@@ -297,16 +297,8 @@ if (
 
 			    if ( is_network_admin() ) {
 
-			        // Getting all blog IDs.
-				    global $wpdb;
-				    $blogs = $wpdb->get_results("
-                        SELECT blog_id
-                        FROM {$wpdb->blogs}
-                        WHERE site_id = '{$wpdb->siteid}'
-                        AND spam = '0'
-                        AND deleted = '0'
-                        AND archived = '0'
-                    ");
+			        // Getting all blogs.
+				    $blogs = $this->getBlogs();
 
 				    $original_blog_id = get_current_blog_id();
 
@@ -380,16 +372,9 @@ if (
 				}
 
 				if ( is_network_admin() ) {
-					// Getting all blog IDs.
-					global $wpdb;
-					$blogs = $wpdb->get_results("
-                        SELECT blog_id
-                        FROM {$wpdb->blogs}
-                        WHERE site_id = '{$wpdb->siteid}'
-                        AND spam = '0'
-                        AND deleted = '0'
-                        AND archived = '0'
-                    ");
+
+					// Getting all blogs.
+					$blogs = $this->getBlogs();
 
 					$original_blog_id = get_current_blog_id();
 
@@ -502,6 +487,23 @@ if (
 
 			exit;
 
+		}
+
+		/**
+		 * @return array|object|null
+		 */
+		public function getBlogs() {
+			global $wpdb;
+			$blogs = $wpdb->get_results( "
+                        SELECT blog_id
+                        FROM {$wpdb->blogs}
+                        WHERE site_id = '{$wpdb->siteid}'
+                        AND spam = '0'
+                        AND deleted = '0'
+                        AND archived = '0'
+                    " );
+
+			return $blogs;
 		}
 
 	} // end class
