@@ -142,13 +142,13 @@ if (
 						$msg = esc_html__( 'Settings imported.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-success ';
 					} elseif ( $_GET['action'] == 'import_failed' ) {
-						$msg = esc_html__( 'There were some errors. Please try again.', 'tribe-ext-settings-import-export' );
+						$msg = esc_html__( 'There were some errors during the import.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-error ';
 					} elseif ( $_GET['action'] == 'reset_success' ) {
 						$msg = esc_html__( 'Reset successful.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-success ';
 					} elseif ( $_GET['action'] == 'reset_failed' ) {
-						$msg = esc_html__( 'Settings reset failed.', 'tribe-ext-settings-import-export' );
+						$msg = esc_html__( 'There were some errors during the reset.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-error ';
 					} elseif ( $_GET['action'] == 'reset_no' ) {
 						$msg = esc_html__( 'Reset failed. Please enter "reset" in the text field to reset the settings.', 'tribe-ext-settings-import-export' );
@@ -470,26 +470,88 @@ if (
 			 * Reset Modern Tribe calendar and ticketing plugins.
 			 */
 			if ( ! empty ( $_POST['reset'] ) ) {
-				// Return if not reset
-				if ( $_POST['import_reset_confirmation'] != 'reset' ) {
-					$action = 'reset_no';
-				} // Reset
-				elseif ( $_POST['import_reset_confirmation'] == 'reset' ) {
-					if ( delete_option( 'tribe_events_calendar_options' ) ) {
-						$action = 'reset_success';
-					} else {
-						$action = 'reset_failed';
-					}
-				};
 
-				wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
+				// If multisite.
+				if ( is_network_admin() ) {
+
+					// Return if not reset
+					if ( $_POST['import_reset_confirmation'] !== 'reset all' ) {
+						$action = 'reset_no';
+					} // Reset
+                    elseif ( $_POST['import_reset_confirmation'] === 'reset all' ) {
+
+	                    // Getting all blogs.
+	                    $blogs = $this->getBlogs();
+
+	                    $original_blog_id = get_current_blog_id();
+
+	                    // Variable to count fails.
+	                    $failed_resets = 0;
+
+	                    // Iterating through all blogs.
+	                    foreach ( $blogs as $blog_id ) {
+
+		                    $the_blog_id = $blog_id->blog_id;
+		                    switch_to_blog( $the_blog_id );
+
+		                    /* translators: the ID of the blog in the network. */
+		                    $success_message .= sprintf( esc_html__( 'Resetting blog %s', 'tribe-ext-settings-import-export' ), $the_blog_id ) . ' ';
+
+		                    // Add the events settings of the blog to the array.
+		                    if ( delete_option( 'tribe_events_calendar_options' ) ) {
+			                    $success_message .= esc_html__( 'successful.', 'tribe-ext-settings-import-export' );
+		                    } else {
+			                    $success_message .= sprintf(
+				                    esc_html__(
+					                    '%sfailed%s.',
+					                    'tribe-ext-settings-import-export'
+				                    ),
+				                    '<strong>',
+				                    '</strong>'
+			                    );
+			                    $failed_resets ++;
+		                    }
+		                    $success_message .= '<br>';
+	                    }
+
+	                    switch_to_blog( $original_blog_id );
+
+	                    // If there are no fails then the reset is a full success.
+	                    if ( 0 === $failed_resets ) {
+		                    $action = 'reset_success';
+	                    } else {
+		                    $action = 'reset_failed';
+	                    }
+                    }
+                    wp_safe_redirect( network_admin_url( 'settings.php?page=tribe_import_export&action=' . $action . '&msg=' . urlencode( $success_message ) ) );
+				}
+
+				// If not multi-site.
+				else {
+					if ( ! empty ( $_POST['reset'] ) ) {
+						// Return if not reset
+						if ( $_POST['import_reset_confirmation'] != 'reset' ) {
+							$action = 'reset_no';
+						} // Reset
+						elseif ( $_POST['import_reset_confirmation'] == 'reset' ) {
+							if ( delete_option( 'tribe_events_calendar_options' ) ) {
+								$action = 'reset_success';
+							} else {
+								$action = 'reset_failed';
+							}
+						};
+
+						wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
+					}
+				}
 			}
 
 			exit;
-
 		}
 
 		/**
+		 * Get all blogs from the multi-site network.
+		 *
 		 * @return array|object|null
 		 */
 		public function getBlogs() {
