@@ -119,19 +119,19 @@ if (
 				if ( ! empty( $_GET['action'] ) ) {
 
 					if ( $_GET['action'] == 'import_success' ) {
-						$msg = esc_html__( 'Settings imported.', 'tribe-ext-settings-import-export' );
+						$msg          = esc_html__( 'Settings imported.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-success ';
 					} elseif ( $_GET['action'] == 'import_failed' ) {
-						$msg = esc_html__( 'Import failed. Please try again.', 'tribe-ext-settings-import-export' );
+						$msg          = esc_html__( 'Import failed. Please try again.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-error ';
 					} elseif ( $_GET['action'] == 'reset_success' ) {
-						$msg = esc_html__( 'Reset successful.', 'tribe-ext-settings-import-export' );
+						$msg          = esc_html__( 'Reset successful.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-success ';
 					} elseif ( $_GET['action'] == 'reset_failed' ) {
-						$msg = esc_html__( 'Settings reset failed.', 'tribe-ext-settings-import-export' );
+						$msg          = esc_html__( 'Settings reset failed.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-error ';
 					} elseif ( $_GET['action'] == 'reset_no' ) {
-						$msg = esc_html__( 'Reset failed. Please enter "reset" in the text field to reset the settings.', 'tribe-ext-settings-import-export' );
+						$msg          = esc_html__( 'Reset failed. Please enter "reset" in the text field to reset the settings.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-error ';
 					}
 					?>
@@ -140,23 +140,27 @@ if (
 
 				<form method="post" enctype="multipart/form-data">
 					<?php wp_nonce_field( 'nonce', 'nonce' ); ?>
-				<div class="metabox-holder">
-					<div class="postbox">
-						<h3><span><?php esc_html_e( 'Export Settings', 'tribe-ext-settings-import-export' ); ?></span></h3>
-						<div class="inside">
-							<p><?php esc_html_e( 'Export the setting of The Events Calendar, Event Tickets and add-ons for this site as a .json file. This allows you to easily import the configuration into another site.', 'tribe-ext-settings-import-export' ); ?></p>
+					<div class="metabox-holder">
+						<div class="postbox">
+							<h3>
+								<span><?php esc_html_e( 'Export Settings', 'tribe-ext-settings-import-export' ); ?></span>
+							</h3>
+							<div class="inside">
+								<p><?php esc_html_e( 'Export the setting of The Events Calendar, Event Tickets and add-ons for this site as a .json file. This allows you to easily import the configuration into another site.', 'tribe-ext-settings-import-export' ); ?></p>
 
 								<p><input type="hidden" name="action" value="export_settings"/></p>
 								<p>
 									<?php submit_button( esc_html__( 'Export', 'tribe-ext-settings-import-export' ), 'secondary', 'export', false ); ?>
 								</p>
-						</div><!-- .inside -->
-					</div><!-- .postbox -->
+							</div><!-- .inside -->
+						</div><!-- .postbox -->
 
-					<div class="postbox">
-						<h3><span><?php esc_html_e( 'Import Settings', 'tribe-ext-settings-import-export' ); ?></span></h3>
-						<div class="inside">
-							<p><?php esc_html_e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'tribe-ext-settings-import-export' ); ?></p>
+						<div class="postbox">
+							<h3>
+								<span><?php esc_html_e( 'Import Settings', 'tribe-ext-settings-import-export' ); ?></span>
+							</h3>
+							<div class="inside">
+								<p><?php esc_html_e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'tribe-ext-settings-import-export' ); ?></p>
 
 								<p>
 									<input type="file" name="import_file"/>
@@ -166,23 +170,25 @@ if (
 									<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
 								</p>
 
-						</div><!-- .inside -->
-					</div><!-- .postbox -->
+							</div><!-- .inside -->
+						</div><!-- .postbox -->
 
-					<div class="postbox">
-						<h3><span><?php esc_html_e( 'Delete / Reset Settings', 'tribe-ext-settings-import-export' ); ?></span></h3>
-						<div class="inside">
-							<p><?php esc_html_e( 'Reset the plugin settings.', 'tribe-ext-settings-import-export' ); ?></p>
-							<p>
-								<strong><?php esc_html_e( 'Please note the following:', 'tribe-ext-settings-import-export' ) ?></strong>
-							</p>
-							<ul style="list-style: disc inside">
-								<li><?php printf( esc_html__( 'This operation %scannot be reversed%s. It is recommended that you create a backup of your database first.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
-								<li><?php printf( esc_html__( 'This operation will %snot%s delete any event, venue, organizer, or ticket related data.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
-								<li>
-									<strong><?php esc_html_e( 'Modern Tribe takes no responsibility for lost data.', 'tribe-ext-settings-import-export' ); ?></strong>
-								</li>
-							</ul>
+						<div class="postbox">
+							<h3>
+								<span><?php esc_html_e( 'Delete / Reset Settings', 'tribe-ext-settings-import-export' ); ?></span>
+							</h3>
+							<div class="inside">
+								<p><?php esc_html_e( 'Reset the plugin settings.', 'tribe-ext-settings-import-export' ); ?></p>
+								<p>
+									<strong><?php esc_html_e( 'Please note the following:', 'tribe-ext-settings-import-export' ) ?></strong>
+								</p>
+								<ul style="list-style: disc inside">
+									<li><?php printf( esc_html__( 'This operation %scannot be reversed%s. It is recommended that you create a backup of your database first.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
+									<li><?php printf( esc_html__( 'This operation will %snot%s delete any event, venue, organizer, or ticket related data.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
+									<li>
+										<strong><?php esc_html_e( 'Modern Tribe takes no responsibility for lost data.', 'tribe-ext-settings-import-export' ); ?></strong>
+									</li>
+								</ul>
 
 								<p>
 									<input type="text" name="import_reset_confirmation"/><br/>
@@ -193,9 +199,9 @@ if (
 									<?php submit_button( esc_html__( 'Reset', 'tribe-ext-settings-import-export' ), 'secondary', 'reset', false ); ?>
 								</p>
 
-						</div><!-- .inside -->
-					</div><!-- .postbox -->
-				</div><!-- .metabox-holder -->
+							</div><!-- .inside -->
+						</div><!-- .postbox -->
+					</div><!-- .metabox-holder -->
 				</form>
 			</div><!--end .wrap-->
 
@@ -208,9 +214,9 @@ if (
 		function process_settings_action() {
 
 			$settings = '';
-			$va = empty( $_POST['export'] );
-			$vb = empty( $_POST['import'] );
-			$vc = empty ( $_POST['reset'] );
+			$va       = empty( $_POST['export'] );
+			$vb       = empty( $_POST['import'] );
+			$vc       = empty ( $_POST['reset'] );
 
 			// Bail if no action.
 			if (
@@ -280,8 +286,7 @@ if (
 
 				if ( false === $settings ) {
 					wp_die( __( 'Sorry, we could not decode the file.', 'tribe-ext-settings-import-export' ), __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
-				}
-				elseif ( ! is_array( $settings ) ) {
+				} elseif ( ! is_array( $settings ) ) {
 					wp_die( __( 'Sorry, the decoded data is not an array.', 'tribe-ext-settings-import-export' ), __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
 				}
 
