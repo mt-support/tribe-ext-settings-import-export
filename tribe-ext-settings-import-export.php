@@ -28,7 +28,7 @@ namespace Tribe\Extensions\Settings_Import_Export;
 use Tribe__Extension;
 
 /**
- * Define Constants
+ * Define Constants.
  */
 
 if ( ! defined( __NAMESPACE__ . '\NS' ) ) {
@@ -95,7 +95,7 @@ if (
 		}
 
 		/**
-		 * Register the settings page on multi-site
+		 * Register the settings page on multi-site.
 		 */
 		function tribe_multisite_settings_menu() {
 			add_submenu_page(
@@ -111,7 +111,7 @@ if (
 		}
 
 		/**
-		 * Register the settings page
+		 * Register the settings page.
 		 */
 		function tribe_settings_menu() {
 			add_submenu_page(
@@ -127,7 +127,7 @@ if (
 		}
 
 		/**
-		 * Render the settings page
+		 * Render the settings page.
 		 */
 		public function tribe_sie_settings_page() {
 			?>
@@ -277,7 +277,7 @@ if (
 		}
 
 		/**
-		 * Process a settings export that generates a .json file of the shop settings
+		 * Process a settings export that generates a .json file of the shop settings.
 		 */
 		function tribe_sie_process_settings_action() {
 
@@ -314,7 +314,7 @@ if (
 				if ( is_network_admin() ) {
 
 					// Getting all blogs.
-					$blogs = $this->getBlogs();
+					$blogs = $this->get_blogs();
 
 					$original_blog_id = get_current_blog_id();
 
@@ -386,7 +386,7 @@ if (
 				if ( is_network_admin() ) {
 
 					// Getting all blogs.
-					$blogs = $this->getBlogs();
+					$blogs = $this->get_blogs();
 
 					$original_blog_id = get_current_blog_id();
 
@@ -489,7 +489,7 @@ if (
                     elseif ( $_POST['import_reset_confirmation'] === 'reset all' ) {
 
 						// Getting all blogs.
-						$blogs = $this->getBlogs();
+						$blogs = $this->get_blogs();
 
 						$original_blog_id = get_current_blog_id();
 
@@ -560,7 +560,7 @@ if (
 		 *
 		 * @return array|object|null
 		 */
-		public function getBlogs() {
+		public function get_blogs() {
 			global $wpdb;
 			$blogs = $wpdb->get_results( "
                         SELECT blog_id
