@@ -148,7 +148,6 @@ if (
 
 								<p><input type="hidden" name="action" value="export_settings"/></p>
 								<p>
-									<?php wp_nonce_field( 'export_nonce', 'export_nonce' ); ?>
 									<?php submit_button( esc_html__( 'Export', 'tribe-ext-settings-import-export' ), 'secondary', 'export', false ); ?>
 								</p>
 						</div><!-- .inside -->
@@ -164,7 +163,6 @@ if (
 								</p>
 								<p>
 									<input type="hidden" name="action" value="import_settings"/>
-									<?php wp_nonce_field( 'import_nonce', 'import_nonce' ); ?>
 									<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
 								</p>
 
@@ -192,7 +190,6 @@ if (
 								</p>
 								<p>
 									<input type="hidden" name="action" value="reset_settings"/>
-									<?php wp_nonce_field( 'import_nonce', 'import_nonce' ); ?>
 									<?php submit_button( esc_html__( 'Reset', 'tribe-ext-settings-import-export' ), 'secondary', 'reset', false ); ?>
 								</p>
 
