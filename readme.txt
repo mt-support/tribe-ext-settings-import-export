@@ -38,13 +38,13 @@ We're always interested in your feedback and our [premium forums](https://theeve
 
 == Changelog ==
 
-= [1.2.0] TBD =
+= [2.0.0] TBD =
 
-* Enhancement - Now works with multi-site
-
-= [1.1.0] TBD =
-
-* Tweak - Restructured the code to make it slimmer.
+* Tweak - The code was restructured and unnecessary elements were removed.
+* Feature - Settings for all sites of a multi-site network can be exported and imported.
+* Feature - Settings for a sub-site in a multi-site network can be exported and imported.
+* Feature - Settings for all sites or a sub-site in a multi-site network can be reset.
+* Feature - The export filename is filterable through the `tribe_ext_settings_export_filename` filter.
 
 = [1.0.1] 2019-04-17 =
 
