@@ -135,6 +135,12 @@ if (
 				<h2><?php esc_html_e( 'Settings Import / Export', 'tribe-ext-settings-import-export' ); ?></h2>
 
 				<?php
+                // Setting up keyword for reset
+				$keyword = 'reset';
+				if ( is_network_admin() ) {
+					$keyword = 'reset all';
+				}
+
 				// Success and error messages
 				if ( ! empty( $_GET['action'] ) ) {
 
@@ -151,7 +157,7 @@ if (
 						$msg = esc_html__( 'There were some errors during the reset.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-error ';
 					} elseif ( $_GET['action'] == 'reset_no' ) {
-						$msg = esc_html__( 'Reset failed. Please enter "reset" in the text field to reset the settings.', 'tribe-ext-settings-import-export' );
+						$msg = sprintf( esc_html__( 'Reset failed. Please enter "%s" in the text field to reset the settings.', 'tribe-ext-settings-import-export' ), $keyword );
 						$notice_class = 'notice-error ';
 					}
 					if ( ! empty ( $_GET['msg'] ) ) {
@@ -234,6 +240,15 @@ if (
 								<strong><?php esc_html_e( 'Please note the following:', 'tribe-ext-settings-import-export' ) ?></strong>
 							</p>
 							<ul style="list-style: disc inside">
+                                <?php
+                                if ( is_network_admin() ) {
+                                    echo '<li><strong>';
+                                    esc_html_e( 'You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export');
+                                    echo ' ';
+                                    esc_html_e( 'This will reset the calendar settings on ALL sub-sites in the network.', 'tribe-ext-settings-import-export' );
+	                                echo '</strong></li>';
+                                }
+                                ?>
 								<li><?php printf( esc_html__( 'This operation %scannot be reversed%s. It is recommended that you create a backup of your database first.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
 								<li><?php printf( esc_html__( 'This operation will %snot%s delete any event, venue, organizer, or ticket related data.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
 								<li>
@@ -243,7 +258,7 @@ if (
 
 								<p>
 									<input type="text" name="import_reset_confirmation"/><br/>
-									<?php esc_html_e( 'Enter "reset" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ); ?>
+									<?php printf( esc_html__( 'Enter "%s" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ), $keyword ); ?>
 								</p>
 								<p>
 									<input type="hidden" name="tribe_sie_action" value="reset_settings"/>
