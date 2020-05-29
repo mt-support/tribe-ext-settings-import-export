@@ -333,12 +333,17 @@ if (
 				nocache_headers();
 				header( 'Content-Type: application/json; charset=utf-8' );
 
-				// If on network admin page, use a different filename.
+				// Filename, default.
+				$export_filename = '';
+				// Multi-site, on network admin page
 				if ( is_network_admin() ) {
-					header( 'Content-Disposition: attachment; filename=tribe-multisite-settings-export-' . date( 'Y-m-d' ) . '.json' );
-				} else {
-					header( 'Content-Disposition: attachment; filename=tribe-settings-export-' . date( 'Y-m-d' ) . '.json' );
+					$export_filename = 'multisite-';
 				}
+				// Multi-site, sub-site
+				elseif ( is_multisite() ) {
+					$export_filename = 'blog-id-' . get_current_blog_id() . '-';
+				}
+				header( 'Content-Disposition: attachment; filename=tribe-settings-export-' . $export_filename . date( 'Y-m-d' ) . '.json' );
 				header( "Expires: 0" );
 				echo json_encode( $settings );
 			}
