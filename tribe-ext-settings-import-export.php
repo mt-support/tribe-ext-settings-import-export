@@ -143,7 +143,6 @@ if (
 
 				// Success and error messages
 				if ( ! empty( $_GET['action'] ) ) {
-
 					if ( $_GET['action'] == 'import_success' ) {
 						$msg          = esc_html__( 'Settings imported.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-success ';
@@ -160,6 +159,7 @@ if (
 						$msg          = sprintf( esc_html__( 'Reset failed. Please enter "%s" in the text field to reset the settings.', 'tribe-ext-settings-import-export' ), $keyword );
 						$notice_class = 'notice-error ';
 					}
+
 					if ( ! empty ( $_GET['msg'] ) ) {
 						$msg .= '<p>' . urldecode( $_GET['msg'] ) . '</p>';
 					}
@@ -194,7 +194,6 @@ if (
 
                                 <p><input type="hidden" name="tribe_sie_action" value="export_settings"/></p>
                                 <p>
-									<?php wp_nonce_field( 'tribe_sie_export_nonce', 'tribe_sie_export_nonce' ); ?>
 									<?php submit_button( esc_html__( 'Export', 'tribe-ext-settings-import-export' ), 'secondary', 'export', false ); ?>
                                 </p>
                             </div><!-- .inside -->
@@ -227,7 +226,6 @@ if (
                                 </p>
                                 <p>
                                     <input type="hidden" name="tribe_sie_action" value="import_settings"/>
-									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
 									<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
                                 </p>
 
@@ -266,7 +264,6 @@ if (
                                 </p>
                                 <p>
                                     <input type="hidden" name="tribe_sie_action" value="reset_settings"/>
-									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
 									<?php submit_button( esc_html__( 'Reset', 'tribe-ext-settings-import-export' ), 'secondary', 'reset', false ); ?>
                                 </p>
 
