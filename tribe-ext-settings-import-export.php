@@ -130,6 +130,8 @@ if (
 		 * Render the settings page.
 		 */
 		public function tribe_sie_settings_page() {
+		    $notice_class = '';
+		    $msg = '';
 			?>
             <div class="wrap">
                 <h2><?php esc_html_e( 'Settings Import / Export', 'tribe-ext-settings-import-export' ); ?></h2>
@@ -251,8 +253,10 @@ if (
                                 </ul>
 
                                 <p>
-                                    <input type="text" name="import_reset_confirmation"/><br/>
-									<?php printf( esc_html__( 'Enter "%s" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ), $this->get_reset_keyword() ); ?>
+                                    <input type="text" name="import_reset_confirmation" id="import_reset_confirmation"/><br/>
+                                    <label for="import_reset_confirmation">
+                                        <?php printf( esc_html__( 'Enter "%s" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ), $this->get_reset_keyword() ); ?>
+                                    </label>
                                 </p>
                                 <p>
 									<?php submit_button( esc_html__( 'Reset', 'tribe-ext-settings-import-export' ), 'secondary', 'reset', false ); ?>
@@ -273,9 +277,8 @@ if (
 		function tribe_sie_process_settings_action() {
 
 			$settings = [];
-			$va       = empty( $_POST['export'] );
-			$vb       = empty( $_POST['import'] );
-			$vc       = empty ( $_POST['reset'] );
+			$action = '';
+			$success_message = '';
 
 			// Bail if no action.
 			if (
@@ -361,7 +364,7 @@ if (
 			 * Process a settings import from a json file.
 			 */
 			if ( ! empty ( $_POST['import'] ) ) {
-				$success_message = '';
+
 				$import_file     = $_FILES['import_file']['tmp_name'];
 				$import_filename = $_FILES['import_file']['name'];
 
@@ -549,7 +552,7 @@ if (
 							} else {
 								$action = 'reset_failed';
 							}
-						};
+						}
 
 						wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action ) );
 					}
@@ -566,7 +569,8 @@ if (
 		 */
 		private function get_blogs() {
 			global $wpdb;
-			$blogs = $wpdb->get_results( "
+
+			return $wpdb->get_results( "
                         SELECT blog_id
                         FROM {$wpdb->blogs}
                         WHERE site_id = '{$wpdb->siteid}'
@@ -574,8 +578,6 @@ if (
                         AND deleted = '0'
                         AND archived = '0'
                     " );
-
-			return $blogs;
 		}
 
 		/**
