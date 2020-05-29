@@ -58,7 +58,7 @@ if (
 
 			// Filters and Hooks here
 			add_action( 'admin_menu', [ $this, 'tribe_settings_menu' ], 99 );
-			add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_action' ] );
+			add_action( 'admin_init', [ $this, 'process_settings_action' ] );
 		}
 
 		/**
@@ -100,7 +100,7 @@ if (
 				'manage_options',
 				'tribe_import_export', [
 					$this,
-					'tribe_sie_settings_page'
+					'render_settings_page'
 				]
 			);
 		}
@@ -108,7 +108,7 @@ if (
 		/**
 		 * Render the settings page
 		 */
-		public function tribe_sie_settings_page() {
+		public function render_settings_page() {
 			?>
 			<div class="wrap">
 				<h2><?php esc_html_e( 'Settings Import / Export', 'tribe-ext-settings-import-export' ); ?></h2>
@@ -138,16 +138,16 @@ if (
 				<?php } ?>
 
 				<form method="post" enctype="multipart/form-data">
-					<?php wp_nonce_field( 'tribe_sie_nonce', 'tribe_sie_nonce' ); ?>
+					<?php wp_nonce_field( 'nonce', 'nonce' ); ?>
 				<div class="metabox-holder">
 					<div class="postbox">
 						<h3><span><?php esc_html_e( 'Export Settings', 'tribe-ext-settings-import-export' ); ?></span></h3>
 						<div class="inside">
 							<p><?php esc_html_e( 'Export the setting of The Events Calendar, Event Tickets and add-ons for this site as a .json file. This allows you to easily import the configuration into another site.', 'tribe-ext-settings-import-export' ); ?></p>
 
-								<p><input type="hidden" name="tribe_sie_action" value="export_settings"/></p>
+								<p><input type="hidden" name="action" value="export_settings"/></p>
 								<p>
-									<?php wp_nonce_field( 'tribe_sie_export_nonce', 'tribe_sie_export_nonce' ); ?>
+									<?php wp_nonce_field( 'export_nonce', 'export_nonce' ); ?>
 									<?php submit_button( esc_html__( 'Export', 'tribe-ext-settings-import-export' ), 'secondary', 'export', false ); ?>
 								</p>
 						</div><!-- .inside -->
@@ -162,8 +162,8 @@ if (
 									<input type="file" name="import_file"/>
 								</p>
 								<p>
-									<input type="hidden" name="tribe_sie_action" value="import_settings"/>
-									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
+									<input type="hidden" name="action" value="import_settings"/>
+									<?php wp_nonce_field( 'import_nonce', 'import_nonce' ); ?>
 									<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
 								</p>
 
@@ -190,8 +190,8 @@ if (
 									<?php esc_html_e( 'Enter "reset" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ); ?>
 								</p>
 								<p>
-									<input type="hidden" name="tribe_sie_action" value="reset_settings"/>
-									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
+									<input type="hidden" name="action" value="reset_settings"/>
+									<?php wp_nonce_field( 'import_nonce', 'import_nonce' ); ?>
 									<?php submit_button( esc_html__( 'Reset', 'tribe-ext-settings-import-export' ), 'secondary', 'reset', false ); ?>
 								</p>
 
@@ -207,7 +207,7 @@ if (
 		/**
 		 * Process a settings export that generates a .json file of the shop settings
 		 */
-		function tribe_sie_process_settings_action() {
+		function process_settings_action() {
 
 			$settings = '';
 			$va = empty( $_POST['export'] );
@@ -224,7 +224,7 @@ if (
 			}
 
 			// Bail if no nonce
-			if ( ! wp_verify_nonce( $_POST['tribe_sie_nonce'], 'tribe_sie_nonce' ) ) {
+			if ( ! wp_verify_nonce( $_POST['nonce'], 'nonce' ) ) {
 				return;
 			}
 
