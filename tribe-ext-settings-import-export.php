@@ -570,8 +570,8 @@ if (
 
 		/**
 		 * Returns the keyword for resetting the settings.
-         *
-         * @return string
+		 *
+		 * @return string
 		 */
 		private function get_reset_keyword() {
 			$keyword = 'reset';
