@@ -186,7 +186,6 @@ if (
 								}
 								?>
 
-                                <p><input type="hidden" name="tribe_sie_action" value="export_settings"/></p>
                                 <p>
 									<?php submit_button( esc_html__( 'Export', 'tribe-ext-settings-import-export' ), 'secondary', 'export', false ); ?>
                                 </p>
@@ -219,7 +218,6 @@ if (
                                     <input type="file" name="import_file"/>
                                 </p>
                                 <p>
-                                    <input type="hidden" name="tribe_sie_action" value="import_settings"/>
 									<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
                                 </p>
 
@@ -257,7 +255,6 @@ if (
 									<?php printf( esc_html__( 'Enter "%s" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ), $this->get_reset_keyword() ); ?>
                                 </p>
                                 <p>
-                                    <input type="hidden" name="tribe_sie_action" value="reset_settings"/>
 									<?php submit_button( esc_html__( 'Reset', 'tribe-ext-settings-import-export' ), 'secondary', 'reset', false ); ?>
                                 </p>
 
