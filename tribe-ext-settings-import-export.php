@@ -214,14 +214,14 @@ if (
 							}
 							?>
 
-								<p>
-									<input type="file" name="import_file"/>
-								</p>
-								<p>
-									<input type="hidden" name="tribe_sie_action" value="import_settings"/>
-									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
-									<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
-								</p>
+							<p>
+								<input type="file" name="import_file"/>
+							</p>
+							<p>
+								<input type="hidden" name="tribe_sie_action" value="import_settings"/>
+								<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
+								<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
+							</p>
 
 						</div><!-- .inside -->
 					</div><!-- .postbox -->
