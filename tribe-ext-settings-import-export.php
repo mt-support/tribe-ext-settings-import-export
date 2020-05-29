@@ -334,16 +334,25 @@ if (
 				header( 'Content-Type: application/json; charset=utf-8' );
 
 				// Filename, default.
-				$export_filename = '';
+				$export_filename_base = '';
 				// Multi-site, on network admin page
 				if ( is_network_admin() ) {
-					$export_filename = 'multisite-';
+					$export_filename_base = 'multisite-';
 				}
 				// Multi-site, sub-site
 				elseif ( is_multisite() ) {
-					$export_filename = 'blog-id-' . get_current_blog_id() . '-';
+					$export_filename_base = 'blog-id-' . get_current_blog_id() . '-';
 				}
-				header( 'Content-Disposition: attachment; filename=tribe-settings-export-' . $export_filename . date( 'Y-m-d' ) . '.json' );
+                $export_filename = 'tribe-settings-export-' . $export_filename_base . date( 'Y-m-d' ) . '.json';
+
+                /**
+                 * Filters the export file name.
+                 *
+                 * @var string $export_filename_base
+                 */
+				$export_filename = apply_filters( 'tribe_ext_settings_export_filename', $export_filename );
+
+				header( 'Content-Disposition: attachment; filename=' . $export_filename );
 				header( "Expires: 0" );
 				echo json_encode( $settings );
 			}
