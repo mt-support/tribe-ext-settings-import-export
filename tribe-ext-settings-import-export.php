@@ -249,7 +249,6 @@ if (
 				// CE  - tribe_community_events_options
 				// CE  - Tribe__Events__Community__Schemaschema_version
 
-				ignore_user_abort( true );
 				nocache_headers();
 				header( 'Content-Type: application/json; charset=utf-8' );
 				header( 'Content-Disposition: attachment; filename=tribe-settings-export-' . date( 'm-d-Y' ) . '.json' );
