@@ -301,12 +301,12 @@ if (
 			 * Reset actions.
 			 * Reset Modern Tribe calendar and ticketing plugins.
 			 */
-			if ( ! empty ( $_POST['reset'] ) ) {
+			if ( ! empty( $_POST['reset'] ) ) {
 				// Return if not reset
-				if ( $_POST['import_reset_confirmation'] != 'reset' ) {
+				if ( $_POST['import_reset_confirmation'] !== 'reset' ) {
 					$action = 'reset_no';
 				} // Reset
-				elseif ( $_POST['import_reset_confirmation'] == 'reset' ) {
+				elseif ( $_POST['import_reset_confirmation'] === 'reset' ) {
 					if ( delete_option( 'tribe_events_calendar_options' ) ) {
 						$action = 'reset_success';
 					} else {
