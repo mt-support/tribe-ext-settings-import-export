@@ -135,12 +135,6 @@ if (
                 <h2><?php esc_html_e( 'Settings Import / Export', 'tribe-ext-settings-import-export' ); ?></h2>
 
 				<?php
-				// Setting up keyword for reset
-				$keyword = 'reset';
-				if ( is_network_admin() ) {
-					$keyword = 'reset all';
-				}
-
 				// Success and error messages
 				if ( ! empty( $_GET['action'] ) ) {
 					if ( $_GET['action'] == 'import_success' ) {
@@ -156,7 +150,7 @@ if (
 						$msg          = esc_html__( 'There were some errors during the reset.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-error ';
 					} elseif ( $_GET['action'] == 'reset_no' ) {
-						$msg          = sprintf( esc_html__( 'Reset failed. Please enter "%s" in the text field to reset the settings.', 'tribe-ext-settings-import-export' ), $keyword );
+						$msg          = sprintf( esc_html__( 'Reset failed. Please enter "%s" in the text field to reset the settings.', 'tribe-ext-settings-import-export' ), $this->get_reset_keyword() );
 						$notice_class = 'notice-error ';
 					}
 
@@ -260,7 +254,7 @@ if (
 
                                 <p>
                                     <input type="text" name="import_reset_confirmation"/><br/>
-									<?php printf( esc_html__( 'Enter "%s" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ), $keyword ); ?>
+									<?php printf( esc_html__( 'Enter "%s" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ), $this->get_reset_keyword() ); ?>
                                 </p>
                                 <p>
                                     <input type="hidden" name="tribe_sie_action" value="reset_settings"/>
@@ -572,6 +566,20 @@ if (
                     " );
 
 			return $blogs;
+		}
+
+		/**
+		 * Returns the keyword for resetting the settings.
+         *
+         * @return string
+		 */
+		private function get_reset_keyword() {
+			$keyword = 'reset';
+			if ( is_network_admin() ) {
+				$keyword = 'reset all';
+			}
+
+			return $keyword;
 		}
 
 	} // end class
