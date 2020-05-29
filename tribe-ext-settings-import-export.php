@@ -560,7 +560,7 @@ if (
 		 *
 		 * @return array|object|null
 		 */
-		public function get_blogs() {
+		private function get_blogs() {
 			global $wpdb;
 			$blogs = $wpdb->get_results( "
                         SELECT blog_id
