@@ -131,11 +131,11 @@ if (
 		 */
 		public function tribe_sie_settings_page() {
 			?>
-			<div class="wrap">
-				<h2><?php esc_html_e( 'Settings Import / Export', 'tribe-ext-settings-import-export' ); ?></h2>
+            <div class="wrap">
+                <h2><?php esc_html_e( 'Settings Import / Export', 'tribe-ext-settings-import-export' ); ?></h2>
 
 				<?php
-                // Setting up keyword for reset
+				// Setting up keyword for reset
 				$keyword = 'reset';
 				if ( is_network_admin() ) {
 					$keyword = 'reset all';
@@ -145,132 +145,136 @@ if (
 				if ( ! empty( $_GET['action'] ) ) {
 
 					if ( $_GET['action'] == 'import_success' ) {
-						$msg = esc_html__( 'Settings imported.', 'tribe-ext-settings-import-export' );
+						$msg          = esc_html__( 'Settings imported.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-success ';
 					} elseif ( $_GET['action'] == 'import_failed' ) {
-						$msg = esc_html__( 'There were some errors during the import.', 'tribe-ext-settings-import-export' );
+						$msg          = esc_html__( 'There were some errors during the import.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-error ';
 					} elseif ( $_GET['action'] == 'reset_success' ) {
-						$msg = esc_html__( 'Reset successful.', 'tribe-ext-settings-import-export' );
+						$msg          = esc_html__( 'Reset successful.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-success ';
 					} elseif ( $_GET['action'] == 'reset_failed' ) {
-						$msg = esc_html__( 'There were some errors during the reset.', 'tribe-ext-settings-import-export' );
+						$msg          = esc_html__( 'There were some errors during the reset.', 'tribe-ext-settings-import-export' );
 						$notice_class = 'notice-error ';
 					} elseif ( $_GET['action'] == 'reset_no' ) {
-						$msg = sprintf( esc_html__( 'Reset failed. Please enter "%s" in the text field to reset the settings.', 'tribe-ext-settings-import-export' ), $keyword );
+						$msg          = sprintf( esc_html__( 'Reset failed. Please enter "%s" in the text field to reset the settings.', 'tribe-ext-settings-import-export' ), $keyword );
 						$notice_class = 'notice-error ';
 					}
 					if ( ! empty ( $_GET['msg'] ) ) {
-					    $msg .= '<p>' . urldecode( $_GET['msg'] ) . '</p>';
-                    }
+						$msg .= '<p>' . urldecode( $_GET['msg'] ) . '</p>';
+					}
 					?>
-					<div class="notice <?php echo $notice_class; ?> is-dismissible"><p><?php echo $msg; ?></p></div>
+                    <div class="notice <?php echo $notice_class; ?> is-dismissible"><p><?php echo $msg; ?></p></div>
 				<?php } ?>
 
-				<form method="post" enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data">
 					<?php wp_nonce_field( 'tribe_sie_nonce', 'tribe_sie_nonce' ); ?>
-				<div class="metabox-holder">
-					<div class="postbox">
-						<h3><span><?php esc_html_e( 'Export Settings', 'tribe-ext-settings-import-export' ); ?></span></h3>
-						<div class="inside">
-							<p><?php esc_html_e( 'Export the setting of The Events Calendar, Event Tickets and add-ons for this site as a .json file. This allows you to easily import the configuration into another site.', 'tribe-ext-settings-import-export' ); ?></p>
-                            <?php
-                                if ( is_network_admin() ) {
-	                                echo '<p><strong>';
-	                                esc_html_e( 'Note: You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export' );
-	                                echo ' ';
-	                                esc_html_e( 'The export will contain the relevant settings of all sub-sites.', 'tribe-ext-settings-import-export' );
-	                                echo '</strong></p>';
-                                }
-                                elseif ( is_multisite() ) {
-	                                echo '<p><strong>';
-	                                esc_html_e( 'Note: You are on a sub-site in a multi-site network.', 'tribe-ext-settings-import-export');
-	                                echo ' ';
-	                                esc_html_e( 'The export will contain the relevant settings of this sub-site only.', 'tribe-ext-settings-import-export' );
-	                                echo '</strong></p>';
-                                }
-                            ?>
+                    <div class="metabox-holder">
+                        <div class="postbox">
+                            <h3>
+                                <span><?php esc_html_e( 'Export Settings', 'tribe-ext-settings-import-export' ); ?></span>
+                            </h3>
+                            <div class="inside">
+                                <p><?php esc_html_e( 'Export the setting of The Events Calendar, Event Tickets and add-ons for this site as a .json file. This allows you to easily import the configuration into another site.', 'tribe-ext-settings-import-export' ); ?></p>
+								<?php
+								if ( is_network_admin() ) {
+									echo '<p><strong>';
+									esc_html_e( 'Note: You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export' );
+									echo ' ';
+									esc_html_e( 'The export will contain the relevant settings of all sub-sites.', 'tribe-ext-settings-import-export' );
+									echo '</strong></p>';
+								} elseif ( is_multisite() ) {
+									echo '<p><strong>';
+									esc_html_e( 'Note: You are on a sub-site in a multi-site network.', 'tribe-ext-settings-import-export' );
+									echo ' ';
+									esc_html_e( 'The export will contain the relevant settings of this sub-site only.', 'tribe-ext-settings-import-export' );
+									echo '</strong></p>';
+								}
+								?>
 
-							<p><input type="hidden" name="tribe_sie_action" value="export_settings"/></p>
-							<p>
-								<?php wp_nonce_field( 'tribe_sie_export_nonce', 'tribe_sie_export_nonce' ); ?>
-								<?php submit_button( esc_html__( 'Export', 'tribe-ext-settings-import-export' ), 'secondary', 'export', false ); ?>
-							</p>
-						</div><!-- .inside -->
-					</div><!-- .postbox -->
+                                <p><input type="hidden" name="tribe_sie_action" value="export_settings"/></p>
+                                <p>
+									<?php wp_nonce_field( 'tribe_sie_export_nonce', 'tribe_sie_export_nonce' ); ?>
+									<?php submit_button( esc_html__( 'Export', 'tribe-ext-settings-import-export' ), 'secondary', 'export', false ); ?>
+                                </p>
+                            </div><!-- .inside -->
+                        </div><!-- .postbox -->
 
-					<div class="postbox">
-						<h3><span><?php esc_html_e( 'Import Settings', 'tribe-ext-settings-import-export' ); ?></span></h3>
-						<div class="inside">
-							<p><?php esc_html_e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'tribe-ext-settings-import-export' ); ?></p>
-							<?php
-							if ( is_network_admin() ) {
-								echo '<p><strong>';
-								esc_html_e( 'Note: You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export' );
-								echo ' ';
-								esc_html_e( 'Here you can import the settings of all sub-sites at once with the appropriate file.', 'tribe-ext-settings-import-export' );
-								echo '</strong></p>';
-							}
-							elseif ( is_multisite() ) {
-								echo '<p><strong>';
-								esc_html_e( 'Note: You are on a sub-site in a multi-site network.', 'tribe-ext-settings-import-export');
-								echo ' ';
-								esc_html_e( 'Here you can import the settings for this sub-site only.', 'tribe-ext-settings-import-export' );
-								echo '</strong></p>';
-							}
-							?>
+                        <div class="postbox">
+                            <h3>
+                                <span><?php esc_html_e( 'Import Settings', 'tribe-ext-settings-import-export' ); ?></span>
+                            </h3>
+                            <div class="inside">
+                                <p><?php esc_html_e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'tribe-ext-settings-import-export' ); ?></p>
+								<?php
+								if ( is_network_admin() ) {
+									echo '<p><strong>';
+									esc_html_e( 'Note: You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export' );
+									echo ' ';
+									esc_html_e( 'Here you can import the settings of all sub-sites at once with the appropriate file.', 'tribe-ext-settings-import-export' );
+									echo '</strong></p>';
+								} elseif ( is_multisite() ) {
+									echo '<p><strong>';
+									esc_html_e( 'Note: You are on a sub-site in a multi-site network.', 'tribe-ext-settings-import-export' );
+									echo ' ';
+									esc_html_e( 'Here you can import the settings for this sub-site only.', 'tribe-ext-settings-import-export' );
+									echo '</strong></p>';
+								}
+								?>
 
-							<p>
-								<input type="file" name="import_file"/>
-							</p>
-							<p>
-								<input type="hidden" name="tribe_sie_action" value="import_settings"/>
-								<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
-								<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
-							</p>
+                                <p>
+                                    <input type="file" name="import_file"/>
+                                </p>
+                                <p>
+                                    <input type="hidden" name="tribe_sie_action" value="import_settings"/>
+									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
+									<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
+                                </p>
 
-						</div><!-- .inside -->
-					</div><!-- .postbox -->
+                            </div><!-- .inside -->
+                        </div><!-- .postbox -->
 
-					<div class="postbox">
-						<h3><span><?php esc_html_e( 'Delete / Reset Settings', 'tribe-ext-settings-import-export' ); ?></span></h3>
-						<div class="inside">
-							<p><?php esc_html_e( 'Reset the plugin settings.', 'tribe-ext-settings-import-export' ); ?></p>
-							<p>
-								<strong><?php esc_html_e( 'Please note the following:', 'tribe-ext-settings-import-export' ) ?></strong>
-							</p>
-							<ul style="list-style: disc inside">
-                                <?php
-                                if ( is_network_admin() ) {
-                                    echo '<li><strong>';
-                                    esc_html_e( 'You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export');
-                                    echo ' ';
-                                    esc_html_e( 'This will reset the calendar settings on ALL sub-sites in the network.', 'tribe-ext-settings-import-export' );
-	                                echo '</strong></li>';
-                                }
-                                ?>
-								<li><?php printf( esc_html__( 'This operation %scannot be reversed%s. It is recommended that you create a backup of your database first.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
-								<li><?php printf( esc_html__( 'This operation will %snot%s delete any event, venue, organizer, or ticket related data.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
-								<li>
-									<strong><?php esc_html_e( 'Modern Tribe takes no responsibility for lost data.', 'tribe-ext-settings-import-export' ); ?></strong>
-								</li>
-							</ul>
+                        <div class="postbox">
+                            <h3>
+                                <span><?php esc_html_e( 'Delete / Reset Settings', 'tribe-ext-settings-import-export' ); ?></span>
+                            </h3>
+                            <div class="inside">
+                                <p><?php esc_html_e( 'Reset the plugin settings.', 'tribe-ext-settings-import-export' ); ?></p>
+                                <p>
+                                    <strong><?php esc_html_e( 'Please note the following:', 'tribe-ext-settings-import-export' ) ?></strong>
+                                </p>
+                                <ul style="list-style: disc inside">
+									<?php
+									if ( is_network_admin() ) {
+										echo '<li><strong>';
+										esc_html_e( 'You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export' );
+										echo ' ';
+										esc_html_e( 'This will reset the calendar settings on ALL sub-sites in the network.', 'tribe-ext-settings-import-export' );
+										echo '</strong></li>';
+									}
+									?>
+                                    <li><?php printf( esc_html__( 'This operation %scannot be reversed%s. It is recommended that you create a backup of your database first.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
+                                    <li><?php printf( esc_html__( 'This operation will %snot%s delete any event, venue, organizer, or ticket related data.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
+                                    <li>
+                                        <strong><?php esc_html_e( 'Modern Tribe takes no responsibility for lost data.', 'tribe-ext-settings-import-export' ); ?></strong>
+                                    </li>
+                                </ul>
 
-								<p>
-									<input type="text" name="import_reset_confirmation"/><br/>
+                                <p>
+                                    <input type="text" name="import_reset_confirmation"/><br/>
 									<?php printf( esc_html__( 'Enter "%s" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ), $keyword ); ?>
-								</p>
-								<p>
-									<input type="hidden" name="tribe_sie_action" value="reset_settings"/>
+                                </p>
+                                <p>
+                                    <input type="hidden" name="tribe_sie_action" value="reset_settings"/>
 									<?php wp_nonce_field( 'tribe_sie_import_nonce', 'tribe_sie_import_nonce' ); ?>
 									<?php submit_button( esc_html__( 'Reset', 'tribe-ext-settings-import-export' ), 'secondary', 'reset', false ); ?>
-								</p>
+                                </p>
 
-						</div><!-- .inside -->
-					</div><!-- .postbox -->
-				</div><!-- .metabox-holder -->
-				</form>
-			</div><!--end .wrap-->
+                            </div><!-- .inside -->
+                        </div><!-- .postbox -->
+                    </div><!-- .metabox-holder -->
+                </form>
+            </div><!--end .wrap-->
 
 			<?php
 		}
@@ -281,9 +285,9 @@ if (
 		function tribe_sie_process_settings_action() {
 
 			$settings = [];
-			$va = empty( $_POST['export'] );
-			$vb = empty( $_POST['import'] );
-			$vc = empty ( $_POST['reset'] );
+			$va       = empty( $_POST['export'] );
+			$vb       = empty( $_POST['import'] );
+			$vc       = empty ( $_POST['reset'] );
 
 			// Bail if no action.
 			if (
@@ -310,25 +314,23 @@ if (
 			 */
 			if ( ! empty ( $_POST['export'] ) ) {
 
-			    if ( is_network_admin() ) {
+				if ( is_network_admin() ) {
 
-			        // Getting all blogs.
-				    $blogs = $this->getBlogs();
+					// Getting all blogs.
+					$blogs = $this->getBlogs();
 
-				    $original_blog_id = get_current_blog_id();
+					$original_blog_id = get_current_blog_id();
 
-				    // Iterating through all blogs.
-				    foreach ( $blogs as $blog_id )
-				    {
-					    switch_to_blog( $blog_id->blog_id );
-					    // Add the events settings of the blog to the array.
-                        $settings[ $blog_id->blog_id ] = get_option( 'tribe_events_calendar_options' );
-				    }
-				    switch_to_blog( $original_blog_id );
-                }
-			    else {
-				    $settings = get_option( 'tribe_events_calendar_options' );
-			    }
+					// Iterating through all blogs.
+					foreach ( $blogs as $blog_id ) {
+						switch_to_blog( $blog_id->blog_id );
+						// Add the events settings of the blog to the array.
+						$settings[ $blog_id->blog_id ] = get_option( 'tribe_events_calendar_options' );
+					}
+					switch_to_blog( $original_blog_id );
+				} else {
+					$settings = get_option( 'tribe_events_calendar_options' );
+				}
 
 				// TEC - widget_tribe-events-list-widget
 				// PRO - widget_tribe-events-adv-list-widget
@@ -346,8 +348,7 @@ if (
 				// If on network admin page, use a different filename.
 				if ( is_network_admin() ) {
 					header( 'Content-Disposition: attachment; filename=tribe-multisite-settings-export-' . date( 'Y-m-d' ) . '.json' );
-				}
-				else {
+				} else {
 					header( 'Content-Disposition: attachment; filename=tribe-settings-export-' . date( 'Y-m-d' ) . '.json' );
 				}
 				header( "Expires: 0" );
@@ -360,7 +361,7 @@ if (
 			 */
 			if ( ! empty ( $_POST['import'] ) ) {
 				$success_message = '';
-				$import_file = $_FILES['import_file']['tmp_name'];
+				$import_file     = $_FILES['import_file']['tmp_name'];
 				$import_filename = $_FILES['import_file']['name'];
 
 				if ( empty( $import_file ) ) {
@@ -368,7 +369,7 @@ if (
 				}
 
 				if ( ! empty( $import_filename ) ) {
-					$tmp = explode( '.', $import_filename );
+					$tmp       = explode( '.', $import_filename );
 					$extension = end( $tmp );
 				}
 
@@ -381,8 +382,7 @@ if (
 
 				if ( false === $settings ) {
 					wp_die( __( 'Sorry, we could not decode the file.', 'tribe-ext-settings-import-export' ), __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
-				}
-				elseif ( ! is_array( $settings ) ) {
+				} elseif ( ! is_array( $settings ) ) {
 					wp_die( __( 'Sorry, the decoded data is not an array.', 'tribe-ext-settings-import-export' ), __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
 				}
 
@@ -397,9 +397,8 @@ if (
 					$failed_imports = 0;
 
 					// Iterating through all blogs.
-					foreach ( $blogs as $blog_id )
-					{
-					    $the_blog_id = $blog_id->blog_id;
+					foreach ( $blogs as $blog_id ) {
+						$the_blog_id = $blog_id->blog_id;
 						switch_to_blog( $the_blog_id );
 
 						/* translators: the ID of the blog in the network. */
@@ -407,73 +406,70 @@ if (
 
 						// Check if settings for given blog_id exist
 						if ( ! empty( $settings[ $the_blog_id ] ) ) {
-						    // Add the events settings of the blog to the array.
+							// Add the events settings of the blog to the array.
 							if ( update_option( 'tribe_events_calendar_options', $settings[ $the_blog_id ] ) ) {
-							    $success_message .= esc_html__( 'successful.', 'tribe-ext-settings-import-export' );
+								$success_message .= esc_html__( 'successful.', 'tribe-ext-settings-import-export' );
 							} else {
 								$success_message .= sprintf(
-														esc_html__(
-															'%sfailed%s (or settings were the same).',
-															'tribe-ext-settings-import-export'
-														),
-														'<strong>',
-														'</strong>'
-													);
-								$failed_imports++;
-						    }
-						}
-						else {
+									esc_html__(
+										'%sfailed%s (or settings were the same).',
+										'tribe-ext-settings-import-export'
+									),
+									'<strong>',
+									'</strong>'
+								);
+								$failed_imports ++;
+							}
+						} else {
 							$success_message .= sprintf(
-													esc_html__(
-														'%snot found%s.',
-														'tribe-ext-settings-import-export'
-													),
-													'<strong>',
-													'</strong>'
-												);
-							$failed_imports++;
-                        }
+								esc_html__(
+									'%snot found%s.',
+									'tribe-ext-settings-import-export'
+								),
+								'<strong>',
+								'</strong>'
+							);
+							$failed_imports ++;
+						}
 						$success_message .= '<br>';
 					}
 
 					switch_to_blog( $original_blog_id );
 
-                    // If there are no fails then the import is a full success.
+					// If there are no fails then the import is a full success.
 					if ( 0 === $failed_imports ) {
 						$action = 'import_success';
-                    }
-					else  {
-					    $action = 'import_failed';
-                    }
+					} else {
+						$action = 'import_failed';
+					}
 
 					wp_safe_redirect( network_admin_url( 'settings.php?page=tribe_import_export&action=' . $action . '&msg=' . urlencode( $success_message ) ) );
-				}
-				// If not multi-site.
+				} // If not multi-site.
 				else {
-				    /**
-                     * Check if we're uploading a export of a multi-site.
+					/**
+					 * Check if we're uploading a export of a multi-site.
 					 * The first key on a multi-site export is a blog ID, thus integer
-                     * The first key of a single site export is usually 'schema-version', thus string
-                     */
+					 * The first key of a single site export is usually 'schema-version', thus string
+					 */
 					if ( is_int( array_key_first( $settings ) ) ) {
-					    $message  = '<p>' . esc_html__( 'The settings you wanted to import seem to be of a multi-site network.', 'tribe-ext-settings-import-export' ) . '</p>';
-					    $message .= '<p>' . esc_html__( 'If you would like to import settings for one site only, then please upload the appropriate file.', 'tribe-ext-settings-import-export' ) . '</p>';
-					    $message .= '<p>' . esc_html__( 'If you would like to import settings for the whole multi-site network, you can do that on the Network Admin dashboard.', 'tribe-ext-settings-import-export' ) . '</p>';
+						$message = '<p>' . esc_html__( 'The settings you wanted to import seem to be of a multi-site network.', 'tribe-ext-settings-import-export' ) . '</p>';
+						$message .= '<p>' . esc_html__( 'If you would like to import settings for one site only, then please upload the appropriate file.', 'tribe-ext-settings-import-export' ) . '</p>';
+						$message .= '<p>' . esc_html__( 'If you would like to import settings for the whole multi-site network, you can do that on the Network Admin dashboard.', 'tribe-ext-settings-import-export' ) . '</p>';
 						wp_die( $message, __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
-                    }
+					}
 
 					if ( update_option( 'tribe_events_calendar_options', $settings ) ) {
 						$action = 'import_success';
 					} else {
-						$action = 'import_failed';
+						$action          = 'import_failed';
 						$success_message .= sprintf(
-												esc_html__(
-													'Import %sfailed%s (or settings were the same).',
-													'tribe-ext-settings-import-export'
-												),
-												'<strong>',
-												'</strong>'
-											);
+							esc_html__(
+								'Import %sfailed%s (or settings were the same).',
+								'tribe-ext-settings-import-export'
+							),
+							'<strong>',
+							'</strong>'
+						);
 					}
 					wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action . '&msg=' . urlencode( $success_message ) ) );
 				}
@@ -495,60 +491,58 @@ if (
 					} // Reset
                     elseif ( $_POST['import_reset_confirmation'] === 'reset all' ) {
 
-	                    // Getting all blogs.
-	                    $blogs = $this->getBlogs();
+						// Getting all blogs.
+						$blogs = $this->getBlogs();
 
-	                    $original_blog_id = get_current_blog_id();
+						$original_blog_id = get_current_blog_id();
 
-	                    // Variable to count fails.
-	                    $failed_resets = 0;
+						// Variable to count fails.
+						$failed_resets = 0;
 
-	                    // Iterating through all blogs.
-	                    foreach ( $blogs as $blog_id ) {
+						// Iterating through all blogs.
+						foreach ( $blogs as $blog_id ) {
 
-		                    $the_blog_id = $blog_id->blog_id;
-		                    switch_to_blog( $the_blog_id );
+							$the_blog_id = $blog_id->blog_id;
+							switch_to_blog( $the_blog_id );
 
-		                    /* translators: the ID of the blog in the network. */
-		                    $success_message .= sprintf( esc_html__( 'Resetting blog %s', 'tribe-ext-settings-import-export' ), $the_blog_id ) . ' ';
+							/* translators: the ID of the blog in the network. */
+							$success_message .= sprintf( esc_html__( 'Resetting blog %s', 'tribe-ext-settings-import-export' ), $the_blog_id ) . ' ';
 
-		                    // Add the events settings of the blog to the array.
-		                    if ( delete_option( 'tribe_events_calendar_options' ) ) {
-			                    $success_message .= esc_html__( 'successful.', 'tribe-ext-settings-import-export' );
-		                    } else {
-			                    $success_message .= sprintf(
-				                    esc_html__(
-					                    '%sfailed%s.',
-					                    'tribe-ext-settings-import-export'
-				                    ),
-				                    '<strong>',
-				                    '</strong>'
-			                    );
-			                    $failed_resets ++;
-		                    }
-		                    $success_message .= '<br>';
-	                    }
+							// Add the events settings of the blog to the array.
+							if ( delete_option( 'tribe_events_calendar_options' ) ) {
+								$success_message .= esc_html__( 'successful.', 'tribe-ext-settings-import-export' );
+							} else {
+								$success_message .= sprintf(
+									esc_html__(
+										'%sfailed%s.',
+										'tribe-ext-settings-import-export'
+									),
+									'<strong>',
+									'</strong>'
+								);
+								$failed_resets ++;
+							}
+							$success_message .= '<br>';
+						}
 
-	                    switch_to_blog( $original_blog_id );
+						switch_to_blog( $original_blog_id );
 
-	                    // If there are no fails then the reset is a full success.
-	                    if ( 0 === $failed_resets ) {
-		                    $action = 'reset_success';
-	                    } else {
-		                    $action = 'reset_failed';
-	                    }
-                    }
-                    wp_safe_redirect( network_admin_url( 'settings.php?page=tribe_import_export&action=' . $action . '&msg=' . urlencode( $success_message ) ) );
-				}
-
-				// If not multi-site.
+						// If there are no fails then the reset is a full success.
+						if ( 0 === $failed_resets ) {
+							$action = 'reset_success';
+						} else {
+							$action = 'reset_failed';
+						}
+					}
+					wp_safe_redirect( network_admin_url( 'settings.php?page=tribe_import_export&action=' . $action . '&msg=' . urlencode( $success_message ) ) );
+				} // If not multi-site.
 				else {
 					if ( ! empty ( $_POST['reset'] ) ) {
 						// Return if not reset
 						if ( $_POST['import_reset_confirmation'] != 'reset' ) {
 							$action = 'reset_no';
 						} // Reset
-						elseif ( $_POST['import_reset_confirmation'] == 'reset' ) {
+                        elseif ( $_POST['import_reset_confirmation'] == 'reset' ) {
 							if ( delete_option( 'tribe_events_calendar_options' ) ) {
 								$action = 'reset_success';
 							} else {
