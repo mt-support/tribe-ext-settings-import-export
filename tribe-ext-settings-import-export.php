@@ -338,18 +338,17 @@ if (
 				// Multi-site, on network admin page
 				if ( is_network_admin() ) {
 					$export_filename_base = 'multisite-';
-				}
-				// Multi-site, sub-site
-				elseif ( is_multisite() ) {
+				} // Multi-site, sub-site
+                elseif ( is_multisite() ) {
 					$export_filename_base = 'blog-id-' . get_current_blog_id() . '-';
 				}
-                $export_filename = 'tribe-settings-export-' . $export_filename_base . date( 'Y-m-d' ) . '.json';
+				$export_filename = 'tribe-settings-export-' . $export_filename_base . date( 'Y-m-d' ) . '.json';
 
-                /**
-                 * Filters the export file name.
-                 *
-                 * @var string $export_filename_base
-                 */
+				/**
+				 * Filters the export file name.
+				 *
+				 * @var string $export_filename_base
+				 */
 				$export_filename = apply_filters( 'tribe_ext_settings_export_filename', $export_filename );
 
 				header( 'Content-Disposition: attachment; filename=' . $export_filename );
