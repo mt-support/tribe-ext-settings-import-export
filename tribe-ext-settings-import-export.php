@@ -489,7 +489,7 @@ if (
 			 * Reset actions.
 			 * Reset Modern Tribe calendar and ticketing plugins.
 			 */
-			if ( ! empty ( $_POST['reset'] ) ) {
+			if ( ! empty( $_POST['reset'] ) ) {
 
 				// If multisite.
 				if ( is_network_admin() ) {
