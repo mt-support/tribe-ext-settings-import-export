@@ -379,8 +379,7 @@ if (
 				}
 
 				if ( ! empty( $import_filename ) ) {
-					$tmp       = explode( '.', $import_filename );
-					$extension = end( $tmp );
+					$extension = pathinfo( $import_filename, PATHINFO_EXTENSION );
 				}
 
 				if ( ! isset ( $extension ) || $extension != 'json' ) {
