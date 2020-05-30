@@ -63,7 +63,7 @@ if (
 				add_action( 'network_admin_menu', [ $this, 'tribe_multisite_settings_menu' ], 99 );
 			}
 
-			add_action( 'admin_init', [ $this, 'tribe_sie_process_settings_action' ] );
+			add_action( 'admin_init', [ $this, 'process_settings_action' ] );
 		}
 
 		/**
@@ -105,7 +105,7 @@ if (
 				'manage_options',
 				'tribe_import_export', [
 					$this,
-					'tribe_sie_settings_page'
+					'settings_page'
 				]
 			);
 		}
@@ -121,7 +121,7 @@ if (
 				'manage_options',
 				'tribe_import_export', [
 					$this,
-					'tribe_sie_settings_page'
+					'settings_page'
 				]
 			);
 		}
@@ -129,7 +129,7 @@ if (
 		/**
 		 * Render the settings page.
 		 */
-		public function tribe_sie_settings_page() {
+		public function settings_page() {
 		    $notice_class = '';
 		    $msg = '';
 			?>
@@ -164,7 +164,7 @@ if (
 				<?php } ?>
 
                 <form method="post" enctype="multipart/form-data">
-					<?php wp_nonce_field( 'tribe_sie_nonce', 'tribe_sie_nonce' ); ?>
+					<?php wp_nonce_field( 'nonce', 'nonce' ); ?>
                     <div class="metabox-holder">
                         <div class="postbox">
                             <h3>
@@ -280,7 +280,7 @@ if (
 		/**
 		 * Process a settings export that generates a .json file of the shop settings.
 		 */
-		function tribe_sie_process_settings_action() {
+		function process_settings_action() {
 
 			$settings = [];
 			$action = '';
@@ -296,7 +296,7 @@ if (
 			}
 
 			// Bail if no nonce
-			if ( ! wp_verify_nonce( $_POST['tribe_sie_nonce'], 'tribe_sie_nonce' ) ) {
+			if ( ! wp_verify_nonce( $_POST['nonce'], 'nonce' ) ) {
 				return;
 			}
 
