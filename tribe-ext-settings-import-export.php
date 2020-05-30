@@ -131,8 +131,8 @@ if (
 		 * Render the settings page.
 		 */
 		public function settings_page() {
-		    $notice_class = '';
-		    $msg = '';
+			$notice_class = '';
+			$msg          = '';
 			?>
             <div class="wrap">
                 <h2><?php esc_html_e( 'Settings Import / Export', 'tribe-ext-settings-import-export' ); ?></h2>
@@ -250,7 +250,7 @@ if (
 										echo ' ';
 										esc_html_e( 'This will reset the calendar settings on this sub-sites only.', 'tribe-ext-settings-import-export' );
 										echo '</strong></li>';
-                                    }
+									}
 									?>
                                     <li><?php printf( esc_html__( 'This operation %scannot be reversed%s. It is recommended that you create a backup of your database first.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
                                     <li><?php printf( esc_html__( 'This operation will %snot%s delete any event, venue, organizer, or ticket related data.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
@@ -262,7 +262,7 @@ if (
                                 <p>
                                     <input type="text" name="import_reset_confirmation" id="import_reset_confirmation"/><br/>
                                     <label for="import_reset_confirmation">
-                                        <?php printf( esc_html__( 'Enter "%s" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ), $this->get_reset_keyword() ); ?>
+										<?php printf( esc_html__( 'Enter "%s" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ), $this->get_reset_keyword() ); ?>
                                     </label>
                                 </p>
                                 <p>
@@ -283,8 +283,8 @@ if (
 		 */
 		function process_settings_action() {
 
-			$settings = [];
-			$action = '';
+			$settings        = [];
+			$action          = '';
 			$success_message = '';
 
 			// Bail if no action.
