@@ -26,6 +26,7 @@
 namespace Tribe\Extensions\Settings_Import_Export;
 
 use Tribe__Extension;
+use Tribe__Utils__Array;
 
 /**
  * Define Constants.
@@ -337,7 +338,7 @@ if (
 				// PRO - widget_tribe-events-venue-widget
 				// CE  - tribe_community_events_options
 				// CE  - Tribe__Events__Community__Schemaschema_version
-                
+
 				nocache_headers();
 				header( 'Content-Type: application/json; charset=utf-8' );
 
@@ -370,8 +371,8 @@ if (
 			 */
 			if ( ! empty ( $_POST['import'] ) ) {
 
-				$import_file     = $_FILES['import_file']['tmp_name'];
-				$import_filename = $_FILES['import_file']['name'];
+				$import_file     = Tribe__Utils__Array::get( $_FILES, [ 'import_file', 'tmp_name' ], false );
+				$import_filename = Tribe__Utils__Array::get( $_FILES, [ 'import_file', 'name' ], false );
 
 				if ( empty( $import_file ) ) {
 					wp_die( __( 'Please upload a file to import.', 'tribe-ext-settings-import-export' ), __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
