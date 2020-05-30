@@ -73,10 +73,10 @@ if (
 			}
 
 			// Filters and Hooks here
-			add_action( 'admin_menu', [ $this, 'tribe_settings_menu' ], 99 );
+			add_action( 'admin_menu', [ $this, 'settings_menu' ], 99 );
 
 			if ( is_multisite() ) {
-				add_action( 'network_admin_menu', [ $this, 'tribe_multisite_settings_menu' ], 99 );
+				add_action( 'network_admin_menu', [ $this, 'multisite_settings_menu' ], 99 );
 			}
 
 			add_action( 'admin_init', [ $this, 'process_settings_action' ] );
@@ -113,7 +113,7 @@ if (
 		/**
 		 * Register the settings page on multi-site.
 		 */
-		function tribe_multisite_settings_menu() {
+		function multisite_settings_menu() {
 			add_submenu_page(
 				'settings.php',
 				__( 'Events Settings Import / Export', 'tribe-ext-settings-import-export' ),
@@ -129,7 +129,7 @@ if (
 		/**
 		 * Register the settings page.
 		 */
-		function tribe_settings_menu() {
+		function settings_menu() {
 			add_submenu_page(
 				'edit.php?post_type=tribe_events',
 				__( 'Settings Import / Export', 'tribe-ext-settings-import-export' ),
