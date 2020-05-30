@@ -37,7 +37,7 @@ if ( ! defined( __NAMESPACE__ . '\NS' ) ) {
 }
 
 /**
- * Polifill for 'array_key_first'
+ * Polyfill for 'array_key_first' for PHP versions below 7.3
  *
  * 'array_key_first' exists only as of PHP 7.3
  */
@@ -50,6 +50,7 @@ if ( ! function_exists( 'array_key_first' ) ) {
 		return null;
 	}
 }
+
 // Do not load unless Tribe Common is fully loaded and our class does not yet exist.
 if (
 	class_exists( 'Tribe__Extension' )
