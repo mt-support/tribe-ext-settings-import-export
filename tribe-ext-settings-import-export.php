@@ -36,6 +36,20 @@ if ( ! defined( __NAMESPACE__ . '\NS' ) ) {
 	define( __NAMESPACE__ . '\NS', __NAMESPACE__ . '\\' );
 }
 
+/**
+ * Polifill for 'array_key_first'
+ *
+ * 'array_key_first' exists only as of PHP 7.3
+ */
+if ( ! function_exists( 'array_key_first' ) ) {
+	function array_key_first( array $arr ) {
+		foreach ( $arr as $key => $unused ) {
+			return $key;
+		}
+
+		return null;
+	}
+}
 // Do not load unless Tribe Common is fully loaded and our class does not yet exist.
 if (
 	class_exists( 'Tribe__Extension' )
