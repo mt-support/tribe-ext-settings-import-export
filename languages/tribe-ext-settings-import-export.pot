@@ -1,0 +1,273 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: The Events Calendar Extension: Settings Import / "
+"Export\n"
+"POT-Creation-Date: 2020-05-30 13:37+0200\n"
+"PO-Revision-Date: 2019-04-10 14:03+0200\n"
+"Last-Translator: András Guseo <aguseo@gmail.com>\n"
+"Language-Team: András Guseo <aguseo@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: tribe-ext-settings-import-export.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: tribe-ext-settings-import-export.php:101
+#, php-format
+msgid ""
+"%s requires PHP version %s or newer to work. Please contact your website "
+"host and inquire about updating PHP."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:119
+#: tribe-ext-settings-import-export.php:120
+msgid "Events Settings Import / Export"
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:135
+#: tribe-ext-settings-import-export.php:136
+#: tribe-ext-settings-import-export.php:153
+msgid "Settings Import / Export"
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:159
+msgid "Settings imported."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:162
+msgid "There were some errors during the import."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:165
+msgid "Reset successful."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:168
+msgid "There were some errors during the reset."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:171
+#, php-format
+msgid ""
+"Reset failed. Please enter \"%s\" in the text field to reset the settings."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:187
+msgid "Export Settings"
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:190
+msgid ""
+"Export the setting of The Events Calendar, Event Tickets and add-ons for "
+"this site as a .json file. This allows you to easily import the "
+"configuration into another site."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:194
+#: tribe-ext-settings-import-export.php:222
+msgid "Note: You are on the Network Admin Dashboard."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:196
+msgid "The export will contain the relevant settings of all sub-sites."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:200
+#: tribe-ext-settings-import-export.php:228
+msgid "Note: You are on a sub-site in a multi-site network."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:202
+msgid "The export will contain the relevant settings of this sub-site only."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:208
+msgid "Export"
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:215
+msgid "Import Settings"
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:218
+msgid ""
+"Import the plugin settings from a .json file. This file can be obtained by "
+"exporting the settings on another site using the form above."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:224
+msgid ""
+"Here you can import the settings of all sub-sites at once with the "
+"appropriate file."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:230
+msgid "Here you can import the settings for this sub-site only."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:239
+msgid "Import"
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:247
+msgid "Delete / Reset Settings"
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:250
+msgid "Reset the plugin settings."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:252
+msgid "Please note the following:"
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:258
+msgid "You are on the Network Admin Dashboard."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:260
+msgid "This will reset the calendar settings on ALL sub-sites in the network."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:264
+msgid "You are on a sub-site in a multi-site network."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:266
+msgid "This will reset the calendar settings on this sub-sites only."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:270
+#, php-format
+msgid ""
+"This operation %scannot be reversed%s. It is recommended that you create a "
+"backup of your database first."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:271
+#, php-format
+msgid ""
+"This operation will %snot%s delete any event, venue, organizer, or ticket "
+"related data."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:273
+msgid "Modern Tribe takes no responsibility for lost data."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:280
+#, php-format
+msgid ""
+"Enter \"%s\" into the above field if you would like to reset the settings."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:284
+msgid "Reset"
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:393
+msgid "Please upload a file to import."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:393
+#: tribe-ext-settings-import-export.php:401
+#: tribe-ext-settings-import-export.php:408
+#: tribe-ext-settings-import-export.php:410
+#: tribe-ext-settings-import-export.php:482
+msgid "Import error"
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:401
+msgid "Please upload a valid .json file."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:408
+msgid "Sorry, we could not decode the file."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:410
+msgid "Sorry, the decoded data is not an array."
+msgstr ""
+
+#. translators: the ID of the blog in the network.
+#: tribe-ext-settings-import-export.php:429
+#, php-format
+msgid "Import for blog %s"
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:435
+#: tribe-ext-settings-import-export.php:537
+msgid "successful."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:439
+#, php-format
+msgid "%sfailed%s (or settings were the same)."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:450
+#, php-format
+msgid "%snot found%s."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:479
+msgid "The settings you wanted to import seem to be of a multi-site network."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:480
+msgid ""
+"If you would like to import settings for one site only, then please upload "
+"the appropriate file."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:481
+msgid ""
+"If you would like to import settings for the whole multi-site network, you "
+"can do that on the Network Admin dashboard."
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:491
+#, php-format
+msgid "Import %sfailed%s (or settings were the same)."
+msgstr ""
+
+#. translators: the ID of the blog in the network.
+#: tribe-ext-settings-import-export.php:533
+#, php-format
+msgid "Resetting blog %s"
+msgstr ""
+
+#: tribe-ext-settings-import-export.php:541
+#, php-format
+msgid "%sfailed%s."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "The Events Calendar Extension: Settings Import / Export"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://theeventscalendar.com/extensions/settings-import-export/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "You can import and export the settings of The Events Calendar."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Modern Tribe, Inc."
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://m.tri.be/1971"
+msgstr ""

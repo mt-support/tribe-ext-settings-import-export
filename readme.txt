@@ -2,10 +2,10 @@
 Contributors: ModernTribe
 Donate link: http://m.tri.be/29
 Tags: events, calendar
-Requires at least: 4.5
-Tested up to: 5.1.1
-Requires PHP: 5.6
-Stable tag: 1.0.1
+Requires at least: 5.0
+Tested up to: 5.4.1
+Requires PHP: 7.0
+Stable tag: 2.0.0
 License: GPL version 3 or any later version
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -38,9 +38,17 @@ We're always interested in your feedback and our [premium forums](https://theeve
 
 == Changelog ==
 
+= [2.0.0] TBD =
+
+* Tweak - The code was restructured and unnecessary elements were removed.
+* Feature - Settings for all sites of a multi-site network can be exported and imported.
+* Feature - Settings for a sub-site in a multi-site network can be exported and imported.
+* Feature - Settings for all sites or a sub-site in a multi-site network can be reset.
+* Feature - The export filename is filterable through the `tribe_ext_settings_export_filename` filter.
+
 = [1.0.1] 2019-04-17 =
 
-* Fixed the escaping of a string that contains HTML
+* Fixed the escaping of a string that contains HTML.
 
 = [1.0.0] 2019-04-15 =
 
