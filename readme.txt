@@ -38,7 +38,7 @@ We're always interested in your feedback and our [premium forums](https://theeve
 
 == Changelog ==
 
-= [2.0.0] TBD =
+= [2.0.0] 2020-06-11 =
 
 * Tweak - The code was restructured and unnecessary elements were removed.
 * Feature - Settings for all sites of a multi-site network can be exported and imported.
