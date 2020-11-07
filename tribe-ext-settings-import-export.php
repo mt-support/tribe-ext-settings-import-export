@@ -182,114 +182,143 @@ if (
                 <form method="post" enctype="multipart/form-data">
 					<?php wp_nonce_field( 'nonce', 'nonce' ); ?>
                     <div class="metabox-holder">
-                        <div class="postbox">
-                            <h3>
-                                <span><?php esc_html_e( 'Export Settings', 'tribe-ext-settings-import-export' ); ?></span>
-                            </h3>
-                            <div class="inside">
-                                <p><?php esc_html_e( 'Export the setting of The Events Calendar, Event Tickets and add-ons for this site as a .json file. This allows you to easily import the configuration into another site.', 'tribe-ext-settings-import-export' ); ?></p>
-								<?php
-								if ( is_network_admin() ) {
-									echo '<p><strong>';
-									esc_html_e( 'Note: You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export' );
-									echo ' ';
-									esc_html_e( 'The export will contain the relevant settings of all sub-sites.', 'tribe-ext-settings-import-export' );
-									echo '</strong></p>';
-								} elseif ( is_multisite() ) {
-									echo '<p><strong>';
-									esc_html_e( 'Note: You are on a sub-site in a multi-site network.', 'tribe-ext-settings-import-export' );
-									echo ' ';
-									esc_html_e( 'The export will contain the relevant settings of this sub-site only.', 'tribe-ext-settings-import-export' );
-									echo '</strong></p>';
-								}
-								?>
 
-                                <p>
-									<?php submit_button( esc_html__( 'Export', 'tribe-ext-settings-import-export' ), 'secondary', 'export', false ); ?>
-                                </p>
-                            </div><!-- .inside -->
-                        </div><!-- .postbox -->
+						<?php $this->render_export_settings(); ?>
 
-                        <div class="postbox">
-                            <h3>
-                                <span><?php esc_html_e( 'Import Settings', 'tribe-ext-settings-import-export' ); ?></span>
-                            </h3>
-                            <div class="inside">
-                                <p><?php esc_html_e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'tribe-ext-settings-import-export' ); ?></p>
-								<?php
-								if ( is_network_admin() ) {
-									echo '<p><strong>';
-									esc_html_e( 'Note: You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export' );
-									echo ' ';
-									esc_html_e( 'Here you can import the settings of all sub-sites at once with the appropriate file.', 'tribe-ext-settings-import-export' );
-									echo '</strong></p>';
-								} elseif ( is_multisite() ) {
-									echo '<p><strong>';
-									esc_html_e( 'Note: You are on a sub-site in a multi-site network.', 'tribe-ext-settings-import-export' );
-									echo ' ';
-									esc_html_e( 'Here you can import the settings for this sub-site only.', 'tribe-ext-settings-import-export' );
-									echo '</strong></p>';
-								}
-								?>
+						<?php $this->render_import_settings(); ?>
 
-                                <p>
-                                    <input type="file" name="import_file"/>
-                                </p>
-                                <p>
-									<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
-                                </p>
+						<?php $this->render_reset_settings(); ?>
 
-                            </div><!-- .inside -->
-                        </div><!-- .postbox -->
-
-                        <div class="postbox">
-                            <h3>
-                                <span><?php esc_html_e( 'Delete / Reset Settings', 'tribe-ext-settings-import-export' ); ?></span>
-                            </h3>
-                            <div class="inside">
-                                <p><?php esc_html_e( 'Reset the plugin settings.', 'tribe-ext-settings-import-export' ); ?></p>
-                                <p>
-                                    <strong><?php esc_html_e( 'Please note the following:', 'tribe-ext-settings-import-export' ) ?></strong>
-                                </p>
-                                <ul style="list-style: disc inside">
-									<?php
-									if ( is_network_admin() ) {
-										echo '<li><strong>';
-										esc_html_e( 'You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export' );
-										echo ' ';
-										esc_html_e( 'This will reset the calendar settings on ALL sub-sites in the network.', 'tribe-ext-settings-import-export' );
-										echo '</strong></li>';
-									} elseif ( is_multisite() ) {
-										echo '<li><strong>';
-										esc_html_e( 'You are on a sub-site in a multi-site network.', 'tribe-ext-settings-import-export' );
-										echo ' ';
-										esc_html_e( 'This will reset the calendar settings on this sub-sites only.', 'tribe-ext-settings-import-export' );
-										echo '</strong></li>';
-									}
-									?>
-                                    <li><?php printf( esc_html__( 'This operation %scannot be reversed%s. It is recommended that you create a backup of your database first.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
-                                    <li><?php printf( esc_html__( 'This operation will %snot%s delete any event, venue, organizer, or ticket related data.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
-                                    <li>
-                                        <strong><?php esc_html_e( 'Modern Tribe takes no responsibility for lost data.', 'tribe-ext-settings-import-export' ); ?></strong>
-                                    </li>
-                                </ul>
-
-                                <p>
-                                    <input type="text" name="import_reset_confirmation" id="import_reset_confirmation"/><br/>
-                                    <label for="import_reset_confirmation">
-										<?php printf( esc_html__( 'Enter "%s" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ), $this->get_reset_keyword() ); ?>
-                                    </label>
-                                </p>
-                                <p>
-									<?php submit_button( esc_html__( 'Reset', 'tribe-ext-settings-import-export' ), 'secondary', 'reset', false ); ?>
-                                </p>
-
-                            </div><!-- .inside -->
-                        </div><!-- .postbox -->
                     </div><!-- .metabox-holder -->
                 </form>
             </div><!--end .wrap-->
 
+			<?php
+		}
+
+		/**
+		 * Renders the box for exporting settings.
+		 */
+		public function render_export_settings () {
+			?>
+			<div class="postbox">
+				<h3>
+					<span><?php esc_html_e( 'Export Settings', 'tribe-ext-settings-import-export' ); ?></span>
+				</h3>
+				<div class="inside">
+					<p><?php esc_html_e( 'Export the setting of The Events Calendar, Event Tickets and add-ons for this site as a .json file. This allows you to easily import the configuration into another site.', 'tribe-ext-settings-import-export' ); ?></p>
+					<?php
+					if ( is_network_admin() ) {
+						echo '<p><strong>';
+						esc_html_e( 'Note: You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export' );
+						echo ' ';
+						esc_html_e( 'The export will contain the relevant settings of all sub-sites.', 'tribe-ext-settings-import-export' );
+						echo '</strong></p>';
+					} elseif ( is_multisite() ) {
+						echo '<p><strong>';
+						esc_html_e( 'Note: You are on a sub-site in a multi-site network.', 'tribe-ext-settings-import-export' );
+						echo ' ';
+						esc_html_e( 'The export will contain the relevant settings of this sub-site only.', 'tribe-ext-settings-import-export' );
+						echo '</strong></p>';
+					}
+					?>
+
+					<p>
+						<?php submit_button( esc_html__( 'Export', 'tribe-ext-settings-import-export' ), 'secondary', 'export', false ); ?>
+					</p>
+				</div><!-- .inside -->
+			</div><!-- .postbox -->
+			<?php
+		}
+
+		/**
+		 * Renders the box for import settings.
+		 */
+		public function render_import_settings() {
+			?>
+			<div class="postbox">
+				<h3>
+					<span><?php esc_html_e( 'Import Settings', 'tribe-ext-settings-import-export' ); ?></span>
+				</h3>
+				<div class="inside">
+					<p><?php esc_html_e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'tribe-ext-settings-import-export' ); ?></p>
+					<?php
+					if ( is_network_admin() ) {
+						echo '<p><strong>';
+						esc_html_e( 'Note: You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export' );
+						echo ' ';
+						esc_html_e( 'Here you can import the settings of all sub-sites at once with the appropriate file.', 'tribe-ext-settings-import-export' );
+						echo '</strong></p>';
+					} elseif ( is_multisite() ) {
+						echo '<p><strong>';
+						esc_html_e( 'Note: You are on a sub-site in a multi-site network.', 'tribe-ext-settings-import-export' );
+						echo ' ';
+						esc_html_e( 'Here you can import the settings for this sub-site only.', 'tribe-ext-settings-import-export' );
+						echo '</strong></p>';
+					}
+					?>
+
+					<p>
+						<input type="file" name="import_file"/>
+					</p>
+					<p>
+						<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
+					</p>
+
+				</div><!-- .inside -->
+			</div><!-- .postbox -->
+			<?php
+		}
+
+		/**
+		 * Renders the box for resetting the settings.
+		 */
+		public function render_reset_settings () {
+			?>
+			<div class="postbox">
+				<h3>
+					<span><?php esc_html_e( 'Delete / Reset Settings', 'tribe-ext-settings-import-export' ); ?></span>
+				</h3>
+				<div class="inside">
+					<p><?php esc_html_e( 'Reset the plugin settings.', 'tribe-ext-settings-import-export' ); ?></p>
+					<p>
+						<strong><?php esc_html_e( 'Please note the following:', 'tribe-ext-settings-import-export' ) ?></strong>
+					</p>
+					<ul style="list-style: disc inside">
+						<?php
+						if ( is_network_admin() ) {
+							echo '<li><strong>';
+							esc_html_e( 'You are on the Network Admin Dashboard.', 'tribe-ext-settings-import-export' );
+							echo ' ';
+							esc_html_e( 'This will reset the calendar settings on ALL sub-sites in the network.', 'tribe-ext-settings-import-export' );
+							echo '</strong></li>';
+						} elseif ( is_multisite() ) {
+							echo '<li><strong>';
+							esc_html_e( 'You are on a sub-site in a multi-site network.', 'tribe-ext-settings-import-export' );
+							echo ' ';
+							esc_html_e( 'This will reset the calendar settings on this sub-sites only.', 'tribe-ext-settings-import-export' );
+							echo '</strong></li>';
+						}
+						?>
+						<li><?php printf( esc_html__( 'This operation %scannot be reversed%s. It is recommended that you create a backup of your database first.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
+						<li><?php printf( esc_html__( 'This operation will %snot%s delete any event, venue, organizer, or ticket related data.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
+						<li>
+							<strong><?php esc_html_e( 'Modern Tribe takes no responsibility for lost data.', 'tribe-ext-settings-import-export' ); ?></strong>
+						</li>
+					</ul>
+
+					<p>
+						<input type="text" name="import_reset_confirmation" id="import_reset_confirmation"/><br/>
+						<label for="import_reset_confirmation">
+							<?php printf( esc_html__( 'Enter "%s" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ), $this->get_reset_keyword() ); ?>
+						</label>
+					</p>
+					<p>
+						<?php submit_button( esc_html__( 'Reset', 'tribe-ext-settings-import-export' ), 'secondary', 'reset', false ); ?>
+					</p>
+
+				</div><!-- .inside -->
+			</div><!-- .postbox -->
 			<?php
 		}
 
