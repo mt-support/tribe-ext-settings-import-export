@@ -285,15 +285,17 @@ if (
 				</h3>
 				<div class="inside">
 					<div style="float: left; margin-right: 20px;">
-						<p><?php esc_html_e( 'Paste the system information in the below text area and watch the magic happen. :)', 'tribe-ext-settings-import-export' ); ?></p>
+						<p><?php esc_html_e( 'Paste the system information in the text area and watch the magic happen. :)', 'tribe-ext-settings-import-export' ); ?></p>
 						<p>
 							<strong><?php esc_html_e( 'Please note the following:', 'tribe-ext-settings-import-export' ) ?></strong>
 						</p>
 						<ul style="list-style: disc inside">
-							<li><?php printf( esc_html__( 'This is an experimental feature!', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
+							<li><?php printf( esc_html__( '%1$sThis is an experimental feature!%1$s', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
 							<li><?php esc_html_e( 'Copy the system information starting with the "SETTINGS" string, and ending with the "WP TIMEZONE" string.', 'tribe-ext-settings-import-export' ); ?></li>
 							<li><?php esc_html_e( 'The Google Maps API key is not being imported.', 'tribe-ext-settings-import-export' ); ?></li>
 							<li><?php esc_html_e( 'The PayPal email address is going to be set to the site admin email address.', 'tribe-ext-settings-import-export' ); ?></li>
+							<li><?php esc_html_e( 'Custom Fields are not going to be imported at this time.', 'tribe-ext-settings-import-export' ); ?></li>
+							<li><?php esc_html_e( 'This functionality is not tested on multi-site networks.', 'tribe-ext-settings-import-export' ); ?></li>
 						</ul>
 					</div>
 					<div style="float:left; margin-right: 20px;">
@@ -303,7 +305,7 @@ if (
 							</label>
 						</p>
 						<p>
-							<textarea name="import_textarea" id="import_textarea" style="width: 300px; height: 100px;"></textarea>
+							<textarea name="import_textarea" id="import_textarea" style="width: 300px; min-height: 111px;"></textarea>
 						</p>
 						<p>
 							<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import-from-text', false ); ?>
@@ -622,7 +624,7 @@ WP TIMEZONE
 			 */
 			if ( ! empty( $_POST['reset'] ) ) {
 
-				// If multisite.
+				// If multi-site.
 				if ( is_network_admin() ) {
 
 					// Return if not reset
