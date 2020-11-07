@@ -121,7 +121,7 @@ if (
 				'manage_options',
 				'tribe_import_export', [
 					$this,
-					'settings_page'
+					'settings_page',
 				]
 			);
 		}
@@ -137,7 +137,7 @@ if (
 				'manage_options',
 				'tribe_import_export', [
 					$this,
-					'settings_page'
+					'settings_page',
 				]
 			);
 		}
@@ -149,8 +149,8 @@ if (
 			$notice_class = '';
 			$msg          = '';
 			?>
-            <div class="wrap">
-                <h2><?php esc_html_e( 'Settings Import / Export', 'tribe-ext-settings-import-export' ); ?></h2>
+			<div class="wrap">
+				<h2><?php esc_html_e( 'Settings Import / Export', 'tribe-ext-settings-import-export' ); ?></h2>
 
 				<?php
 				// Success and error messages
@@ -176,12 +176,12 @@ if (
 						$msg .= '<p>' . urldecode( $_GET['msg'] ) . '</p>';
 					}
 					?>
-                    <div class="notice <?php echo $notice_class; ?> is-dismissible"><p><?php echo $msg; ?></p></div>
+					<div class="notice <?php echo $notice_class; ?> is-dismissible"><p><?php echo $msg; ?></p></div>
 				<?php } ?>
 
-                <form method="post" enctype="multipart/form-data">
+				<form method="post" enctype="multipart/form-data">
 					<?php wp_nonce_field( 'nonce', 'nonce' ); ?>
-                    <div class="metabox-holder">
+					<div class="metabox-holder">
 
 						<?php $this->render_export_settings(); ?>
 
@@ -191,9 +191,9 @@ if (
 
 						<?php $this->render_reset_settings(); ?>
 
-                    </div><!-- .metabox-holder -->
-                </form>
-            </div><!--end .wrap-->
+					</div><!-- .metabox-holder -->
+				</form>
+			</div><!--end .wrap-->
 
 			<?php
 		}
@@ -201,7 +201,7 @@ if (
 		/**
 		 * Renders the box for exporting settings.
 		 */
-		public function render_export_settings () {
+		public function render_export_settings() {
 			?>
 			<div class="postbox">
 				<h3>
@@ -261,12 +261,14 @@ if (
 					?>
 
 					<p>
-						<input type="file" name="import_file"/>
+						<input type="file" name="import_file" />
 					</p>
 					<p>
 						<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
 					</p>
-
+					<p style="font-weight: bold;">
+						<?php esc_html_e( 'After importing it is recommended to re-save the calendar settings and to flush permalinks.', 'tribe-ext-settings-import-export' ); ?>
+					</p>
 				</div><!-- .inside -->
 			</div><!-- .postbox -->
 			<?php
@@ -275,33 +277,54 @@ if (
 		/**
 		 * Renders the box for importing the settings from copy-paste.
 		 */
-		public function render_import_from_text_settings () {
+		public function render_import_from_text_settings() {
 			?>
 			<div class="postbox">
 				<h3>
-					<span><?php esc_html_e( 'Import Settings From Text', 'tribe-ext-settings-import-export' ); ?></span>
+					<span><?php esc_html_e( 'Import Settings From System Information - Experimental Feature', 'tribe-ext-settings-import-export' ); ?></span>
 				</h3>
 				<div class="inside">
-					<p><?php esc_html_e( 'Paste the system information in the below text area and watch the magic happen. :)', 'tribe-ext-settings-import-export' ); ?></p>
-					<p>
-						<strong><?php esc_html_e( 'Please note the following:', 'tribe-ext-settings-import-export' ) ?></strong>
-					</p>
-					<ul style="list-style: disc inside">
-						<li><?php printf( esc_html__( 'This is an experimental feature!', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
-						<li><?php printf( esc_html__( 'Copy the system information starting with the "SETTINGS" string, until, but not including the "WP TIMEZONE" string at the end.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
-					</ul>
+					<div style="float: left; margin-right: 20px;">
+						<p><?php esc_html_e( 'Paste the system information in the below text area and watch the magic happen. :)', 'tribe-ext-settings-import-export' ); ?></p>
+						<p>
+							<strong><?php esc_html_e( 'Please note the following:', 'tribe-ext-settings-import-export' ) ?></strong>
+						</p>
+						<ul style="list-style: disc inside">
+							<li><?php printf( esc_html__( 'This is an experimental feature!', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
+							<li><?php esc_html_e( 'Copy the system information starting with the "SETTINGS" string, and ending with the "WP TIMEZONE" string.', 'tribe-ext-settings-import-export' ); ?></li>
+							<li><?php esc_html_e( 'The Google Maps API key is not being imported.', 'tribe-ext-settings-import-export' ); ?></li>
+							<li><?php esc_html_e( 'The PayPal email address is going to be set to the site admin email address.', 'tribe-ext-settings-import-export' ); ?></li>
+						</ul>
+					</div>
+					<div style="float:left; margin-right: 20px;">
+						<p>
+							<label for="import_reset_confirmation" style="vertical-align: unset;">
+								<?php esc_html_e( 'Paste the System Information into the box below.', 'tribe-ext-settings-import-export' ); ?>
+							</label>
+						</p>
+						<p>
+							<textarea name="import_textarea" id="import_textarea" style="width: 300px; height: 100px;"></textarea>
+						</p>
+						<p>
+							<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import-from-text', false ); ?>
+						</p>
+					</div>
+					<div style="float:left; min-width: 300px;">
+						<p>Example:</p>
+						<pre style="font-family: Arial; color: #ddd; padding: 10px; background-color: #000;">
+SETTINGS
+	did_init = 1
+	[...]
+	single_geography_mode =
+WP TIMEZONE
+</pre>
+					</div>
+					<div style="clear: both;">
+						<p style="font-weight: bold;">
+							<?php esc_html_e( 'After importing it is recommended to re-save the calendar settings and to flush permalinks.', 'tribe-ext-settings-import-export' ); ?>
+						</p>
 
-					<p>
-						<textarea name="import_textarea" id="import_textarea" style="width: 400px; height: 100px;"></textarea>
-						<br/>
-						<label for="import_reset_confirmation">
-							<?php printf( esc_html__( 'Enter "%s" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ), $this->get_reset_keyword() ); ?>
-						</label>
-					</p>
-					<p>
-						<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import-from-text', false ); ?>
-					</p>
-
+					</div>
 				</div><!-- .inside -->
 			</div><!-- .postbox -->
 			<?php
@@ -310,7 +333,7 @@ if (
 		/**
 		 * Renders the box for resetting the settings.
 		 */
-		public function render_reset_settings () {
+		public function render_reset_settings() {
 			?>
 			<div class="postbox">
 				<h3>
@@ -345,7 +368,7 @@ if (
 					</ul>
 
 					<p>
-						<input type="text" name="import_reset_confirmation" id="import_reset_confirmation"/><br/>
+						<input type="text" name="import_reset_confirmation" id="import_reset_confirmation" /><br />
 						<label for="import_reset_confirmation">
 							<?php printf( esc_html__( 'Enter "%s" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ), $this->get_reset_keyword() ); ?>
 						</label>
@@ -372,6 +395,7 @@ if (
 			if (
 				empty ( $_POST['export'] )
 				&& empty ( $_POST['import'] )
+				&& empty ( $_POST['import_textarea'] )
 				&& empty ( $_POST['reset'] )
 			) {
 				return;
@@ -429,7 +453,7 @@ if (
 				if ( is_network_admin() ) {
 					$export_filename_base = 'multisite-';
 				} // Multi-site, sub-site
-                elseif ( is_multisite() ) {
+				elseif ( is_multisite() ) {
 					$export_filename_base = 'blog-id-' . get_current_blog_id() . '-';
 				}
 				$export_filename = 'tribe-settings-export-' . $export_filename_base . date( 'Y-m-d' ) . '.json';
@@ -567,6 +591,32 @@ if (
 			}
 
 			/**
+			 * Import from text actions.
+			 * Process a settings import from a json file.
+			 */
+			if ( ! empty ( $_POST['import_textarea'] ) ) {
+
+				$sysinfo = $this->treat_sysinfo_for_import( $_POST['import_textarea'] );
+
+				// Save the data in the database
+				if ( update_option( 'tribe_events_calendar_options', $sysinfo ) ) {
+					$action = 'import_success';
+				} else {
+					$action          = 'import_failed';
+					$success_message .= sprintf(
+						esc_html__(
+							'Import %sfailed%s (or settings were the same).',
+							'tribe-ext-settings-import-export'
+						),
+						'<strong>',
+						'</strong>'
+					);
+				}
+				wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action . '&msg=' . urlencode( $success_message ) ) );
+
+			}
+
+			/**
 			 * Reset actions.
 			 * Reset Modern Tribe calendar and ticketing plugins.
 			 */
@@ -579,7 +629,7 @@ if (
 					if ( $_POST['import_reset_confirmation'] !== 'reset all' ) {
 						$action = 'reset_no';
 					} // Reset
-                    elseif ( $_POST['import_reset_confirmation'] === 'reset all' ) {
+					elseif ( $_POST['import_reset_confirmation'] === 'reset all' ) {
 
 						// Getting all blogs.
 						$blogs = $this->get_blogs();
@@ -632,7 +682,7 @@ if (
 						if ( $_POST['import_reset_confirmation'] !== 'reset' ) {
 							$action = 'reset_no';
 						} // Reset
-                        elseif ( $_POST['import_reset_confirmation'] === 'reset' ) {
+						elseif ( $_POST['import_reset_confirmation'] === 'reset' ) {
 							if ( delete_option( 'tribe_events_calendar_options' ) ) {
 								$action = 'reset_success';
 							} else {
@@ -656,14 +706,16 @@ if (
 		private function get_blogs() {
 			global $wpdb;
 
-			return $wpdb->get_results( "
+			return $wpdb->get_results(
+				"
                         SELECT blog_id
                         FROM {$wpdb->blogs}
                         WHERE site_id = '{$wpdb->siteid}'
                         AND spam = '0'
                         AND deleted = '0'
                         AND archived = '0'
-                    " );
+                    "
+			);
 		}
 
 		/**
@@ -678,6 +730,165 @@ if (
 			}
 
 			return $keyword;
+		}
+
+		/**
+		 * Treat the system information string and create an array from it.
+		 *
+		 * @param $sysinfo    The submitted system information string.
+		 *
+		 * @return array
+		 */
+		private function treat_sysinfo_for_import( $sysinfo ) {
+
+			// Check if some strings are in the sysinfo. If not, bail.
+			if (
+				strpos( $sysinfo, 'Settings' ) != 0
+				|| strtolower( substr( $sysinfo, - 11 ) ) != strtolower( 'WP Timezone' )
+			) {
+				$message = '<p>' . esc_html__( 'There was an error. Try again.', 'tribe-ext-settings-import-export' ) . '</p>';
+				wp_die( $message, __( 'Import error', 'tribe-ext-settings-import-export' ), [ 'back_link' => true ] );
+			}
+
+			// Treat sysinfo
+			$boolean_value = [
+				'did_init',
+				'views_v2_enabled',
+				'enable_month_view_cache',
+				'tribeDisableTribeBar',
+				'hideLocationSearch',
+				'hideRelatedEvents',
+				'week_view_hide_weekends',
+				'tribeEventsShortcodeBeforeHTML',
+				'tribeEventsShortcodeAfterHTML',
+				'ticket-attendee-modal',
+				'ticket-paypal-enable',
+				'ticket-paypal-sandbox',
+				'tickets-enable-qr-codes',
+				'donate-link',
+				'hideSubsequentRecurrencesDefault',
+				'userToggleSubsequentRecurrences',
+				'toggle_blocks_editor',
+				'toggle_blocks_editor_hidden_field',
+				'showComments',
+				'showEventsInMainLoop',
+				'reverseCurrencyPosition',
+				'embedGoogleMaps',
+				'debugEvents',
+				'tribe_events_timezones_show_zone',
+				'disable_metabox_custom_fields',
+			];
+
+			$integer_value = [
+				'custom-fields-max-index',
+				'tribe_tickets_migrate_offset_',
+			];
+
+			$count = 1;
+			// Remove starting and ending string
+			$sysinfo = str_replace( 'Settings', '', $sysinfo, $count );
+			$sysinfo = str_ireplace( 'WP Timezone', '', $sysinfo, $count );
+
+			// Trim
+			$sysinfo = trim( $sysinfo );
+
+			// Need to handle arrays and more
+			$patterns = [
+				'/\(\s*\[/',                // Square brackets at the beginning of the array
+				'/\s{2,}\[/',               // Square brackets
+				'/\s*\)\s\n/',              // Closing parentheses
+				'/(\s*\n*)(Array)\s*\(/',   // Array
+				'/\r\n/',                   // Newline with separator
+				'/(\s{2,})/',               // Spaces
+			];
+
+			$replacements = [
+				'( [',                      // Square brackets at the beginning of the array
+				', [',                        // Square brackets
+				' )',                       // Closing parentheses
+				' Array(',                  // Array
+				' ;',                       // Newline with separator
+				'',                         // Spaces
+			];
+
+			$sysinfo = preg_replace( $patterns, $replacements, $sysinfo );
+
+			// Create an array from the values
+			$sysinfo = explode( ';', $sysinfo );
+
+			// Explode each attrib=value into an array and create a new array that we can serialize.
+			foreach ( $sysinfo as $item ) {
+
+				$item  = explode( ' = ', $item );
+				$key   = $item[0];
+				$value = $item[1];
+
+				// If value is null, skip.
+				if ( null == $value ) {
+					continue;
+				}
+
+				// We don't want to use the user's Google Maps API key.
+				if ( $key == 'google_maps_js_api_key' ) {
+					continue;
+				}
+
+				// We don't want to use the user's PayPal email address. We will use admin email instead.
+				if ( $key == 'ticket-paypal-email' ) {
+					$key = get_option( 'admin_email' );
+				}
+
+				// If Array is twice, do some magic (custom fields)
+				// Skip for now
+				if ( substr_count( $value, 'Array' ) > 1 ) {
+					continue;
+				}
+
+				// If it is supposed to be an Array, then make it so.
+				// Sample: previous_ecp_versions = Array( [0] => 0, [1] => 5.1.6, [2] => 5.2.0 ) '
+				if ( is_int( strpos( $value, 'Array' ) ) ) {
+
+					$patterns = [
+						'/(Array\()*( \[\d\] => )((Array))*/',    // "Array( [0] =>" and "[2] =>"
+						'/(\s+\))/',                            // Closing parenthesis
+					];
+
+					$replacements = [
+						'',
+						'',
+					];
+
+					$value = trim( preg_replace( $patterns, $replacements, $value ) );
+
+					// Create the real array
+					$value = explode( ',', $value );
+				}
+
+				// If the value is not an array, trim it.
+				if ( ! is_array( $value ) ) {
+					$value = trim( $value );
+				}
+
+				$key = trim( $key );
+
+				// If integer then type set
+				if ( in_array( $value, $integer_value ) ) {
+					$value = (int) $value;
+				}
+
+				// If a boolean...
+				if ( in_array( $key, $boolean_value ) ) {
+					if ( $value == '1' ) {
+						$value = true;
+					} elseif ( $value == '0' || empty( $value ) ) {
+						$value = false;
+					}
+				}
+
+				$new_sysinfo[ $key ] = $value;
+			}
+
+			return $new_sysinfo;
 		}
 
 	} // end class
