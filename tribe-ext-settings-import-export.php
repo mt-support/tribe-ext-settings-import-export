@@ -187,6 +187,8 @@ if (
 
 						<?php $this->render_import_settings(); ?>
 
+						<?php $this->render_import_from_text_settings(); ?>
+
 						<?php $this->render_reset_settings(); ?>
 
                     </div><!-- .metabox-holder -->
@@ -263,6 +265,41 @@ if (
 					</p>
 					<p>
 						<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
+					</p>
+
+				</div><!-- .inside -->
+			</div><!-- .postbox -->
+			<?php
+		}
+
+		/**
+		 * Renders the box for importing the settings from copy-paste.
+		 */
+		public function render_import_from_text_settings () {
+			?>
+			<div class="postbox">
+				<h3>
+					<span><?php esc_html_e( 'Import Settings From Text', 'tribe-ext-settings-import-export' ); ?></span>
+				</h3>
+				<div class="inside">
+					<p><?php esc_html_e( 'Paste the system information in the below text area and watch the magic happen. :)', 'tribe-ext-settings-import-export' ); ?></p>
+					<p>
+						<strong><?php esc_html_e( 'Please note the following:', 'tribe-ext-settings-import-export' ) ?></strong>
+					</p>
+					<ul style="list-style: disc inside">
+						<li><?php printf( esc_html__( 'This is an experimental feature!', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
+						<li><?php printf( esc_html__( 'Copy the system information starting with the "SETTINGS" string, until, but not including the "WP TIMEZONE" string at the end.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
+					</ul>
+
+					<p>
+						<textarea name="import_textarea" id="import_textarea" style="width: 400px; height: 100px;"></textarea>
+						<br/>
+						<label for="import_reset_confirmation">
+							<?php printf( esc_html__( 'Enter "%s" into the above field if you would like to reset the settings.', 'tribe-ext-settings-import-export' ), $this->get_reset_keyword() ); ?>
+						</label>
+					</p>
+					<p>
+						<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import-from-text', false ); ?>
 					</p>
 
 				</div><!-- .inside -->
