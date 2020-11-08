@@ -4,7 +4,7 @@
  * Plugin URI:        https://theeventscalendar.com/extensions/settings-import-export/
  * GitHub Plugin URI: https://github.com/mt-support/tribe-ext-settings-import-export
  * Description:       You can import and export the settings of The Events Calendar.
- * Version:           2.0.0
+ * Version:           2.1.0
  * Extension Class:   Tribe\Extensions\Settings_Import_Export\Main
  * Author:            Modern Tribe, Inc.
  * Author URI:        http://m.tri.be/1971
@@ -302,7 +302,7 @@ if (
 					</div>
 					<div class="tribe-ext-sie-column">
 						<p>
-							<label for="import_reset_confirmation">
+							<label for="import_textarea">
 								<?php esc_html_e( 'Paste the System Information into the box below.', 'tribe-ext-settings-import-export' ); ?>
 							</label>
 						</p>
@@ -822,6 +822,7 @@ WP TIMEZONE
 			// Explode each attrib=value into an array and create a new array that we can serialize.
 			foreach ( $sysinfo as $item ) {
 
+				$new_sysinfo = [];
 				$item  = explode( ' = ', $item );
 				$key   = $item[0];
 				$value = $item[1];
