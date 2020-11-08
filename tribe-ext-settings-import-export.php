@@ -786,6 +786,8 @@ WP TIMEZONE
 				'tribe_tickets_migrate_offset_',
 			];
 
+			$delimiter = ';';
+
 			$count = 1;
 			// Remove starting and ending string
 			$sysinfo = str_replace( 'Settings', '', $sysinfo, $count );
@@ -806,17 +808,17 @@ WP TIMEZONE
 
 			$replacements = [
 				'( [',                      // Square brackets at the beginning of the array
-				', [',                        // Square brackets
+				', [',                      // Square brackets
 				' )',                       // Closing parentheses
 				' Array(',                  // Array
-				' ;',                       // Newline with separator
+				' ' . $delimiter,           // Newline with separator
 				'',                         // Spaces
 			];
 
 			$sysinfo = preg_replace( $patterns, $replacements, $sysinfo );
 
 			// Create an array from the values
-			$sysinfo = explode( ';', $sysinfo );
+			$sysinfo = explode( $delimiter, $sysinfo );
 
 			// Explode each attrib=value into an array and create a new array that we can serialize.
 			foreach ( $sysinfo as $item ) {
