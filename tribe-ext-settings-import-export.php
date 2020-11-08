@@ -80,6 +80,8 @@ if (
 			}
 
 			add_action( 'admin_init', [ $this, 'process_settings_action' ] );
+
+			add_action( 'admin_enqueue_scripts', [ $this, 'enquque_styles' ] );
 		}
 
 		/**
@@ -149,7 +151,7 @@ if (
 			$notice_class = '';
 			$msg          = '';
 			?>
-			<div class="wrap">
+			<div class="wrap tribe-ext-sie">
 				<h2><?php esc_html_e( 'Settings Import / Export', 'tribe-ext-settings-import-export' ); ?></h2>
 
 				<?php
@@ -266,9 +268,7 @@ if (
 					<p>
 						<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import', false ); ?>
 					</p>
-					<p style="font-weight: bold;">
-						<?php esc_html_e( 'After importing it is recommended to re-save the calendar settings and to flush permalinks.', 'tribe-ext-settings-import-export' ); ?>
-					</p>
+					<?php $this->render_post_import_note(); ?>
 				</div><!-- .inside -->
 			</div><!-- .postbox -->
 			<?php
@@ -284,36 +284,38 @@ if (
 					<span><?php esc_html_e( 'Import Settings From System Information - Experimental Feature', 'tribe-ext-settings-import-export' ); ?></span>
 				</h3>
 				<div class="inside">
-					<div style="float: left; margin-right: 20px;">
-						<p><?php esc_html_e( 'Paste the system information in the text area and watch the magic happen. :)', 'tribe-ext-settings-import-export' ); ?></p>
+					<div>
+						<p><?php esc_html_e( 'Copy the system information starting with the "SETTINGS" string and ending with the "WP TIMEZONE" string in the text area and watch the magic happen. :)', 'tribe-ext-settings-import-export' ); ?></p>
+					</div>
+					<div class="tribe-ext-sie-column tribe-ext-sie-column--notes">
 						<p>
 							<strong><?php esc_html_e( 'Please note the following:', 'tribe-ext-settings-import-export' ) ?></strong>
 						</p>
-						<ul style="list-style: disc inside">
-							<li><?php printf( esc_html__( '%1$sThis is an experimental feature!%1$s', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
-							<li><?php esc_html_e( 'Copy the system information starting with the "SETTINGS" string, and ending with the "WP TIMEZONE" string.', 'tribe-ext-settings-import-export' ); ?></li>
+						<ul>
+							<li><?php printf( esc_html__( '%1$sThis is an experimental feature!%2$s It can break your settings.', 'tribe-ext-settings-import-export' ), '<span class="underlined">', '</span>' ); ?></li>
+							<li><?php printf( esc_html__( 'Trimming is used in the process, so on some values like the Date time separator %s the intended whitespace is trimmed off.', 'tribe-ext-settings-import-export' ), '<code>_@_</code>' ); ?></li>
 							<li><?php esc_html_e( 'The Google Maps API key is not being imported.', 'tribe-ext-settings-import-export' ); ?></li>
 							<li><?php esc_html_e( 'The PayPal email address is going to be set to the site admin email address.', 'tribe-ext-settings-import-export' ); ?></li>
-							<li><?php esc_html_e( 'Custom Fields are not going to be imported at this time.', 'tribe-ext-settings-import-export' ); ?></li>
+							<li><?php esc_html_e( 'Custom Fields are not going to be imported.', 'tribe-ext-settings-import-export' ); ?></li>
 							<li><?php esc_html_e( 'This functionality is not tested on multi-site networks.', 'tribe-ext-settings-import-export' ); ?></li>
 						</ul>
 					</div>
-					<div style="float:left; margin-right: 20px;">
+					<div class="tribe-ext-sie-column">
 						<p>
-							<label for="import_reset_confirmation" style="vertical-align: unset;">
+							<label for="import_reset_confirmation">
 								<?php esc_html_e( 'Paste the System Information into the box below.', 'tribe-ext-settings-import-export' ); ?>
 							</label>
 						</p>
 						<p>
-							<textarea name="import_textarea" id="import_textarea" style="width: 300px; min-height: 111px;"></textarea>
+							<textarea name="import_textarea" id="import_textarea"></textarea>
 						</p>
 						<p>
 							<?php submit_button( esc_html__( 'Import', 'tribe-ext-settings-import-export' ), 'secondary', 'import-from-text', false ); ?>
 						</p>
 					</div>
-					<div style="float:left; min-width: 300px;">
+					<div class="tribe-ext-sie-column tribe-ext-sie-column--example">
 						<p>Example:</p>
-						<pre style="font-family: Arial; color: #ddd; padding: 10px; background-color: #000;">
+						<pre>
 SETTINGS
 	did_init = 1
 	[...]
@@ -321,11 +323,8 @@ SETTINGS
 WP TIMEZONE
 </pre>
 					</div>
-					<div style="clear: both;">
-						<p style="font-weight: bold;">
-							<?php esc_html_e( 'After importing it is recommended to re-save the calendar settings and to flush permalinks.', 'tribe-ext-settings-import-export' ); ?>
-						</p>
-
+					<div class="tribe-ext-sie-clear">
+						<?php $this->render_post_import_note(); ?>
 					</div>
 				</div><!-- .inside -->
 			</div><!-- .postbox -->
@@ -346,7 +345,7 @@ WP TIMEZONE
 					<p>
 						<strong><?php esc_html_e( 'Please note the following:', 'tribe-ext-settings-import-export' ) ?></strong>
 					</p>
-					<ul style="list-style: disc inside">
+					<ul class="tribe-ext-sie-ul">
 						<?php
 						if ( is_network_admin() ) {
 							echo '<li><strong>';
@@ -362,8 +361,8 @@ WP TIMEZONE
 							echo '</strong></li>';
 						}
 						?>
-						<li><?php printf( esc_html__( 'This operation %scannot be reversed%s. It is recommended that you create a backup of your database first.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
-						<li><?php printf( esc_html__( 'This operation will %snot%s delete any event, venue, organizer, or ticket related data.', 'tribe-ext-settings-import-export' ), '<span style="text-decoration: underline;">', '</span>' ); ?></li>
+						<li><?php printf( esc_html__( 'This operation %scannot be reversed%s. It is recommended that you create a backup of your database first.', 'tribe-ext-settings-import-export' ), '<span class="underlined">', '</span>' ); ?></li>
+						<li><?php printf( esc_html__( 'This operation will %snot%s delete any event, venue, organizer, or ticket related data.', 'tribe-ext-settings-import-export' ), '<span class="underlined">', '</span>' ); ?></li>
 						<li>
 							<strong><?php esc_html_e( 'Modern Tribe takes no responsibility for lost data.', 'tribe-ext-settings-import-export' ); ?></strong>
 						</li>
@@ -894,6 +893,28 @@ WP TIMEZONE
 
 			return $new_sysinfo;
 		}
+
+		/**
+		 * Renders the post import note.
+		 */
+		private function render_post_import_note() {
+			?>
+			<p class="important">
+				<?php esc_html_e( 'After running the import it is recommended to re-save the calendar settings and to flush permalinks.', 'tribe-ext-settings-import-export' ); ?>
+			</p>
+			<?php
+		}
+
+		/**
+		 * Enqueuing stylesheet
+		 */
+		public function enquque_styles() {
+			wp_enqueue_style(
+				'tribe-ext-settings-import-export-css',
+				plugin_dir_url( __FILE__ ) . 'src/resources/style.css'
+			);
+		}
+
 
 	} // end class
 } // end if class_exists check

@@ -1,0 +1,46 @@
+.wrap.tribe-ext-sie .underlined {
+	text-decoration: underline;
+}
+
+.tribe-ext-sie-column {
+	float: left;
+	margin-right: 20px;
+}
+
+.tribe-ext-sie-column--notes {
+	max-width: 33%;
+}
+
+.tribe-ext-sie-column--example {
+	min-width: 300px;
+}
+
+.tribe-ext-sie-column--example pre {
+	font-family: Arial;
+	color: #ddd;
+	padding: 10px;
+	background-color: #000;
+}
+
+.tribe-ext-sie-column ul,
+.tribe-ext-sie-ul {
+	list-style: disc outside;
+	margin-left: 16px;
+}
+
+.tribe-ext-sie-column label {
+	vertical-align: unset;
+}
+
+.tribe-ext-sie-column textarea {
+	width: 300px;
+	min-height: 111px;
+}
+
+.important {
+	font-weight: bold;
+}
+
+.tribe-ext-sie-clear {
+	clear: both;
+}
