@@ -741,6 +741,7 @@ WP TIMEZONE
 		 * @return array
 		 */
 		private function treat_sysinfo_for_import( $sysinfo ) {
+			$new_sysinfo = [];
 
 			// Check if some strings are in the sysinfo. If not, bail.
 			if (
@@ -822,7 +823,6 @@ WP TIMEZONE
 			// Explode each attrib=value into an array and create a new array that we can serialize.
 			foreach ( $sysinfo as $item ) {
 
-				$new_sysinfo = [];
 				$item  = explode( ' = ', $item );
 				$key   = $item[0];
 				$value = $item[1];
