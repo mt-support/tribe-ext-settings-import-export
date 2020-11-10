@@ -174,8 +174,17 @@ if (
 						$notice_class = 'notice-error ';
 					}
 
+					// Unescape some characters, usually present in serialized data.
 					if ( ! empty ( $_GET['msg'] ) ) {
-						$msg .= '<p>' . urldecode( $_GET['msg'] ) . '</p>';
+						$find = [
+							'\"',
+							 '\;',
+						];
+						$replace = [
+							'"',
+							';',
+						];
+						$msg = '<p>' . str_replace( $find, $replace, urldecode( $_GET['msg'] ) ) . '</p>';
 					}
 					?>
 					<div class="notice <?php echo $notice_class; ?> is-dismissible"><p><?php echo $msg; ?></p></div>
@@ -599,6 +608,21 @@ WP TIMEZONE
 
 				$sysinfo = $this->treat_sysinfo_for_import( $_POST['import_textarea'] );
 
+				/**
+				 * Filter to allow faking the import. Instead of importing the settings print the serialized data.
+				 */
+				$fakeit = apply_filters( 'tribe_ext_settings_import_export__fake_import', false );
+
+				// If we are faking the import, then print the serialized data.
+				if ( $fakeit ) {
+					$action = 'import_success';
+					$success_message = '<p>' . esc_html__( 'This was a fake import with the following data:', 'tribe_ext_settings_import_export' ) . '</p>';
+					$success_message .= '<p>' . serialize( $sysinfo ) . '</p>';
+					$success_message .= '<p>' . esc_html__( 'Fake import done. No settings were imported.','tribe_ext_settings_import_export' ) . '</p>';
+					wp_safe_redirect( admin_url( 'edit.php?post_type=tribe_events&page=tribe_import_export&action=' . $action . '&msg=' . urlencode( $success_message ) ) );
+					return;
+				}
+
 				// Save the data in the database
 				if ( update_option( 'tribe_events_calendar_options', $sysinfo ) ) {
 					$action = 'import_success';
@@ -799,20 +823,26 @@ WP TIMEZONE
 			// Need to handle arrays and more
 			$patterns = [
 				'/\(\s*\[/',                // Square brackets at the beginning of the array
-				'/\s{2,}\[/',               // Square brackets
+				'/\s{2,}\[/',               // Square brackets in arrays
 				'/\s*\)\s\n/',              // Closing parentheses
-				'/(\s*\n*)(Array)\s*\(/',   // Array
+				'/(\s*\n*)(Array)\s*\(/',   // "Array"
 				'/\r\n/',                   // Newline with separator
 				'/(\s{2,})/',               // Spaces
 			];
 
 			$replacements = [
 				'( [',                      // Square brackets at the beginning of the array
-				', [',                      // Square brackets
+				', [',                      // Square brackets in arrays
 				' )',                       // Closing parentheses
-				' Array(',                  // Array
-				' ' . $delimiter,           // Newline with separator
+				' Array(',                  // "Array"
+				' ' . $delimiter,           // Newline with separator. We need the leading space for later.
 				'',                         // Spaces
+			];
+
+			$key_skips = [
+				'google_maps_js_api_key',
+				'tribeEventsBeforeHTML',
+				'tribeEventsAfterHTML',
 			];
 
 			$sysinfo = preg_replace( $patterns, $replacements, $sysinfo );
@@ -832,8 +862,8 @@ WP TIMEZONE
 					continue;
 				}
 
-				// We don't want to use the user's Google Maps API key.
-				if ( $key == 'google_maps_js_api_key' ) {
+				// We skip the tricky keys.
+				if ( in_array( $key, $key_skips) ) {
 					continue;
 				}
 

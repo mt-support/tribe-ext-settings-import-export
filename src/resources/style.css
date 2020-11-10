@@ -44,3 +44,7 @@
 .tribe-ext-sie-clear {
 	clear: both;
 }
+
+.notice p {
+	word-wrap: break-word;
+}
